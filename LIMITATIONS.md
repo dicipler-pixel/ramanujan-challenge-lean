@@ -2,7 +2,8 @@
 
 Lean proves exactly the statements written, under exactly the hypotheses written.
 
-* **No limit is formalised.** The challenge asks for the values π, γ, π + e, Catalan's G and
+* **One limit is formalised** — `Σ_{n≥1} r(n) = π²/84 − 547/7200` for the Problem 2.6 rational solution (`Series.lean`), which rests on Mathlib's `ζ(2) = π²/6`. None of the five challenge limits is.
+* **No challenge limit is formalised.** The challenge asks for the values π, γ, π + e, Catalan's G and
   ζ(2) + ζ(3). None of those limits is proved in this library. The theorems here are the exact
   algebra that the submissions established: Casoratian and determinant identities, a Pochhammer
   product, polynomial and matrix identities, a partial-fraction decomposition and the rational
@@ -44,8 +45,8 @@ Lean proves exactly the statements written, under exactly the hypotheses written
 * **Problem 2.6.** The operator factorisation `L_c = M₂ · R₂` is proved coefficient by coefficient,
   with the hypergeometric term ratio of the partial-sum operator's middle factor. The partial
   fractions of the rational solution `r(n)` of its top factor and the rational part of `Σ r(n)` are
-  proved; `Σ r(n) = π²/84 − 547/7200` itself needs `ζ(2) = π²/6` and a shifted tail and is not yet
-  here. One correction to the submission's own framing, found in the August review: `Σ r(n)` is
+  proved, and `Σ_{n≥1} r(n) = π²/84 − 547/7200` is proved in `Series.lean` (`r26_hasSum`) from
+  Mathlib's `hasSum_zeta_two`. One correction to the submission's own framing, found in the August review: `Σ r(n)` is
   **not** one of the three limits that assemble `S_∞` — the verified connection formula uses
   `{1, Σ h, p₃(∞)}` with `α = u₁`, `β = u₂`, `γ = −21/2` — so `r` belongs to the structure of the
   operator, not to the evaluation of the sum. The one open constant `p₃(∞) = 0.000632226574…` has
