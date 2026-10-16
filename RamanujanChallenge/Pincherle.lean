@@ -187,7 +187,6 @@ theorem pincherle (a b Z : ℕ → ℝ) (hZ : IsMinimal a b Z) (hZ0 : Z 0 ≠ 0)
     rw [eq_div_iff hZ0, ← hQ n]; linear_combination -hcombo
   rw [hQ n, hP]
   field_simp
-  ring
 
 /-! ### The skeleton's statement is false
 
@@ -197,11 +196,11 @@ vanishing at every even index. All hypotheses of the skeleton's `pincherle` hold
 (`IsMinimalWeak`, `Z 0 ≠ 0`, `b n ≠ 0`), yet `P n / Q n` is `0` at even `n` and tends to
 `8 = a 0 - Z 1 / Z 0` only along odd `n`, so it has no limit. -/
 
-def aCE (n : ℕ) : ℝ := if n % 2 = 0 then 17 / 2 else 0
+noncomputable def aCE (n : ℕ) : ℝ := if n % 2 = 0 then 17 / 2 else 0
 
-def bCE (n : ℕ) : ℝ := if n % 2 = 0 then -4 else 1 / 4
+noncomputable def bCE (n : ℕ) : ℝ := if n % 2 = 0 then -4 else 1 / 4
 
-def zCE (n : ℕ) : ℝ := (1 / 2) ^ n
+noncomputable def zCE (n : ℕ) : ℝ := (1 / 2) ^ n
 
 theorem zCE_isSolution : IsSolution aCE bCE zCE := by
   intro n
