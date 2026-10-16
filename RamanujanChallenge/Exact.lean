@@ -22,6 +22,8 @@ Problem 2.3 (π + e as an Apéry limit).
     p_5 = 730267195392 and q_5 = 124622119440; likewise q_n = 1, 12, 306, 13056, 833400, 73876320
     for Problem 2.2.
 Problem 2.5 (Catalan's constant).
+  * Zudilin's order-2 recurrence for G has characteristic polynomial x² − 11x − 1 with roots
+    φ⁵ = 5φ + 3 and −φ⁻⁵ = 11 − φ⁵; the matrix convergents were matched to its ratios.
   * The leading-order matrices L, B, C of M(n) = n⁹(L + B/n + C/n² + …) obey
     L² = 0, LB = BL = 0, B² = −288 L, B³ = 0, LC = −272 L, CL = −16 L.
 Problem 2.6 (a series for ζ(2) + ζ(3)).
@@ -262,6 +264,30 @@ theorem L_mul_C : L25 * C25 = (-272 : ℚ) • L25 := by
 theorem C_mul_L : C25 * L25 = (-16 : ℚ) • L25 := by
   ext i j; fin_cases i <;> fin_cases j <;>
     simp [L25, C25, Matrix.mul_apply, Fin.sum_univ_three] <;> norm_num
+
+/-! ### Problem 2.5, the Zudilin route: the characteristic roots of Zudilin's Catalan recurrence -/
+
+theorem sqrt5_sq : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num)
+
+/-- The golden ratio. -/
+noncomputable def phi : ℝ := (Real.sqrt 5 + 1) / 2
+
+theorem phi_sq : phi ^ 2 = phi + 1 := by
+  unfold phi; linear_combination (1 / 4 : ℝ) * sqrt5_sq
+
+/-- `φ⁵ = 5φ + 3` (the Fibonacci numbers `F₅ = 5`, `F₄ = 3`). -/
+theorem phi_pow5 : phi ^ 5 = 5 * phi + 3 := by
+  have h := phi_sq
+  linear_combination (phi ^ 3 + phi ^ 2 + 2 * phi + 3) * h
+
+/-- `φ⁵` is a root of Zudilin's characteristic polynomial `x² − 11x − 1` (arXiv:math/0201024), the
+order-2 Apéry-like recurrence for Catalan's constant that the 2.5 matrix ratios were matched to. -/
+theorem zudilin_root : (phi ^ 5) ^ 2 - 11 * phi ^ 5 - 1 = 0 := by
+  rw [phi_pow5]; linear_combination (25 : ℝ) * phi_sq
+
+/-- The second root is `11 − φ⁵ = −φ⁻⁵`: the two roots have product `−1`. -/
+theorem zudilin_product : phi ^ 5 * (11 - phi ^ 5) = -1 := by
+  linear_combination (-1 : ℝ) * zudilin_root
 
 /-! ## Problem 2.6: the rational solution and its partial fractions -/
 

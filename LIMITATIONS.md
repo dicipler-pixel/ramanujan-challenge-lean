@@ -24,9 +24,14 @@ Lean proves exactly the statements written, under exactly the hypotheses written
   produced in August 2026, `(m+2)³T(m+2) − 2(2m+3)(2m²+6m+5)T(m+1) + 4(m+1)(2m+1)(2m+3)T(m) = 0`,
   does **not** hold for the bounded sum (it fails at every `m` from 0 to 5; the boundary terms of
   the variable-range sum were never compensated), so it is not stated here.
-* **Problem 2.5.** Only the relations among the leading-order matrices `L, B, C` of `M(n)`. The
-  five-dimensionality of the algebra they generate, and the proven interval for `G` with the
-  convergents inside it, are not yet formalised.
+* **Problem 2.5.** The relations among the leading-order matrices `L, B, C` of `M(n)` and the
+  algebra of Zudilin's characteristic roots are proved. The five-dimensionality of the algebra
+  `L, B, C` generate, and the proven interval for `G` with the convergents inside it, are not yet
+  formalised. The open proof route from August 2026: with the reverse-order product
+  `M_N = M(N−1)⋯M(1)M(0)`, the matrix ratios `P_N/Q_N` agree with Zudilin's `v_n/u_n → G` to 15+
+  digits by `N = 7–11`; an order-3 scalar companion recurrence was extracted from `M(n)` by a
+  Krylov coboundary; the decisive test — whether that order-3 operator has Zudilin's order-2
+  operator as a right factor up to gauge — has not been run. Nothing about `G` itself is proved.
 * **Problem 2.6.** The operator factorisation `L_c = M₂ · R₂` is proved coefficient by coefficient,
   with the hypergeometric term ratio of the partial-sum operator's middle factor. The partial
   fractions of the rational solution `r(n)` of its top factor and the rational part of `Σ r(n)` are
