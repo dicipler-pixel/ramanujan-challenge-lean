@@ -4,7 +4,7 @@
 
 [![Lean proof check](https://github.com/dicipler-pixel/ramanujan-challenge-lean/actions/workflows/build.yml/badge.svg)](https://github.com/dicipler-pixel/ramanujan-challenge-lean/actions/workflows/build.yml)
 ![Lean](https://img.shields.io/badge/Lean-v4.34.1-blue)
-![Theorems](https://img.shields.io/badge/theorems-21-2EA043)
+![Theorems](https://img.shields.io/badge/theorems-28-2EA043)
 ![sorry](https://img.shields.io/badge/sorry-0-2EA043)
 ![Code: MIT](https://img.shields.io/badge/code-MIT-lightgrey)
 ![Text: CC BY 4.0](https://img.shields.io/badge/text-CC%20BY%204.0-lightgrey)
@@ -31,10 +31,11 @@ limits themselves are not formalised; see [`LIMITATIONS.md`](LIMITATIONS.md).
 | 2.1 | Casoratian step `W_{n+1} = −b_{n+2} W_n`; the determinant identity `A_{n+1}B_n − A_nB_{n+1} = (−1)^n (∏ b)(A_1B_0 − A_0B_1)` for every `n` | `casoratian_step`, `casoratian_closed` |
 | 2.1 | Consecutive convergents differ by the Casoratian over `B_{n+1}B_n` | `convergent_difference` |
 | 2.1 | `∏_{k=1}^{n} b_k = 25^n ((2n+1)!)² (1/5)_n (11/5)_n` for every `n` | `b1_succ_factor`, `pochhammer_product` |
-| 2.2 | `P(n+1) = 8n³ + 75n² + 231n + 232` for the cubic factor `P` of `a_0`; the companion matrix has `det = −a_3/a_0` | `telescoping_factor`, `companion3_det` |
+| 2.2 | `P(n+1) = 8n³ + 75n² + 231n + 232` for the cubic factor `P` of `a_0`; the companion matrix has `det = −a_3/a_0`; the ratio `−a_3/a_0 = (n+1)(n+2)⁴(n+3)P(n+1)/P(n)` and its product `n!((n+1)!)⁴((n+2)!/2)P(n)/68` for every `n` (the Casoratian closed form) | `telescoping_factor`, `companion3_det`, `P22_pos`, `casoratian22_ratio`, `casoratian22_closed` |
 | 2.3 | `(√2+1)(√2−1) = 1`; both are roots of `λ² − 2√2λ + 1` | `roots_reciprocal`, `rPlus_char`, `rMinus_char`, `sqrt2_sq` |
 | 2.5 | `L² = 0`, `LB = BL = 0`, `B² = −288L`, `B³ = 0`, `LC = −272L`, `CL = −16L` | `L_sq`, `L_mul_B`, `B_mul_L`, `B_sq`, `B_cube`, `L_mul_C`, `C_mul_L` |
-| 2.6 | `n³ + 14n² + 65n + 100 = (n+4)(n+5)²`; `r(n) = 1/(7(n+4)) − 1/(7(n+5)) + 1/(14(n+5)²)`; `1/35 − (1/14)(1 + 1/4 + 1/9 + 1/16 + 1/25) = −547/7200` | `r26_denom`, `r26_partial`, `r26_constant` |
+| 2.6 | The recurrence operator factors exactly, `L_c = M₂ · R₂`, with `R₂ = (n² + 15n/2 + 14)S − (n²/4 + 3n/2 + 9/4)` and `M₂ = (−12n³ − 164n² − 740n − 1100)S + (12n³ + 140n² + 536n + 672)`; the hypergeometric piece's term ratio `(n+4)²/(4(n+5)(n+9/2))` | `factor_S2`, `factor_S1`, `factor_S0`, `h_ratio_cross` |
+| 2.6 | `n³ + 14n² + 65n + 100 = (n+4)(n+5)²`; `r(n) = 1/(7(n+4)) − 1/(7(n+5)) + 1/(14(n+5)²)`; `1/35 − (1/14)(1 + 1/4 + 1/9 + 1/16 + 1/25) = −547/7200` (the rational part of `Σ r(n)`; `r` is the rational solution of the top factor of the partial-sum operator, not one of the three limits that assemble `S_∞`) | `r26_denom`, `r26_partial`, `r26_constant` |
 
 The file is [`RamanujanChallenge/Exact.lean`](RamanujanChallenge/Exact.lean).
 

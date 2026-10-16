@@ -14,13 +14,16 @@ Problem 2.1 (polynomial continued fraction for π).
     ∏_{k=1}^{n} b_k = 25^n ((2n+1)!)² (1/5)_n (11/5)_n.
 Problem 2.2 (γ as an Apéry limit).
   * The cubic factor of a_0 shifted by one is the cubic factor of a_3, which is what makes the
-    Casoratian of the order-3 recurrence telescope; the companion matrix has determinant −a_3/a_0.
+    Casoratian of the order-3 recurrence telescope; the companion matrix has determinant −a_3/a_0,
+    and the Casoratian is n!((n+1)!)⁴((n+2)!/2) P(n)/68 times its initial value, for every n.
 Problem 2.3 (π + e as an Apéry limit).
   * The characteristic roots √2 ± 1 are a reciprocal pair and the roots of λ² − 2√2 λ + 1.
 Problem 2.5 (Catalan's constant).
   * The leading-order matrices L, B, C of M(n) = n⁹(L + B/n + C/n² + …) obey
     L² = 0, LB = BL = 0, B² = −288 L, B³ = 0, LC = −272 L, CL = −16 L.
 Problem 2.6 (a series for ζ(2) + ζ(3)).
+  * The recurrence operator factors exactly, L_c = M₂ · R₂, with explicit first-order factors.
+  * The hypergeometric piece of the partial-sum operator has the term ratio (n+4)²/(4(n+5)(n+9/2)).
   * The rational solution r(n) = (3n/14 + 1)/(n³ + 14n² + 65n + 100) has denominator (n+4)(n+5)²
     and the partial fractions 1/(7(n+4)) − 1/(7(n+5)) + 1/(14(n+5)²); the rational part of its
     sum is 1/35 − (1/14)(1 + 1/4 + 1/9 + 1/16 + 1/25) = −547/7200.
@@ -105,6 +108,37 @@ theorem companion3_det (a0 a1 a2 a3 : ℚ) :
     Matrix.det !![(0 : ℚ), 1, 0; 0, 0, 1; -a3 / a0, -a2 / a0, -a1 / a0] = -a3 / a0 := by
   simp [Matrix.det_fin_three] <;> ring
 
+/-- The cubic factor is positive at every natural number, so the Casoratian ratio is defined. -/
+theorem P22_pos (k : ℕ) : 0 < P22 (k : ℚ) := by
+  unfold P22; positivity
+
+/-- The Casoratian ratio `−a_3(n)/a_0(n)` of Problem 2.2 in telescoping form. -/
+theorem casoratian22_ratio (x : ℚ) :
+    -((x + 1) * (x + 2) ^ 4 * (x + 3) * (8 * x ^ 3 + 75 * x ^ 2 + 231 * x + 232)) / (-(P22 x))
+      = (x + 1) * (x + 2) ^ 4 * (x + 3) * P22 (x + 1) / P22 x := by
+  rw [telescoping_factor, neg_div_neg_eq]
+
+/-- The Casoratian of Problem 2.2 in closed form: the product of the ratios telescopes to
+`n! ((n+1)!)⁴ ((n+2)!/2) P(n)/68`, for every `n`. -/
+theorem casoratian22_closed (n : ℕ) :
+    ∏ k ∈ range n, (((k : ℚ) + 1) * ((k : ℚ) + 2) ^ 4 * ((k : ℚ) + 3) * P22 ((k : ℚ) + 1) / P22 k)
+      = (n.factorial : ℚ) * ((n + 1).factorial : ℚ) ^ 4 * ((n + 2).factorial : ℚ) / 2
+          * P22 n / 68 := by
+  induction n with
+  | zero => norm_num [P22, Nat.factorial]
+  | succ n ih =>
+    have hf1 : ((n + 1).factorial : ℚ) = ((n : ℚ) + 1) * (n.factorial : ℚ) := by
+      rw [Nat.factorial_succ n]; push_cast; ring
+    have hf2 : ((n + 1 + 1).factorial : ℚ) = ((n : ℚ) + 2) * ((n + 1).factorial : ℚ) := by
+      rw [Nat.factorial_succ (n + 1)]; push_cast; ring
+    have hf3 : ((n + 1 + 2).factorial : ℚ) = ((n : ℚ) + 3) * ((n + 2).factorial : ℚ) := by
+      rw [show n + 1 + 2 = (n + 2) + 1 by ring, Nat.factorial_succ (n + 2)]; push_cast; ring
+    have hP : P22 (n : ℚ) ≠ 0 := (P22_pos n).ne'
+    rw [prod_range_succ, ih, hf3, hf2, hf1]
+    push_cast
+    field_simp
+    ring
+
 /-! ## Problem 2.3: the characteristic roots are a reciprocal pair -/
 
 theorem sqrt2_sq : Real.sqrt 2 ^ 2 = 2 := Real.sq_sqrt (by norm_num)
@@ -175,6 +209,46 @@ theorem r26_partial (x : ℚ) (h4 : x + 4 ≠ 0) (h5 : x + 5 ≠ 0) :
   unfold r26
   rw [r26_denom]
   field_simp
+  ring
+
+/-- Leading coefficient of the Problem 2.6 operator, `A(m) = −2(m+3)³(2m+5)(3m+5)`. -/
+def A26 (m : ℚ) : ℚ := -2 * (m + 3) ^ 3 * (2 * m + 5) * (3 * m + 5)
+
+/-- Middle coefficient, `B(m) = (m+2)²(15m³+85m²+155m+93)`. -/
+def B26 (m : ℚ) : ℚ := (m + 2) ^ 2 * (15 * m ^ 3 + 85 * m ^ 2 + 155 * m + 93)
+
+/-- Trailing coefficient, `C(m) = −(m+1)³(m+2)(3m+8)`. -/
+def C26 (m : ℚ) : ℚ := -(m + 1) ^ 3 * (m + 2) * (3 * m + 8)
+
+/-- The right factor `R₂ = r₁(n) S + r₀(n)`: its `S` coefficient. -/
+def r1 (x : ℚ) : ℚ := x ^ 2 + 15 / 2 * x + 14
+
+/-- The right factor `R₂ = r₁(n) S + r₀(n)`: its constant coefficient. -/
+def r0 (x : ℚ) : ℚ := -(1 / 4 * x ^ 2 + 3 / 2 * x + 9 / 4)
+
+/-- The left factor `M₂ = m₁(n) S + m₀(n)`: its `S` coefficient. -/
+def m1 (x : ℚ) : ℚ := -12 * x ^ 3 - 164 * x ^ 2 - 740 * x - 1100
+
+/-- The left factor `M₂ = m₁(n) S + m₀(n)`: its constant coefficient. -/
+def m0 (x : ℚ) : ℚ := 12 * x ^ 3 + 140 * x ^ 2 + 536 * x + 672
+
+/-- Operator factorisation `L_c = M₂ · R₂` in the shift algebra (`S f(n) = f(n+1)`), where
+`L_c = A(n+2) S² + B(n+2) S + C(n+2)`: the `S²` coefficient. -/
+theorem factor_S2 (x : ℚ) : A26 (x + 2) = m1 x * r1 (x + 1) := by
+  unfold A26 m1 r1; ring
+
+/-- Operator factorisation `L_c = M₂ · R₂`: the `S` coefficient. -/
+theorem factor_S1 (x : ℚ) : B26 (x + 2) = m1 x * r0 (x + 1) + m0 x * r1 x := by
+  unfold B26 m1 r0 m0 r1; ring
+
+/-- Operator factorisation `L_c = M₂ · R₂`: the constant coefficient. -/
+theorem factor_S0 (x : ℚ) : C26 (x + 2) = m0 x * r0 x := by
+  unfold C26 m0 r0; ring
+
+/-- The hypergeometric piece of the partial-sum operator has term ratio `(n+4)²/(4(n+5)(n+9/2))`,
+which is the first-order recurrence `(n² + 19n/2 + 45/2) h(n+1) = (n²/4 + 2n + 4) h(n)`. -/
+theorem h_ratio_cross (x : ℚ) :
+    (x + 4) ^ 2 * (x ^ 2 + 19 / 2 * x + 45 / 2) = (x ^ 2 / 4 + 2 * x + 4) * (4 * (x + 5) * (x + 9 / 2)) := by
   ring
 
 /-- The rational part of `Σ_{n≥1} r(n)`: the telescoping term gives `1/35`, and the shifted

@@ -1,1 +1,1 @@
-{"modules":[{"module":"RamanujanChallenge.Exact","path":"RamanujanChallenge/Exact.lean"}],"expected_theorems":21,"expected_false_controls":3,"root_imports":["RamanujanChallenge.Exact"]}
+{"modules":[{"module":"RamanujanChallenge.Exact","path":"RamanujanChallenge/Exact.lean"}],"expected_theorems":28,"expected_false_controls":3,"root_imports":["RamanujanChallenge.Exact"]}

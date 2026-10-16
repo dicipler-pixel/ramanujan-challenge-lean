@@ -14,15 +14,26 @@ Lean proves exactly the statements written, under exactly the hypotheses written
   this problem (`Code/2.1/LeanFormal/PiPCF.lean` in their solutions repository) proves the
   coboundary and rescaling identities and leaves those analytic steps as `sorry`; they are the
   natural next targets.
-* **Problem 2.2.** Only the telescoping identity behind the Casoratian and the companion
-  determinant are proved. Nothing about `γ`.
+* **Problem 2.2.** The telescoping identity, the companion determinant, the Casoratian ratio and
+  its closed-form product are proved. Nothing about `γ`: the recurrence operator is irreducible
+  over `ℚ(n)` (Sage, August 2026) and no closed form for `q_n` is known.
 * **Problem 2.3.** Only the algebra of the characteristic roots `√2 ± 1`.
-* **Problem 2.4.** Nothing yet. The order-4 recurrence for `Σ_k C(m,k)² H_k²` found by guessing in
-  the submission needs a creative-telescoping certificate before it can be stated for all `m`.
+* **Problem 2.4.** Nothing yet. The order-4, degree-10 recurrence for `T(m) = Σ_k C(m,k)² H_k²`
+  was found by guessing (`ore_algebra`, exact to `m = 89`) and needs a creative-telescoping
+  certificate before it can be stated for all `m`. The order-2 recurrence that creative telescoping
+  produced in August 2026, `(m+2)³T(m+2) − 2(2m+3)(2m²+6m+5)T(m+1) + 4(m+1)(2m+1)(2m+3)T(m) = 0`,
+  does **not** hold for the bounded sum (it fails at every `m` from 0 to 5; the boundary terms of
+  the variable-range sum were never compensated), so it is not stated here.
 * **Problem 2.5.** Only the relations among the leading-order matrices `L, B, C` of `M(n)`. The
   five-dimensionality of the algebra they generate, and the proven interval for `G` with the
   convergents inside it, are not yet formalised.
-* **Problem 2.6.** The partial fractions of the rational solution `r(n)` and the rational part of
-  its sum are proved; the sum itself, `π²/84 − 547/7200`, which needs `ζ(2) = π²/6` and a shifted
-  tail, is not yet here, nor is the operator factorisation, whose explicit factors are not in the
-  submission package.
+* **Problem 2.6.** The operator factorisation `L_c = M₂ · R₂` is proved coefficient by coefficient,
+  with the hypergeometric term ratio of the partial-sum operator's middle factor. The partial
+  fractions of the rational solution `r(n)` of its top factor and the rational part of `Σ r(n)` are
+  proved; `Σ r(n) = π²/84 − 547/7200` itself needs `ζ(2) = π²/6` and a shifted tail and is not yet
+  here. One correction to the submission's own framing, found in the August review: `Σ r(n)` is
+  **not** one of the three limits that assemble `S_∞` — the verified connection formula uses
+  `{1, Σ h, p₃(∞)}` with `α = u₁`, `β = u₂`, `γ = −21/2` — so `r` belongs to the structure of the
+  operator, not to the evaluation of the sum. The one open constant `p₃(∞) = 0.000632226574…` has
+  no closed form in `{1, π², ζ(3), log 2}` (PSLQ at 60 and 90 digits), and the second basis
+  solution `v₂ = w₂ t₂` and the three-layer connection formula are not yet formalised.

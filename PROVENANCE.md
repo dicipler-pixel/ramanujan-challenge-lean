@@ -14,4 +14,7 @@ Problem 2.5 are the `n⁹, n⁸, n⁷` coefficients of the challenge's own `M(n)
 published entries before being stated here.
 
 Every identity in `Exact.lean` was checked symbolically (SymPy) before being written in Lean;
-that pre-check is `scripts/precheck.py`.
+the pre-checks are `scripts/precheck.py` (phase 1) and `scripts/precheck2.py` (phase 2: the 2.2
+Casoratian closed form, the 2.6 operator factorisation and term ratio, and the negative test of
+the 2.4 order-2 recurrence). The explicit factors `R₂`, `M₂` of Problem 2.6 come from the
+author's Sage `quo_rem` computation of August 2026 and are re-verified by `precheck2.py`.
