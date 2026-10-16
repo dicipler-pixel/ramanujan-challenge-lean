@@ -1,3 +1,61 @@
-# ramanujan-challenge-lean
+<div align="center">
 
-Lean proofs of the exact algebra in Jeromie Beasley's Ramanujan Challenge submissions. See the open pull request for the first release.
+# Ramanujan Challenge submissions — Lean proofs of the exact algebra
+
+[![Lean proof check](https://github.com/dicipler-pixel/ramanujan-challenge-lean/actions/workflows/build.yml/badge.svg)](https://github.com/dicipler-pixel/ramanujan-challenge-lean/actions/workflows/build.yml)
+![Lean](https://img.shields.io/badge/Lean-v4.34.1-blue)
+![Theorems](https://img.shields.io/badge/theorems-21-2EA043)
+![sorry](https://img.shields.io/badge/sorry-0-2EA043)
+![Code: MIT](https://img.shields.io/badge/code-MIT-lightgrey)
+![Text: CC BY 4.0](https://img.shields.io/badge/text-CC%20BY%204.0-lightgrey)
+
+Jeromie Beasley
+
+</div>
+
+---
+
+## The idea in one line
+
+The Ramanujan Challenge (Technion, 2026) asks for proofs that six recurrences and continued
+fractions converge to π, γ, π + e, Catalan's G and ζ(2) + ζ(3). My submissions established the
+exact algebra around each one — determinant identities, a Pochhammer product, a telescoping
+cubic, a nilpotent leading-order algebra, a partial-fraction decomposition — with high-precision
+numerics for the limits. This library states that algebra and has the Lean kernel check it. The
+limits themselves are not formalised; see [`LIMITATIONS.md`](LIMITATIONS.md).
+
+## What is proved
+
+| Problem | Result | Theorem |
+| :--- | :--- | :--- |
+| 2.1 | Casoratian step `W_{n+1} = −b_{n+2} W_n`; the determinant identity `A_{n+1}B_n − A_nB_{n+1} = (−1)^n (∏ b)(A_1B_0 − A_0B_1)` for every `n` | `casoratian_step`, `casoratian_closed` |
+| 2.1 | Consecutive convergents differ by the Casoratian over `B_{n+1}B_n` | `convergent_difference` |
+| 2.1 | `∏_{k=1}^{n} b_k = 25^n ((2n+1)!)² (1/5)_n (11/5)_n` for every `n` | `b1_succ_factor`, `pochhammer_product` |
+| 2.2 | `P(n+1) = 8n³ + 75n² + 231n + 232` for the cubic factor `P` of `a_0`; the companion matrix has `det = −a_3/a_0` | `telescoping_factor`, `companion3_det` |
+| 2.3 | `(√2+1)(√2−1) = 1`; both are roots of `λ² − 2√2λ + 1` | `roots_reciprocal`, `rPlus_char`, `rMinus_char`, `sqrt2_sq` |
+| 2.5 | `L² = 0`, `LB = BL = 0`, `B² = −288L`, `B³ = 0`, `LC = −272L`, `CL = −16L` | `L_sq`, `L_mul_B`, `B_mul_L`, `B_sq`, `B_cube`, `L_mul_C`, `C_mul_L` |
+| 2.6 | `n³ + 14n² + 65n + 100 = (n+4)(n+5)²`; `r(n) = 1/(7(n+4)) − 1/(7(n+5)) + 1/(14(n+5)²)`; `1/35 − (1/14)(1 + 1/4 + 1/9 + 1/16 + 1/25) = −547/7200` | `r26_denom`, `r26_partial`, `r26_constant` |
+
+The file is [`RamanujanChallenge/Exact.lean`](RamanujanChallenge/Exact.lean).
+
+## How it is checked
+
+Every push runs [the proof check](.github/workflows/build.yml): build against Lean v4.34.1 and
+Mathlib v4.34.1, independent replay in Lean's kernel checker, an axiom audit (only `propext`,
+`Classical.choice`, `Quot.sound`), and three deliberately false statements that must fail.
+Every identity was also checked symbolically before being written in Lean
+([`scripts/precheck.py`](scripts/precheck.py)).
+
+## The challenge
+
+The problems and their official proofs are the Ramanujan Machine group's: *Ramanujan Challenge
+Proofs* (Technion, 2 August 2026), code at
+[RamanujanMachine/RamanujanChallengeSolutions](https://github.com/RamanujanMachine/RamanujanChallengeSolutions).
+Their repository carries a Lean skeleton for Problem 2.1 whose analytic steps are left open;
+those steps are listed as the next targets in [`LIMITATIONS.md`](LIMITATIONS.md).
+
+## Licence
+
+Copyright (c) 2026 Jeromie Beasley. Code and proofs: [MIT](LICENSE). Written text:
+[CC BY 4.0](LICENSE-CC-BY-4.0.md). See [`LICENSING.md`](LICENSING.md). Citation metadata is in
+[`CITATION.cff`](CITATION.cff); how AI tools were used is stated in [`AI_USE.md`](AI_USE.md).
