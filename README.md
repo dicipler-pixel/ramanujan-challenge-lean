@@ -4,7 +4,7 @@
 
 [![Lean proof check](https://github.com/dicipler-pixel/ramanujan-challenge-lean/actions/workflows/build.yml/badge.svg)](https://github.com/dicipler-pixel/ramanujan-challenge-lean/actions/workflows/build.yml)
 ![Lean](https://img.shields.io/badge/Lean-v4.34.1-blue)
-![Theorems](https://img.shields.io/badge/theorems-60-2EA043)
+![Theorems](https://img.shields.io/badge/theorems-67-2EA043)
 ![sorry](https://img.shields.io/badge/sorry-0-2EA043)
 ![Code: MIT](https://img.shields.io/badge/code-MIT-lightgrey)
 ![Text: CC BY 4.0](https://img.shields.io/badge/text-CC%20BY%204.0-lightgrey)
@@ -41,6 +41,7 @@ limits themselves are not formalised; see [`LIMITATIONS.md`](LIMITATIONS.md).
 | 2.6 | `n³ + 14n² + 65n + 100 = (n+4)(n+5)²`; `r(n) = 1/(7(n+4)) − 1/(7(n+5)) + 1/(14(n+5)²)`; `1/35 − (1/14)(1 + 1/4 + 1/9 + 1/16 + 1/25) = −547/7200` (the rational part of `Σ r(n)`; `r` is the rational solution of the top factor of the partial-sum operator, not one of the three limits that assemble `S_∞`) | `r26_denom`, `r26_partial`, `r26_constant` |
 
 | 2.1 | **Pincherle's theorem** (convergence direction): if `Z` is a minimal solution of the three-term recurrence with `Z 0 ≠ 0` and dominant companion `D` eventually nonzero, the convergents `P_n/Q_n` tend to `a_0 − Z_1/Z_0`. Also: the solution space is spanned by the convergent numerators and denominators; two solutions agreeing at 0 and 1 agree everywhere; with `b_n ≠ 0` an eventually-zero solution is zero | `pincherle`, `solution_eq_combo`, `solution_unique`, `solution_eq_mul_convDen`, `solution_eq_zero_of_eventually_zero` |
+| 2.1 | Minimality from ratio limits: solutions with `Z(n+1)/Z(n) → λ_s`, `D(n+1)/D(n) → λ_d`, `|λ_s| < |λ_d|` make `Z` minimal (Mathlib's ratio test), so Pincherle applies; the 2.1 roots `λ_s = (−297+135√5)/4`, `λ_d = (−297−135√5)/4` of `λ² + (297/2)λ − 729/4`, with `λ_sλ_d = −729/4` and `|λ_s| < |λ_d|` | `isMinimal_of_ratio`, `pincherle_of_ratio`, `lamS_root`, `lamD_root`, `lamS_mul_lamD`, `abs_lamS_lt_abs_lamD` |
 | 2.1 | **Counterexample to the Technion skeleton's `pincherle` statement.** Their definition of minimal solution omits `D n ≠ 0` eventually; under Lean's `x / 0 = 0` the period-2 recurrence `a = 17/2, 0, …`, `b = −4, 1/4, …` with `Z_n = 2^{−n}` satisfies every hypothesis of their statement while the convergents `P_n/Q_n` are `0` at even `n` and tend to `8` at odd `n` | `zCE_isMinimalWeak`, `bCE_ne_zero`, `technion_pincherle_fails` |
 
 | 2.6 | **`Σ_{n≥1} r(n) = π²/84 − 547/7200`** — the first limit in the library: the telescoping part sums to `1/35`, the `1/(14(n+5)²)` part to `(1/14)(ζ(2) − 5269/3600)` via Mathlib's `hasSum_zeta_two` | `r26_hasSum`, `hasSum_telescope`, `hasSum_inv_sq_shift` |

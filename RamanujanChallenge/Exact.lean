@@ -98,6 +98,51 @@ theorem pochhammer_product (n : ℕ) :
     rw [prod_range_succ, ih, prod_range_succ, prod_range_succ, hf, b1_succ_factor]
     ring
 
+/-! ### Problem 2.1: the limiting characteristic roots
+
+After the rescaling that makes the coefficients converge, the recurrence for `F_n` has
+`A(n) → −297/2` and `B(n) → 729/4`, so Poincaré–Perron's characteristic polynomial is
+`λ² + (297/2) λ − 729/4` with roots `λ_s = (−297 + 135√5)/4 ≈ 1.217` and
+`λ_d = (−297 − 135√5)/4 ≈ −149.7`. The `₂F₁` solution grows like `λ_s^n`, the dominant one like
+`λ_d^n`; `|λ_s| < |λ_d|` is what makes it minimal (`isMinimal_of_ratio` in `Pincherle.lean`). -/
+
+/-- The subdominant root `λ_s`. -/
+noncomputable def lamS : ℝ := (-297 + 135 * Real.sqrt 5) / 4
+
+/-- The dominant root `λ_d`. -/
+noncomputable def lamD : ℝ := (-297 - 135 * Real.sqrt 5) / 4
+
+theorem lamS_root : lamS ^ 2 + 297 / 2 * lamS - 729 / 4 = 0 := by
+  have h5 : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num)
+  unfold lamS
+  linear_combination (18225 / 16 : ℝ) * h5
+
+theorem lamD_root : lamD ^ 2 + 297 / 2 * lamD - 729 / 4 = 0 := by
+  have h5 : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num)
+  unfold lamD
+  linear_combination (18225 / 16 : ℝ) * h5
+
+theorem lamS_mul_lamD : lamS * lamD = -729 / 4 := by
+  have h5 : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num)
+  unfold lamS lamD
+  linear_combination (-18225 / 16 : ℝ) * h5
+
+theorem lamS_pos : 0 < lamS := by
+  have h5 : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num)
+  have h0 : 0 ≤ Real.sqrt 5 := Real.sqrt_nonneg 5
+  unfold lamS
+  nlinarith
+
+theorem lamD_neg : lamD < 0 := by
+  have h0 : 0 ≤ Real.sqrt 5 := Real.sqrt_nonneg 5
+  unfold lamD
+  linarith
+
+theorem abs_lamS_lt_abs_lamD : |lamS| < |lamD| := by
+  rw [abs_of_pos lamS_pos, abs_of_neg lamD_neg]
+  unfold lamS lamD
+  linarith [Real.sqrt_nonneg 5]
+
 /-! ## Problem 2.2: the telescoping cubic and the companion determinant -/
 
 /-- The cubic factor of `a_0(n)` in Problem 2.2. -/

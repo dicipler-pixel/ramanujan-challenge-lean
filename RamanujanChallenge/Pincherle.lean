@@ -297,4 +297,57 @@ theorem technion_pincherle_fails :
   rw [hE] at hO
   norm_num at hO
 
+/-! ### Minimality from ratio limits
+
+Poincaré–Perron supplies a basis `u_s, u_d` of solutions with `u(n+1)/u(n) → λ_s, λ_d`, the roots
+of the limiting characteristic polynomial. The step from there to Pincherle is that a solution
+whose ratio tends to the root of smaller modulus is minimal; Mathlib's ratio test does it. -/
+
+theorem isMinimal_of_ratio (a b Z D : ℕ → ℝ) (ls ld : ℝ) (hZ : IsSolution a b Z)
+    (hD : IsSolution a b D) (hZne : ∀ᶠ n in atTop, Z n ≠ 0) (hDne : ∀ᶠ n in atTop, D n ≠ 0)
+    (hZr : Tendsto (fun n => Z (n + 1) / Z n) atTop (𝓝 ls))
+    (hDr : Tendsto (fun n => D (n + 1) / D n) atTop (𝓝 ld)) (hlt : |ls| < |ld|) :
+    IsMinimal a b Z := by
+  have hld : ld ≠ 0 := by
+    intro h
+    rw [h, abs_zero] at hlt
+    exact absurd hlt (not_lt.mpr (abs_nonneg ls))
+  refine ⟨hZ, D, hD, ?_, hDne, ?_⟩
+  · intro c hc
+    have hc0 : c ≠ 0 := by
+      rintro rfl
+      obtain ⟨n, hn⟩ := hDne.exists
+      apply hn
+      rw [hc]
+      simp
+    have hsame : Tendsto (fun n => D (n + 1) / D n) atTop (𝓝 ls) := by
+      refine hZr.congr (fun n => ?_)
+      rw [hc]
+      simp only [Pi.smul_apply, smul_eq_mul]
+      rw [mul_div_mul_left _ _ hc0]
+    have heq := tendsto_nhds_unique hsame hDr
+    rw [heq] at hlt
+    exact lt_irrefl _ hlt
+  · have hf : ∀ᶠ n in atTop, Z n / D n ≠ 0 := by
+      filter_upwards [hZne, hDne] with n h1 h2
+      exact div_ne_zero h1 h2
+    have hr : Tendsto (fun n => ‖Z (n + 1) / D (n + 1)‖ / ‖Z n / D n‖) atTop (𝓝 ‖ls / ld‖) := by
+      refine ((hZr.div hDr hld).norm).congr (fun n => ?_)
+      rw [← norm_div, div_div_div_comm]
+    have hl1 : ‖ls / ld‖ < 1 := by
+      rw [norm_div, Real.norm_eq_abs, Real.norm_eq_abs, div_lt_one (abs_pos.mpr hld)]
+      exact hlt
+    exact (summable_of_ratio_test_tendsto_lt_one (f := fun n => Z n / D n) hl1 hf hr).tendsto_atTop_zero
+
+/-- Pincherle from ratio limits: a solution `Z` with `Z 0 ≠ 0` whose ratio tends to the root of
+smaller modulus, beside a solution whose ratio tends to the other root, determines the limit of
+the convergents. -/
+theorem pincherle_of_ratio (a b Z D : ℕ → ℝ) (ls ld : ℝ) (hZ : IsSolution a b Z)
+    (hD : IsSolution a b D) (hZne : ∀ᶠ n in atTop, Z n ≠ 0) (hDne : ∀ᶠ n in atTop, D n ≠ 0)
+    (hZr : Tendsto (fun n => Z (n + 1) / Z n) atTop (𝓝 ls))
+    (hDr : Tendsto (fun n => D (n + 1) / D n) atTop (𝓝 ld)) (hlt : |ls| < |ld|)
+    (hZ0 : Z 0 ≠ 0) :
+    Tendsto (fun n => convNum a b n / convDen a b n) atTop (𝓝 (a 0 - Z 1 / Z 0)) :=
+  pincherle a b Z (isMinimal_of_ratio a b Z D ls ld hZ hD hZne hDne hZr hDr hlt) hZ0
+
 end RamanujanChallenge

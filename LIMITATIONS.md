@@ -11,10 +11,12 @@ Lean proves exactly the statements written, under exactly the hypotheses written
 * **Problem 2.1.** The telescoping series for the continued fraction is set up (the determinant
   identity and the convergent difference), the partial products of `b_n` are given in closed
   form for every `n`, and Pincherle's theorem is proved in the direction needed: a minimal
-  solution with `Z 0 ≠ 0` forces `P_n/Q_n → a_0 − Z_1/Z_0`. What is still missing for
-  `6/(3−π)`: that the specific `₂F₁` solution is minimal (Poincaré–Perron with the root ratio
-  `|λ_s/λ_d| < 1`), the limits of the rescaled coefficients, and Euler's integral giving the
-  anchors `F_1`, `F_2`.
+  solution with `Z 0 ≠ 0` forces `P_n/Q_n → a_0 − Z_1/Z_0`. Minimality from ratio limits is also
+  proved (`isMinimal_of_ratio`): once a solution's ratio tends to `λ_s` and another's to `λ_d`
+  with `|λ_s| < |λ_d|` (`abs_lamS_lt_abs_lamD`), Pincherle applies. What is still missing for
+  `6/(3−π)`: Poincaré–Perron itself (that the ratios of a solution basis tend to the
+  characteristic roots), the limits `A(n) → −297/2`, `B(n) → 729/4` of the rescaled
+  coefficients, and Euler's integral giving the anchors `F_1`, `F_2`.
 * **The Technion skeleton's Pincherle statement is false as written.** Their
   `Code/2.1/LeanFormal/PiPCF.lean` defines a minimal solution by `Z n / D n → 0` only; with
   Lean's convention `x / 0 = 0` a dominant solution vanishing at infinitely many indices passes
