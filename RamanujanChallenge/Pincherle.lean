@@ -333,7 +333,9 @@ theorem isMinimal_of_ratio (a b Z D : ℕ → ℝ) (ls ld : ℝ) (hZ : IsSolutio
       exact div_ne_zero h1 h2
     have hr : Tendsto (fun n => ‖Z (n + 1) / D (n + 1)‖ / ‖Z n / D n‖) atTop (𝓝 ‖ls / ld‖) := by
       refine ((hZr.div hDr hld).norm).congr (fun n => ?_)
-      rw [← norm_div, div_div_div_comm]
+      rw [← norm_div]
+      congr 1
+      ring
     have hl1 : ‖ls / ld‖ < 1 := by
       rw [norm_div, Real.norm_eq_abs, Real.norm_eq_abs, div_lt_one (abs_pos.mpr hld)]
       exact hlt
