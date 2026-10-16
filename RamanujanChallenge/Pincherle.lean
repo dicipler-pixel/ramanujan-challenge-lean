@@ -331,11 +331,15 @@ theorem isMinimal_of_ratio (a b Z D : ℕ → ℝ) (ls ld : ℝ) (hZ : IsSolutio
   · have hf : ∀ᶠ n in atTop, Z n / D n ≠ 0 := by
       filter_upwards [hZne, hDne] with n h1 h2
       exact div_ne_zero h1 h2
+    have hr0 : Tendsto (fun n => ‖Z (n + 1) / Z n / (D (n + 1) / D n)‖) atTop (𝓝 ‖ls / ld‖) :=
+      (hZr.div hDr hld).norm
+    have hfun : (fun n => ‖Z (n + 1) / D (n + 1)‖ / ‖Z n / D n‖) =
+        fun n => ‖Z (n + 1) / Z n / (D (n + 1) / D n)‖ := by
+      funext n
+      rw [← norm_div, div_div_div_comm]
     have hr : Tendsto (fun n => ‖Z (n + 1) / D (n + 1)‖ / ‖Z n / D n‖) atTop (𝓝 ‖ls / ld‖) := by
-      refine ((hZr.div hDr hld).norm).congr (fun n => ?_)
-      rw [← norm_div]
-      congr 1
-      ring
+      rw [hfun]
+      exact hr0
     have hl1 : ‖ls / ld‖ < 1 := by
       rw [norm_div, Real.norm_eq_abs, Real.norm_eq_abs, div_lt_one (abs_pos.mpr hld)]
       exact hlt
@@ -400,7 +404,6 @@ theorem A21_limit : Tendsto (fun n : ℕ => A21 n) atTop (𝓝 (-297 / 2)) := by
   have hn' : (n : ℝ) ≠ 0 := by exact_mod_cast (by omega : n ≠ 0)
   simp only [A21num, A21den, A21]
   field_simp
-  ring
 
 theorem B21_limit : Tendsto (fun n : ℕ => B21 n) atTop (𝓝 (729 / 4)) := by
   have hp : Continuous B21num := by unfold B21num; fun_prop
@@ -416,6 +419,5 @@ theorem B21_limit : Tendsto (fun n : ℕ => B21 n) atTop (𝓝 (729 / 4)) := by
   have hn' : (n : ℝ) ≠ 0 := by exact_mod_cast (by omega : n ≠ 0)
   simp only [B21num, B21den, B21]
   field_simp
-  ring
 
 end RamanujanChallenge
