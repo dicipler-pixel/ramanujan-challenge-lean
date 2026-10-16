@@ -4,7 +4,7 @@
 
 [![Lean proof check](https://github.com/dicipler-pixel/ramanujan-challenge-lean/actions/workflows/build.yml/badge.svg)](https://github.com/dicipler-pixel/ramanujan-challenge-lean/actions/workflows/build.yml)
 ![Lean](https://img.shields.io/badge/Lean-v4.34.1-blue)
-![Theorems](https://img.shields.io/badge/theorems-35-2EA043)
+![Theorems](https://img.shields.io/badge/theorems-53-2EA043)
 ![sorry](https://img.shields.io/badge/sorry-0-2EA043)
 ![Code: MIT](https://img.shields.io/badge/code-MIT-lightgrey)
 ![Text: CC BY 4.0](https://img.shields.io/badge/text-CC%20BY%204.0-lightgrey)
@@ -40,7 +40,12 @@ limits themselves are not formalised; see [`LIMITATIONS.md`](LIMITATIONS.md).
 | 2.6 | The recurrence operator factors exactly, `L_c = M₂ · R₂`, with `R₂ = (n² + 15n/2 + 14)S − (n²/4 + 3n/2 + 9/4)` and `M₂ = (−12n³ − 164n² − 740n − 1100)S + (12n³ + 140n² + 536n + 672)`; the hypergeometric piece's term ratio `(n+4)²/(4(n+5)(n+9/2))` | `factor_S2`, `factor_S1`, `factor_S0`, `h_ratio_cross` |
 | 2.6 | `n³ + 14n² + 65n + 100 = (n+4)(n+5)²`; `r(n) = 1/(7(n+4)) − 1/(7(n+5)) + 1/(14(n+5)²)`; `1/35 − (1/14)(1 + 1/4 + 1/9 + 1/16 + 1/25) = −547/7200` (the rational part of `Σ r(n)`; `r` is the rational solution of the top factor of the partial-sum operator, not one of the three limits that assemble `S_∞`) | `r26_denom`, `r26_partial`, `r26_constant` |
 
-The file is [`RamanujanChallenge/Exact.lean`](RamanujanChallenge/Exact.lean).
+| 2.1 | **Pincherle's theorem** (convergence direction): if `Z` is a minimal solution of the three-term recurrence with `Z 0 ≠ 0` and dominant companion `D` eventually nonzero, the convergents `P_n/Q_n` tend to `a_0 − Z_1/Z_0`. Also: the solution space is spanned by the convergent numerators and denominators; two solutions agreeing at 0 and 1 agree everywhere; with `b_n ≠ 0` an eventually-zero solution is zero | `pincherle`, `solution_eq_combo`, `solution_unique`, `solution_eq_mul_convDen`, `solution_eq_zero_of_eventually_zero` |
+| 2.1 | **Counterexample to the Technion skeleton's `pincherle` statement.** Their definition of minimal solution omits `D n ≠ 0` eventually; under Lean's `x / 0 = 0` the period-2 recurrence `a = 17/2, 0, …`, `b = −4, 1/4, …` with `Z_n = 2^{−n}` satisfies every hypothesis of their statement while the convergents `P_n/Q_n` are `0` at even `n` and tend to `8` at odd `n` | `zCE_isMinimalWeak`, `bCE_ne_zero`, `technion_pincherle_fails` |
+
+The exact algebra is in [`RamanujanChallenge/Exact.lean`](RamanujanChallenge/Exact.lean);
+Pincherle's theorem and the counterexample are in
+[`RamanujanChallenge/Pincherle.lean`](RamanujanChallenge/Pincherle.lean).
 
 ## How it is checked
 

@@ -8,12 +8,21 @@ Lean proves exactly the statements written, under exactly the hypotheses written
   product, polynomial and matrix identities, a partial-fraction decomposition and the rational
   constant it produces.
 * **Problem 2.1.** The telescoping series for the continued fraction is set up (the determinant
-  identity and the convergent difference) and the partial products of `b_n` are given in closed
-  form for every `n`; summing the series to `6/(3−π)` needs Pincherle's theorem, Poincaré–Perron
-  and Euler's integral, which are not here. The Ramanujan Machine group's own Lean skeleton for
-  this problem (`Code/2.1/LeanFormal/PiPCF.lean` in their solutions repository) proves the
-  coboundary and rescaling identities and leaves those analytic steps as `sorry`; they are the
-  natural next targets.
+  identity and the convergent difference), the partial products of `b_n` are given in closed
+  form for every `n`, and Pincherle's theorem is proved in the direction needed: a minimal
+  solution with `Z 0 ≠ 0` forces `P_n/Q_n → a_0 − Z_1/Z_0`. What is still missing for
+  `6/(3−π)`: that the specific `₂F₁` solution is minimal (Poincaré–Perron with the root ratio
+  `|λ_s/λ_d| < 1`), the limits of the rescaled coefficients, and Euler's integral giving the
+  anchors `F_1`, `F_2`.
+* **The Technion skeleton's Pincherle statement is false as written.** Their
+  `Code/2.1/LeanFormal/PiPCF.lean` defines a minimal solution by `Z n / D n → 0` only; with
+  Lean's convention `x / 0 = 0` a dominant solution vanishing at infinitely many indices passes
+  that test, and then the convergents need not converge. `technion_pincherle_fails` exhibits
+  explicit period-2 coefficients for which all of their hypotheses hold and the conclusion is
+  false. The corrected definition (`IsMinimal`) adds `∀ᶠ n, D n ≠ 0`; their extra hypothesis
+  `b n ≠ 0` is not needed for this direction. Their skeleton's remaining `sorry`s
+  (`A_limit`, `B_limit`, `poincare_perron`, `euler_integral`, `F_growth`, `minimal_F`,
+  `minimal_X`, `F_one`, `F_two`) stay open here too.
 * **Problem 2.2.** The telescoping identity, the companion determinant, the Casoratian ratio and
   its closed-form product are proved. Nothing about `γ`: the recurrence operator is irreducible
   over `ℚ(n)` (Sage, August 2026) and no closed form for `q_n` is known.
