@@ -15,8 +15,8 @@ Lean proves exactly the statements written, under exactly the hypotheses written
   proved (`isMinimal_of_ratio`): once a solution's ratio tends to `λ_s` and another's to `λ_d`
   with `|λ_s| < |λ_d|` (`abs_lamS_lt_abs_lamD`), Pincherle applies. What is still missing for
   `6/(3−π)`: Poincaré–Perron itself (that the ratios of a solution basis tend to the
-  characteristic roots), the limits `A(n) → −297/2`, `B(n) → 729/4` of the rescaled
-  coefficients, and Euler's integral giving the anchors `F_1`, `F_2`.
+  characteristic roots; the coefficient limits `A(n) → −297/2`, `B(n) → 729/4` it needs are
+  proved, `A21_limit`, `B21_limit`) and Euler's integral giving the anchors `F_1`, `F_2`.
 * **The Technion skeleton's Pincherle statement is false as written.** Their
   `Code/2.1/LeanFormal/PiPCF.lean` defines a minimal solution by `Z n / D n → 0` only; with
   Lean's convention `x / 0 = 0` a dominant solution vanishing at infinitely many indices passes

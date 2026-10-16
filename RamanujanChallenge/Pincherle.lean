@@ -352,4 +352,70 @@ theorem pincherle_of_ratio (a b Z D : ℕ → ℝ) (ls ld : ℝ) (hZ : IsSolutio
     Tendsto (fun n => convNum a b n / convDen a b n) atTop (𝓝 (a 0 - Z 1 / Z 0)) :=
   pincherle a b Z (isMinimal_of_ratio a b Z D ls ld hZ hD hZne hDne hZr hDr hlt) hZ0
 
+/-! ### Problem 2.1: the limits of the rescaled coefficients
+
+After the coboundary rescaling in the Technion skeleton, the recurrence for `F_n` has coefficients
+`A(x), B(x)` below (their `A`, `B`), and `A(n) → −297/2`, `B(n) → 729/4`: the characteristic
+polynomial `λ² + (297/2)λ − 729/4` of `lamS_root`, `lamD_root`. Both limits are left as `sorry`
+in the skeleton (`A_limit`, `B_limit`). -/
+
+/-- The rescaled middle coefficient of the 2.1 recurrence. -/
+noncomputable def A21 (x : ℝ) : ℝ :=
+  -(3 * (6 * x + 7) * (6 * x + 11) * (220 * x ^ 3 + 484 * x ^ 2 + 301 * x + 42)) /
+    (8 * (x + 1) ^ 2 * (2 * x + 3) ^ 2 * (5 * x + 1))
+
+/-- The rescaled trailing coefficient of the 2.1 recurrence. -/
+noncomputable def B21 (x : ℝ) : ℝ :=
+  9 * (5 * x + 6) * (6 * x + 1) * (6 * x + 5) * (6 * x + 7) * (6 * x + 11) /
+    (16 * (x + 1) ^ 2 * (2 * x + 3) ^ 2 * (5 * x + 1))
+
+/-- `A21 n` as a rational function of `u = 1/n`: numerator. -/
+noncomputable def A21num (u : ℝ) : ℝ :=
+  -(3 * (6 + 7 * u) * (6 + 11 * u) * (220 + 484 * u + 301 * u ^ 2 + 42 * u ^ 3))
+
+/-- `A21 n` as a rational function of `u = 1/n`: denominator. -/
+noncomputable def A21den (u : ℝ) : ℝ := 8 * (1 + u) ^ 2 * (2 + 3 * u) ^ 2 * (5 + u)
+
+/-- `B21 n` as a rational function of `u = 1/n`: numerator. -/
+noncomputable def B21num (u : ℝ) : ℝ :=
+  9 * (5 + 6 * u) * (6 + u) * (6 + 5 * u) * (6 + 7 * u) * (6 + 11 * u)
+
+/-- `B21 n` as a rational function of `u = 1/n`: denominator. -/
+noncomputable def B21den (u : ℝ) : ℝ := 16 * (1 + u) ^ 2 * (2 + 3 * u) ^ 2 * (5 + u)
+
+theorem tendsto_inv_natCast : Tendsto (fun n : ℕ => ((n : ℝ))⁻¹) atTop (𝓝 0) :=
+  tendsto_inv_atTop_zero.comp tendsto_natCast_atTop_atTop
+
+theorem A21_limit : Tendsto (fun n : ℕ => A21 n) atTop (𝓝 (-297 / 2)) := by
+  have hp : Continuous A21num := by unfold A21num; fun_prop
+  have hq : Continuous A21den := by unfold A21den; fun_prop
+  have hq0 : A21den 0 ≠ 0 := by norm_num [A21den]
+  have h : Tendsto (fun n : ℕ => A21num ((n : ℝ)⁻¹) / A21den ((n : ℝ)⁻¹)) atTop
+      (𝓝 (A21num 0 / A21den 0)) :=
+    ((hp.tendsto 0).comp tendsto_inv_natCast).div ((hq.tendsto 0).comp tendsto_inv_natCast) hq0
+  have hval : A21num 0 / A21den 0 = -297 / 2 := by norm_num [A21num, A21den]
+  rw [hval] at h
+  refine h.congr' ?_
+  filter_upwards [eventually_ge_atTop 1] with n hn
+  have hn' : (n : ℝ) ≠ 0 := by exact_mod_cast (by omega : n ≠ 0)
+  simp only [A21num, A21den, A21]
+  field_simp
+  ring
+
+theorem B21_limit : Tendsto (fun n : ℕ => B21 n) atTop (𝓝 (729 / 4)) := by
+  have hp : Continuous B21num := by unfold B21num; fun_prop
+  have hq : Continuous B21den := by unfold B21den; fun_prop
+  have hq0 : B21den 0 ≠ 0 := by norm_num [B21den]
+  have h : Tendsto (fun n : ℕ => B21num ((n : ℝ)⁻¹) / B21den ((n : ℝ)⁻¹)) atTop
+      (𝓝 (B21num 0 / B21den 0)) :=
+    ((hp.tendsto 0).comp tendsto_inv_natCast).div ((hq.tendsto 0).comp tendsto_inv_natCast) hq0
+  have hval : B21num 0 / B21den 0 = 729 / 4 := by norm_num [B21num, B21den]
+  rw [hval] at h
+  refine h.congr' ?_
+  filter_upwards [eventually_ge_atTop 1] with n hn
+  have hn' : (n : ℝ) ≠ 0 := by exact_mod_cast (by omega : n ≠ 0)
+  simp only [B21num, B21den, B21]
+  field_simp
+  ring
+
 end RamanujanChallenge

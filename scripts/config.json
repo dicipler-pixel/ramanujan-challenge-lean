@@ -13,7 +13,7 @@
 "path":"RamanujanChallenge/Series.lean"
 }
 ],
-"expected_theorems":67,
+"expected_theorems":70,
 "expected_false_controls":3,
 "root_imports":[
 "RamanujanChallenge.Exact",
