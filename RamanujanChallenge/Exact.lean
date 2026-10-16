@@ -18,6 +18,9 @@ Problem 2.2 (γ as an Apéry limit).
     and the Casoratian is n!((n+1)!)⁴((n+2)!/2) P(n)/68 times its initial value, for every n.
 Problem 2.3 (π + e as an Apéry limit).
   * The characteristic roots √2 ± 1 are a reciprocal pair and the roots of λ² − 2√2 λ + 1.
+  * p_n and q_n are defined from the challenge's recurrence and the kernel computes
+    p_5 = 730267195392 and q_5 = 124622119440; likewise q_n = 1, 12, 306, 13056, 833400, 73876320
+    for Problem 2.2.
 Problem 2.5 (Catalan's constant).
   * The leading-order matrices L, B, C of M(n) = n⁹(L + B/n + C/n² + …) obey
     L² = 0, LB = BL = 0, B² = −288 L, B³ = 0, LC = −272 L, CL = −16 L.
@@ -138,6 +141,30 @@ theorem casoratian22_closed (n : ℕ) :
     push_cast
     field_simp <;> ring
 
+/-- `a_1(n)` of Problem 2.2. -/
+def a1_22 (x : ℚ) : ℚ := 24 * x ^ 5 + 337 * x ^ 4 + 1833 * x ^ 3 + 4818 * x ^ 2 + 6092 * x + 2928
+
+/-- `a_2(n)` of Problem 2.2. -/
+def a2_22 (x : ℚ) : ℚ :=
+  -(x + 2) * (x + 3) * (24 * x ^ 5 + 273 * x ^ 4 + 1150 * x ^ 3 + 2154 * x ^ 2 + 1635 * x + 268)
+
+/-- `a_3(n)` of Problem 2.2. -/
+def a3_22 (x : ℚ) : ℚ := (x + 1) * (x + 2) ^ 4 * (x + 3) * (8 * x ^ 3 + 75 * x ^ 2 + 231 * x + 232)
+
+/-- The denominator sequence `q_n` of Problem 2.2, indexed so that `q22 (n + 3) = q_n`:
+`q_{-3} = 1`, `q_{-2} = 12`, `q_{-1} = 306`, and `a_0(n) q_n + a_1(n) q_{n-1} + a_2(n) q_{n-2}
++ a_3(n) q_{n-3} = 0` for `n ≥ 0`, with `a_0 = −P`. -/
+def q22 : ℕ → ℚ
+  | 0 => 1
+  | 1 => 12
+  | 2 => 306
+  | k + 3 => (a1_22 k * q22 (k + 2) + a2_22 k * q22 (k + 1) + a3_22 k * q22 k) / P22 k
+
+/-- The first six denominators of Problem 2.2, as the challenge states them. -/
+theorem q22_values :
+    q22 3 = 13056 ∧ q22 4 = 833400 ∧ q22 5 = 73876320 := by
+  refine ⟨?_, ?_, ?_⟩ <;> norm_num [q22, a1_22, a2_22, a3_22, P22]
+
 /-! ## Problem 2.3: the characteristic roots are a reciprocal pair -/
 
 theorem sqrt2_sq : Real.sqrt 2 ^ 2 = 2 := Real.sq_sqrt (by norm_num)
@@ -159,6 +186,47 @@ theorem rPlus_char : rPlus ^ 2 - 2 * Real.sqrt 2 * rPlus + 1 = 0 := by
 theorem rMinus_char : rMinus ^ 2 - 2 * Real.sqrt 2 * rMinus + 1 = 0 := by
   unfold rMinus
   linear_combination (-1 : ℝ) * sqrt2_sq
+
+/-- `A_0(n)` of Problem 2.3 (note the sign: `−n³ + 2n² + 7n + 3`, not `−(n³ + 2n² + 7n + 3)`). -/
+def A0_23 (x : ℚ) : ℚ := -x ^ 3 + 2 * x ^ 2 + 7 * x + 3
+
+/-- `A_1(n)` of Problem 2.3. -/
+def A1_23 (x : ℚ) : ℚ := (x + 2) * (2 * x ^ 4 + x ^ 3 - 26 * x ^ 2 - 48 * x - 19)
+
+/-- `A_2(n)` of Problem 2.3. -/
+def A2_23 (x : ℚ) : ℚ :=
+  (x + 2) * (x ^ 6 + 9 * x ^ 5 + 8 * x ^ 4 - 87 * x ^ 3 - 249 * x ^ 2 - 234 * x - 68)
+
+/-- `A_3(n)` of Problem 2.3. -/
+def A3_23 (x : ℚ) : ℚ := (x + 1) ^ 2 * (x + 2) * (2 * x ^ 5 + 3 * x ^ 4 - 13 * x ^ 3 - 21 * x ^ 2 + 4)
+
+/-- `A_4(n)` of Problem 2.3. -/
+def A4_23 (x : ℚ) : ℚ := -x ^ 3 * (x + 1) ^ 2 * (x + 2) * (x ^ 3 + x ^ 2 - 8 * x - 11)
+
+/-- The numerator sequence `p_n` of Problem 2.3, indexed so that `p23 (n + 3) = p_n`:
+`p_{-3} = 1`, `p_{-2} = 1`, `p_{-1} = 20`, `p_0 = 296`, and the order-4 recurrence for `n ≥ 1`. -/
+def p23 : ℕ → ℚ
+  | 0 => 1
+  | 1 => 1
+  | 2 => 20
+  | 3 => 296
+  | k + 4 => -(A1_23 (k + 1) * p23 (k + 3) + A2_23 (k + 1) * p23 (k + 2)
+      + A3_23 (k + 1) * p23 (k + 1) + A4_23 (k + 1) * p23 k) / A0_23 (k + 1)
+
+/-- The denominator sequence `q_n` of Problem 2.3, indexed so that `q23 (n + 3) = q_n`:
+`q_{-3} = 1`, `q_{-2} = 0`, `q_{-1} = 4`, `q_0 = 48`. -/
+def q23 : ℕ → ℚ
+  | 0 => 1
+  | 1 => 0
+  | 2 => 4
+  | 3 => 48
+  | k + 4 => -(A1_23 (k + 1) * q23 (k + 3) + A2_23 (k + 1) * q23 (k + 2)
+      + A3_23 (k + 1) * q23 (k + 1) + A4_23 (k + 1) * q23 k) / A0_23 (k + 1)
+
+/-- The sanity anchor of the 2.3 write-up: `p_5 = 730267195392`, computed by the kernel from the
+recurrence; and `q_5 = 124622119440`. -/
+theorem p23_five : p23 8 = 730267195392 ∧ q23 8 = 124622119440 := by
+  refine ⟨?_, ?_⟩ <;> norm_num [p23, q23, A0_23, A1_23, A2_23, A3_23, A4_23]
 
 /-! ## Problem 2.5: the leading-order transport algebra -/
 
