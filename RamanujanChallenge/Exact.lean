@@ -136,8 +136,7 @@ theorem casoratian22_closed (n : ℕ) :
     have hP : P22 (n : ℚ) ≠ 0 := (P22_pos n).ne'
     rw [prod_range_succ, ih, hf3, hf2, hf1]
     push_cast
-    field_simp
-    ring
+    field_simp <;> ring
 
 /-! ## Problem 2.3: the characteristic roots are a reciprocal pair -/
 
