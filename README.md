@@ -4,7 +4,7 @@
 
 [![Lean proof check](https://github.com/dicipler-pixel/ramanujan-challenge-lean/actions/workflows/build.yml/badge.svg)](https://github.com/dicipler-pixel/ramanujan-challenge-lean/actions/workflows/build.yml)
 ![Lean](https://img.shields.io/badge/Lean-v4.34.1-blue)
-![Theorems](https://img.shields.io/badge/theorems-106-2EA043)
+![Theorems](https://img.shields.io/badge/theorems-124-2EA043)
 ![sorry](https://img.shields.io/badge/sorry-0-2EA043)
 ![Code: MIT](https://img.shields.io/badge/code-MIT-lightgrey)
 ![Text: CC BY 4.0](https://img.shields.io/badge/text-CC%20BY%204.0-lightgrey)
@@ -49,6 +49,7 @@ numerics for the limits. This library states that algebra and has the Lean kerne
 | 2.1 | **The challenge limit: `P_n/Q_n → 6/(3 − π)`** for `a_n = −220n³−484n²−301n−42`, `b_n = 4n²(2n+1)²(5n−4)(5n+6)` | `pcf21_tendsto` |
 | 2.1 | Lemma 3 of the official proof: `F_{n+2} = A(n)F_{n+1} + B(n)F_n` for every `n ≥ 1`, for `F_n` given by Euler's integral (in the paper's substitution `t = 2u²/(1+u²)`). Proved by creative telescoping: an explicit antiderivative `Φ` with `Φ' = −2n(2n+1)(5n+6)ω_n + (220n³+484n²+301n+42)ω_{n+1} + 2(n+1)(2n+3)(5n+1)ω_{n+2}`, plus the Gamma-prefactor ratio | `hasDerivAt_Phi21`, `K21_rec`, `kap21_succ`, `F21_rec` |
 | 2.1 | Lemma 7, the anchors: `F_1 = (15√2/2)(π − 3)`, `F_2 = (1155√2/8)(22 − 7π)` | `K21_zero`, `K21_one`, `F21_zero`, `F21_one` |
+| 2.1 | **Euler's integral (Lemma 1) for the sequence:** `F_n` is Mathlib's `₂F₁(n+½, n+½; 3n+½; 1/2)`. The proof uses the real Beta integral, the binomial series, termwise integration (dominated convergence) and the change of variables `t = 2u²/(1+u²)`. In `₂F₁` form: Lemma 3, `₂F₁(3/2,3/2;7/2;1/2) = (15√2/2)(π−3)` and `₂F₁(5/2,5/2;13/2;1/2) = (1155√2/8)(22−7π)` | `F21_eq_hypergeometric`, `hypergeometric_eq_euler`, `E21_eq`, `beta_integral_real`, `hasSum_one_div_one_sub_rpow`, `hypergeometric21_rec`, `hypergeometric21_one`, `hypergeometric21_two` |
 | 2.1 | Lemma 4, the rescaling: `r_nA(n) = a_n`, `r_nr_{n−1}B(n) = b_n`; `X_n = s_nF_{n+2}` solves the challenge recurrence | `r21_mul_A21`, `r21_mul_r21_mul_B21`, `Z21_isSolution` |
 | 2.1 | Lemmas 5–6, minimality, by a direct dominance bound in place of Poincaré–Perron: `−A(x) ≥ 100`, the denominators alternate with `|Q_{k+1}| ≥ s_k·100^k`, `0 < F_n ≤ 15√2·20^{n−1}`, hence `|X/Q| ≤ 300√2·5^{−k}` | `negA21_ge`, `convDen21_bound`, `F21_pos`, `F21_le`, `Z21_div_convDen_le`, `Z21_isMinimal` |
 
@@ -58,13 +59,15 @@ The exact algebra is in [`RamanujanChallenge/Exact.lean`](RamanujanChallenge/Exa
 Pincherle's theorem and the counterexample are in
 [`RamanujanChallenge/Pincherle.lean`](RamanujanChallenge/Pincherle.lean); the Problem 2.6 series is in
 [`RamanujanChallenge/Series.lean`](RamanujanChallenge/Series.lean); the Problem 2.1 analysis and the
-challenge limit are in [`RamanujanChallenge/Problem21.lean`](RamanujanChallenge/Problem21.lean).
+challenge limit are in [`RamanujanChallenge/Problem21.lean`](RamanujanChallenge/Problem21.lean), and Euler's
+integral identifying `F_n` with Mathlib's `₂F₁` is in
+[`RamanujanChallenge/Euler21.lean`](RamanujanChallenge/Euler21.lean).
 
 ## How it is checked
 
 Every push runs [the proof check](.github/workflows/build.yml): build against Lean v4.34.1 and
 Mathlib v4.34.1, independent replay in Lean's kernel checker, an axiom audit (only `propext`,
-`Classical.choice`, `Quot.sound`), and five deliberately false statements that must fail.
+`Classical.choice`, `Quot.sound`), and six deliberately false statements that must fail.
 Every identity was also checked symbolically before being written in Lean
 ([`scripts/precheck.py`](scripts/precheck.py), [`scripts/precheck2.py`](scripts/precheck2.py),
 [`scripts/precheck3.py`](scripts/precheck3.py) for Problem 2.1's analysis).

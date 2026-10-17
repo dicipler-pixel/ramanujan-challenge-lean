@@ -27,4 +27,7 @@ new here:
 * the telescoping certificate `Φ`, found by a SymPy ansatz `R = u(1−u²)P(u²)/(1+u²)³`;
 * the dominance bound that replaces Poincaré–Perron.
 
+`RamanujanChallenge/Euler21.lean` proves Euler's integral (the paper's Lemma 1) for these
+parameters, the classical way: Beta integrals, the binomial series, termwise integration.
+
 Every identity was checked in SymPy first (`scripts/precheck3.py`).

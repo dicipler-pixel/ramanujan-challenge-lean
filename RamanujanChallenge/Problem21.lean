@@ -33,6 +33,9 @@ trajectory `(1,1,3)` of the ₂F₁ conservative matrix field), step by step:
 * **Theorem 2.** Pincherle's theorem (`pincherle`) then gives
   `P_n/Q_n → a_0 − X_0/X_{−1} = −42 − 24F_2/(77F_1) = 6/(3 − π)`.
 
+`Euler21.lean` proves that this `F_n` is Mathlib's `ordinaryHypergeometric (n+½) (n+½) (3n+½) (1/2)`
+(`F21_eq_hypergeometric`).
+
 Every identity here was checked in SymPy before it was written in Lean
 (`scripts/precheck3.py`).
 -/

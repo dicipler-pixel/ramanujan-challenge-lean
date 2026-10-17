@@ -15,14 +15,19 @@
   {
    "module": "RamanujanChallenge.Problem21",
    "path": "RamanujanChallenge/Problem21.lean"
+  },
+  {
+   "module": "RamanujanChallenge.Euler21",
+   "path": "RamanujanChallenge/Euler21.lean"
   }
  ],
- "expected_theorems": 106,
- "expected_false_controls": 5,
+ "expected_theorems": 124,
+ "expected_false_controls": 6,
  "root_imports": [
   "RamanujanChallenge.Exact",
   "RamanujanChallenge.Pincherle",
   "RamanujanChallenge.Series",
-  "RamanujanChallenge.Problem21"
+  "RamanujanChallenge.Problem21",
+  "RamanujanChallenge.Euler21"
  ]
 }

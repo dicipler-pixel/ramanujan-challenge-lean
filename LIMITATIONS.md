@@ -7,38 +7,32 @@ Lean proves exactly the statements written, under exactly the hypotheses written
   `6/(3 − π)`** (`pcf21_tendsto` in `Problem21.lean`). The other four challenge limits (γ, π + e,
   Catalan's G, ζ(2) + ζ(3)) are not proved here; for those problems the theorems are the exact
   algebra the submissions established.
-* **Problem 2.1 is closed, with one stated difference from the paper's wording.**
-  `pcf21_tendsto` proves that the convergents `P_n/Q_n` of `a_n = −220n³−484n²−301n−42`,
-  `b_n = 4n²(2n+1)²(5n−4)(5n+6)` tend to `6/(3 − π)`, with no `sorry` and only the three
-  standard axioms. The four items this file used to list are done:
-  1. coefficient limits `A(n) → −297/2`, `B(n) → 729/4`: `A21_limit`, `B21_limit` (`Pincherle.lean`);
-  2. minimality of the hypergeometric solution: `Z21_isMinimal`. This is **not** proved through
-     Poincaré–Perron or Stirling. It uses a direct dominance bound for this recurrence:
-     `−A(x) ≥ 100` for `x ≥ 0` (`negA21_ge`), so the convergent denominators alternate in sign
-     with `|Q_{k+1}| ≥ s_k·100^k` (`convDen21_bound`), while `0 < F_n ≤ 15√2·20^{n−1}`
-     (`F21_pos`, `F21_le`). That is enough for `X/Q → 0` (`Z21_div_convDen_le`). The sharper
-     statement `F_{n+1}/F_n → λ_s`, which the paper gets from Laplace's method plus
-     Poincaré–Perron, is **not** formalised, and nothing needs it. General Poincaré–Perron is
-     in neither Mathlib nor this library;
-  3. the anchors `F_1 = (15√2/2)(π−3)`, `F_2 = (1155√2/8)(22−7π)`: `F21_zero`, `F21_one`;
+* **Problem 2.1 is closed.** `pcf21_tendsto` proves that the convergents `P_n/Q_n` of
+  `a_n = −220n³−484n²−301n−42`, `b_n = 4n²(2n+1)²(5n−4)(5n+6)` tend to `6/(3 − π)`, with no
+  `sorry` and only the three standard axioms. The four items this file used to list are done:
+  1. the coefficient limits `A(n) → −297/2`, `B(n) → 729/4`: `A21_limit`, `B21_limit` (`Pincherle.lean`);
+  2. minimality of the hypergeometric solution: `Z21_isMinimal`;
+  3. Euler's integral and the anchors. Euler's integral is proved for the sequence
+     (`hypergeometric_eq_euler`, `E21_eq`, `F21_eq_hypergeometric` in `Euler21.lean`): the
+     integral-defined `F_n` of `Problem21.lean` equals Mathlib's
+     `ordinaryHypergeometric (n+½) (n+½) (3n+½) (1/2)`. The anchors are `F21_zero`, `F21_one`,
+     and in `₂F₁` form `hypergeometric21_one`, `hypergeometric21_two`;
   4. the limit itself: `pcf21_tendsto`, via `pincherle`.
 
-  **The stated difference.** In `Problem21.lean`, `F_n` is *defined* by the paper's
-  Euler-integral formula (Eq. 28), written in the paper's own substitution `t = 2u²/(1+u²)`
-  (Eqs. 36–37):
-  `F_n = Γ(3n+½)/(Γ(n+½)Γ(2n)) · 2^{n+3/2} ∫₀¹ u^{2n}(1−u²)^{2n−1}/(1+u²)^{2n} du`.
-  Lemma 3 (the recurrence) is then proved for this sequence directly, by creative telescoping
-  with an explicit certificate (`hasDerivAt_Phi21`, `K21_rec`). The challenge limit depends only
-  on this sequence, so `pcf21_tendsto` is complete as stated. Two classical facts are **not**
-  formalised:
-  * Euler's integral identity (the paper's Lemma 1): this integral equals Mathlib's series
-    `ordinaryHypergeometric (n+½) (n+½) (3n+½) (1/2)`;
-  * the change of variables back to the `t`-form of Eq. 28.
-
-  Mathlib has `₂F₁`, the Beta integral and the binomial series, but not Euler's integral for
-  `₂F₁`. `scripts/precheck3.py` checks the substitution symbolically (SymPy, `n = 1…5`) and
-  Euler's identity numerically against `mpmath.hyp2f1` (40 digits, `n = 1…5`); that is
-  evidence, not a Lean proof. Neither fact is needed for `6/(3 − π)`.
+  **Where the route differs from the paper, and what is still not formalised.**
+  * *Minimality.* It is **not** proved through Poincaré–Perron or Stirling. It uses a direct
+    dominance bound for this recurrence: `−A(x) ≥ 100` for `x ≥ 0` (`negA21_ge`), so the
+    convergent denominators alternate in sign with `|Q_{k+1}| ≥ s_k·100^k`
+    (`convDen21_bound`), while `0 < F_n ≤ 15√2·20^{n−1}` (`F21_pos`, `F21_le`). That gives
+    `|X/Q| ≤ 300√2·5^{−k} → 0` (`Z21_div_convDen_le`). The paper's sharper statement
+    `F_{n+1}/F_n → λ_s` (Laplace's method on Euler's integral plus Poincaré–Perron) is **not**
+    formalised; nothing needs it. General Poincaré–Perron is in neither Mathlib nor this library.
+  * *Lemma 3.* It is not obtained from the CMF trajectory matrix `T(n)` and the coboundary
+    `U(n)` (Eqs. 17–20). It is proved directly for Euler's integral by creative telescoping, with
+    an explicit certificate (`hasDerivAt_Phi21`, `K21_rec`, `F21_rec`), and transferred to `₂F₁`
+    by `hypergeometric21_rec`. The matrices `T(n)`, `U(n)`, `C(n)` are not stated in Lean.
+  * *Euler's integral* is proved for the parameters Problem 2.1 uses (`a = b = n+½`, `c = 3n+½`,
+    `z = 1/2`), not as a general Mathlib lemma for every `a, b, c, z`.
 * **The Technion skeleton's Pincherle statement is false as written.** Their
   `Code/2.1/LeanFormal/PiPCF.lean` defines a minimal solution by `Z n / D n → 0` only; with
   Lean's convention `x / 0 = 0` a dominant solution vanishing at infinitely many indices passes

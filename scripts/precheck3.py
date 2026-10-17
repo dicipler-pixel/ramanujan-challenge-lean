@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 # SCRIPT: RAMANUJAN-CHALLENGE-LEAN-PRECHECK-03
-"""Symbolic pre-check of every identity used in RamanujanChallenge/Problem21.lean.
+"""Symbolic pre-check of every identity used in RamanujanChallenge/Problem21.lean and Euler21.lean.
 
 Each identity is checked exactly (SymPy, rational arithmetic) before it was written in Lean;
 the Lean kernel then re-checks it. The last block is a numerical cross-check (mpmath, 40
 digits) that the integral-defined F_n is the official 2F1(n+1/2, n+1/2; 3n+1/2; 1/2) and that
-the continued fraction approaches 6/(3 - pi); it is evidence, not part of the proof.
+the continued fraction approaches 6/(3 - pi). Euler21.lean proves the first of these in Lean;
+the numbers here are an independent sanity check.
 """
 from sympy import (symbols, Rational, sqrt, pi, atan, gamma, diff, simplify, cancel, expand,
-                   Poly, combsimp, expand_func)
+                   Poly, combsimp, expand_func, gammasimp)
 import mpmath as mp
 
 u, n, x = symbols('u n x')
@@ -98,6 +99,17 @@ check("-Q_2 >= 100 sigma_2", 0 if 1047 >= 100*r.subs(n, 1) else 1)
 Fa = 15*sqrt(2)/2*(pi-3)
 Fb = 1155*sqrt(2)/8*(22-7*pi)
 check("a_0 - 24 F_2/(77 F_1) = 6/(3-pi)", -42 - Fb/(Rational(77, 24)*Fa) - 6/(3-pi))
+
+# Euler21.lean: the termwise coefficient identity (hypergeometric_eq_euler), symbolic in k.
+from sympy import rf, factorial
+k = symbols('k', integer=True, nonnegative=True)
+aa, cc = m + Rational(3, 2), 3*m + Rational(7, 2)
+term = (rf(aa, k)/factorial(k)*Rational(1, 2)**k*gamma(aa+k)*gamma(2*m+2)/gamma(cc+k)
+        * gamma(cc)/(gamma(aa)*gamma(2*m+2)))
+check("Gamma(c)/(Gamma(a)Gamma(2n)) * Beta term = 2F1 term", gammasimp(
+    (term / (rf(aa, k)**2/(rf(cc, k)*factorial(k))*Rational(1, 2)**k)).rewrite(gamma)) - 1)
+check("Gamma(a)Gamma(c)/(Gamma(a)Gamma(2n)) * 2^(m+2) sqrt2 = kap21 (prefactor split)",
+      kap(m) - gamma(cc)/(gamma(aa)*gamma(2*m+2))*2**(m+2)*sqrt(2))
 
 # Numerical cross-check (evidence only).
 mp.mp.dps = 40
