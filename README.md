@@ -4,7 +4,7 @@
 
 [![Lean proof check](https://github.com/dicipler-pixel/ramanujan-challenge-lean/actions/workflows/build.yml/badge.svg)](https://github.com/dicipler-pixel/ramanujan-challenge-lean/actions/workflows/build.yml)
 ![Lean](https://img.shields.io/badge/Lean-v4.34.1-blue)
-![Theorems](https://img.shields.io/badge/theorems-70-2EA043)
+![Theorems](https://img.shields.io/badge/theorems-106-2EA043)
 ![sorry](https://img.shields.io/badge/sorry-0-2EA043)
 ![Code: MIT](https://img.shields.io/badge/code-MIT-lightgrey)
 ![Text: CC BY 4.0](https://img.shields.io/badge/text-CC%20BY%204.0-lightgrey)
@@ -21,8 +21,9 @@ The Ramanujan Challenge (Technion, 2026) asks for proofs that six recurrences an
 fractions converge to π, γ, π + e, Catalan's G and ζ(2) + ζ(3). My submissions established the
 exact algebra around each one — determinant identities, a Pochhammer product, a telescoping
 cubic, a nilpotent leading-order algebra, a partial-fraction decomposition — with high-precision
-numerics for the limits. This library states that algebra and has the Lean kernel check it. The
-limits themselves are not formalised; see [`LIMITATIONS.md`](LIMITATIONS.md).
+numerics for the limits. This library states that algebra and has the Lean kernel check it.
+**Problem 2.1 is closed in full:** `pcf21_tendsto` proves that the continued fraction converges to
+`6/(3 − π)`. The other challenge limits are not formalised; see [`LIMITATIONS.md`](LIMITATIONS.md).
 
 ## What is proved
 
@@ -45,28 +46,37 @@ limits themselves are not formalised; see [`LIMITATIONS.md`](LIMITATIONS.md).
 | 2.1 | The rescaled coefficients converge: `A(n) → −297/2`, `B(n) → 729/4` (the skeleton's `A_limit`, `B_limit`) | `A21_limit`, `B21_limit` |
 | 2.1 | **Counterexample to the Technion skeleton's `pincherle` statement.** Their definition of minimal solution omits `D n ≠ 0` eventually; under Lean's `x / 0 = 0` the period-2 recurrence `a = 17/2, 0, …`, `b = −4, 1/4, …` with `Z_n = 2^{−n}` satisfies every hypothesis of their statement while the convergents `P_n/Q_n` are `0` at even `n` and tend to `8` at odd `n` | `zCE_isMinimalWeak`, `bCE_ne_zero`, `technion_pincherle_fails` |
 
+| 2.1 | **The challenge limit: `P_n/Q_n → 6/(3 − π)`** for `a_n = −220n³−484n²−301n−42`, `b_n = 4n²(2n+1)²(5n−4)(5n+6)` | `pcf21_tendsto` |
+| 2.1 | Lemma 3 of the official proof: `F_{n+2} = A(n)F_{n+1} + B(n)F_n` for every `n ≥ 1`, for `F_n` given by Euler's integral (in the paper's substitution `t = 2u²/(1+u²)`). Proved by creative telescoping: an explicit antiderivative `Φ` with `Φ' = −2n(2n+1)(5n+6)ω_n + (220n³+484n²+301n+42)ω_{n+1} + 2(n+1)(2n+3)(5n+1)ω_{n+2}`, plus the Gamma-prefactor ratio | `hasDerivAt_Phi21`, `K21_rec`, `kap21_succ`, `F21_rec` |
+| 2.1 | Lemma 7, the anchors: `F_1 = (15√2/2)(π − 3)`, `F_2 = (1155√2/8)(22 − 7π)` | `K21_zero`, `K21_one`, `F21_zero`, `F21_one` |
+| 2.1 | Lemma 4, the rescaling: `r_nA(n) = a_n`, `r_nr_{n−1}B(n) = b_n`; `X_n = s_nF_{n+2}` solves the challenge recurrence | `r21_mul_A21`, `r21_mul_r21_mul_B21`, `Z21_isSolution` |
+| 2.1 | Lemmas 5–6, minimality, by a direct dominance bound in place of Poincaré–Perron: `−A(x) ≥ 100`, the denominators alternate with `|Q_{k+1}| ≥ s_k·100^k`, `0 < F_n ≤ 15√2·20^{n−1}`, hence `|X/Q| ≤ 300√2·5^{−k}` | `negA21_ge`, `convDen21_bound`, `F21_pos`, `F21_le`, `Z21_div_convDen_le`, `Z21_isMinimal` |
+
 | 2.6 | **`Σ_{n≥1} r(n) = π²/84 − 547/7200`** — the first limit in the library: the telescoping part sums to `1/35`, the `1/(14(n+5)²)` part to `(1/14)(ζ(2) − 5269/3600)` via Mathlib's `hasSum_zeta_two` | `r26_hasSum`, `hasSum_telescope`, `hasSum_inv_sq_shift` |
 
 The exact algebra is in [`RamanujanChallenge/Exact.lean`](RamanujanChallenge/Exact.lean);
 Pincherle's theorem and the counterexample are in
 [`RamanujanChallenge/Pincherle.lean`](RamanujanChallenge/Pincherle.lean); the Problem 2.6 series is in
-[`RamanujanChallenge/Series.lean`](RamanujanChallenge/Series.lean).
+[`RamanujanChallenge/Series.lean`](RamanujanChallenge/Series.lean); the Problem 2.1 analysis and the
+challenge limit are in [`RamanujanChallenge/Problem21.lean`](RamanujanChallenge/Problem21.lean).
 
 ## How it is checked
 
 Every push runs [the proof check](.github/workflows/build.yml): build against Lean v4.34.1 and
 Mathlib v4.34.1, independent replay in Lean's kernel checker, an axiom audit (only `propext`,
-`Classical.choice`, `Quot.sound`), and three deliberately false statements that must fail.
+`Classical.choice`, `Quot.sound`), and five deliberately false statements that must fail.
 Every identity was also checked symbolically before being written in Lean
-([`scripts/precheck.py`](scripts/precheck.py)).
+([`scripts/precheck.py`](scripts/precheck.py), [`scripts/precheck2.py`](scripts/precheck2.py),
+[`scripts/precheck3.py`](scripts/precheck3.py) for Problem 2.1's analysis).
 
 ## The challenge
 
 The problems and their official proofs are the Ramanujan Machine group's: *Ramanujan Challenge
 Proofs* (Technion, 2 August 2026), code at
 [RamanujanMachine/RamanujanChallengeSolutions](https://github.com/RamanujanMachine/RamanujanChallengeSolutions).
-Their repository carries a Lean skeleton for Problem 2.1 whose analytic steps are left open;
-those steps are listed as the next targets in [`LIMITATIONS.md`](LIMITATIONS.md).
+Their repository carries a Lean skeleton for Problem 2.1 whose analytic steps are left as `sorry`
+(still the case on 17 October 2026). `Problem21.lean` proves the challenge limit without them;
+[`LIMITATIONS.md`](LIMITATIONS.md) says which of their statements are still not proved here.
 
 ## Licence
 

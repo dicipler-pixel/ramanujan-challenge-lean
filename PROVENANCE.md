@@ -18,3 +18,13 @@ the pre-checks are `scripts/precheck.py` (phase 1) and `scripts/precheck2.py` (p
 Casoratian closed form, the 2.6 operator factorisation and term ratio, and the negative test of
 the 2.4 order-2 recurrence). The explicit factors `R₂`, `M₂` of Problem 2.6 come from the
 author's Sage `quo_rem` computation of August 2026 and are re-verified by `precheck2.py`.
+
+`RamanujanChallenge/Problem21.lean` (17 October 2026) follows §4 of *Ramanujan Challenge
+Proofs* (2 August 2026). It uses the trajectory `(1,1,3)`, Lemma 3's coefficients `A(n)`, `B(n)`
+(Eqs. 14–15), the normalisation `r_n`, `s_n` (Eqs. 21–24), Euler's integral (Eq. 28) in the
+paper's substitution `t = 2u²/(1+u²)` (Eqs. 36–37), and the anchors of Lemma 7. Two pieces are
+new here:
+* the telescoping certificate `Φ`, found by a SymPy ansatz `R = u(1−u²)P(u²)/(1+u²)³`;
+* the dominance bound that replaces Poincaré–Perron.
+
+Every identity was checked in SymPy first (`scripts/precheck3.py`).

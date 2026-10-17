@@ -2,21 +2,43 @@
 
 Lean proves exactly the statements written, under exactly the hypotheses written.
 
-* **One limit is formalised** — `Σ_{n≥1} r(n) = π²/84 − 547/7200` for the Problem 2.6 rational solution (`Series.lean`), which rests on Mathlib's `ζ(2) = π²/6`. None of the five challenge limits is.
-* **No challenge limit is formalised.** The challenge asks for the values π, γ, π + e, Catalan's G and
-  ζ(2) + ζ(3). None of those limits is proved in this library. The theorems here are the exact
-  algebra that the submissions established: Casoratian and determinant identities, a Pochhammer
-  product, polynomial and matrix identities, a partial-fraction decomposition and the rational
-  constant it produces.
-* **Problem 2.1.** The telescoping series for the continued fraction is set up (the determinant
-  identity and the convergent difference), the partial products of `b_n` are given in closed
-  form for every `n`, and Pincherle's theorem is proved in the direction needed: a minimal
-  solution with `Z 0 ≠ 0` forces `P_n/Q_n → a_0 − Z_1/Z_0`. Minimality from ratio limits is also
-  proved (`isMinimal_of_ratio`): once a solution's ratio tends to `λ_s` and another's to `λ_d`
-  with `|λ_s| < |λ_d|` (`abs_lamS_lt_abs_lamD`), Pincherle applies. What is still missing for
-  `6/(3−π)`: Poincaré–Perron itself (that the ratios of a solution basis tend to the
-  characteristic roots; the coefficient limits `A(n) → −297/2`, `B(n) → 729/4` it needs are
-  proved, `A21_limit`, `B21_limit`) and Euler's integral giving the anchors `F_1`, `F_2`.
+* **Two limits are formalised.** `Σ_{n≥1} r(n) = π²/84 − 547/7200` for the Problem 2.6 rational
+  solution (`Series.lean`, from Mathlib's `ζ(2) = π²/6`), and **the Problem 2.1 challenge limit
+  `6/(3 − π)`** (`pcf21_tendsto` in `Problem21.lean`). The other four challenge limits (γ, π + e,
+  Catalan's G, ζ(2) + ζ(3)) are not proved here; for those problems the theorems are the exact
+  algebra the submissions established.
+* **Problem 2.1 is closed, with one stated difference from the paper's wording.**
+  `pcf21_tendsto` proves that the convergents `P_n/Q_n` of `a_n = −220n³−484n²−301n−42`,
+  `b_n = 4n²(2n+1)²(5n−4)(5n+6)` tend to `6/(3 − π)`, with no `sorry` and only the three
+  standard axioms. The four items this file used to list are done:
+  1. coefficient limits `A(n) → −297/2`, `B(n) → 729/4`: `A21_limit`, `B21_limit` (`Pincherle.lean`);
+  2. minimality of the hypergeometric solution: `Z21_isMinimal`. This is **not** proved through
+     Poincaré–Perron or Stirling. It uses a direct dominance bound for this recurrence:
+     `−A(x) ≥ 100` for `x ≥ 0` (`negA21_ge`), so the convergent denominators alternate in sign
+     with `|Q_{k+1}| ≥ s_k·100^k` (`convDen21_bound`), while `0 < F_n ≤ 15√2·20^{n−1}`
+     (`F21_pos`, `F21_le`). That is enough for `X/Q → 0` (`Z21_div_convDen_le`). The sharper
+     statement `F_{n+1}/F_n → λ_s`, which the paper gets from Laplace's method plus
+     Poincaré–Perron, is **not** formalised, and nothing needs it. General Poincaré–Perron is
+     in neither Mathlib nor this library;
+  3. the anchors `F_1 = (15√2/2)(π−3)`, `F_2 = (1155√2/8)(22−7π)`: `F21_zero`, `F21_one`;
+  4. the limit itself: `pcf21_tendsto`, via `pincherle`.
+
+  **The stated difference.** In `Problem21.lean`, `F_n` is *defined* by the paper's
+  Euler-integral formula (Eq. 28), written in the paper's own substitution `t = 2u²/(1+u²)`
+  (Eqs. 36–37):
+  `F_n = Γ(3n+½)/(Γ(n+½)Γ(2n)) · 2^{n+3/2} ∫₀¹ u^{2n}(1−u²)^{2n−1}/(1+u²)^{2n} du`.
+  Lemma 3 (the recurrence) is then proved for this sequence directly, by creative telescoping
+  with an explicit certificate (`hasDerivAt_Phi21`, `K21_rec`). The challenge limit depends only
+  on this sequence, so `pcf21_tendsto` is complete as stated. Two classical facts are **not**
+  formalised:
+  * Euler's integral identity (the paper's Lemma 1): this integral equals Mathlib's series
+    `ordinaryHypergeometric (n+½) (n+½) (3n+½) (1/2)`;
+  * the change of variables back to the `t`-form of Eq. 28.
+
+  Mathlib has `₂F₁`, the Beta integral and the binomial series, but not Euler's integral for
+  `₂F₁`. `scripts/precheck3.py` checks the substitution symbolically (SymPy, `n = 1…5`) and
+  Euler's identity numerically against `mpmath.hyp2f1` (40 digits, `n = 1…5`); that is
+  evidence, not a Lean proof. Neither fact is needed for `6/(3 − π)`.
 * **The Technion skeleton's Pincherle statement is false as written.** Their
   `Code/2.1/LeanFormal/PiPCF.lean` defines a minimal solution by `Z n / D n → 0` only; with
   Lean's convention `x / 0 = 0` a dominant solution vanishing at infinitely many indices passes
@@ -25,7 +47,11 @@ Lean proves exactly the statements written, under exactly the hypotheses written
   false. The corrected definition (`IsMinimal`) adds `∀ᶠ n, D n ≠ 0`; their extra hypothesis
   `b n ≠ 0` is not needed for this direction. Their skeleton's remaining `sorry`s
   (`A_limit`, `B_limit`, `poincare_perron`, `euler_integral`, `F_growth`, `minimal_F`,
-  `minimal_X`, `F_one`, `F_two`) stay open here too.
+  `minimal_X`, `F_one`, `F_two`) were checked on 17 October 2026 and are still open in their
+  repository (last commit 2 August 2026). This library gets past each of them without their
+  statements: `A21_limit`/`B21_limit`; `Z21_isMinimal` in place of `poincare_perron`, `F_growth`,
+  `minimal_F`, `minimal_X`; `F21_zero`/`F21_one` in place of `F_one`/`F_two`. Their general
+  `poincare_perron` and `euler_integral` statements are not proved here.
 * **Problem 2.2.** The telescoping identity, the companion determinant, the Casoratian ratio and
   its closed-form product are proved. Nothing about `γ`: the recurrence operator is irreducible
   over `ℚ(n)` (Sage, August 2026) and no closed form for `q_n` is known.
