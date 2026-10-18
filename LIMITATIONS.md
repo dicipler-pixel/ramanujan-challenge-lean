@@ -44,8 +44,10 @@ Lean proves exactly the statements written, under exactly the hypotheses written
   `minimal_X`, `F_one`, `F_two`) were checked on 17 October 2026 and are still open in their
   repository (last commit 2 August 2026). This library gets past each of them without their
   statements: `A21_limit`/`B21_limit`; `Z21_isMinimal` in place of `poincare_perron`, `F_growth`,
-  `minimal_F`, `minimal_X`; `F21_zero`/`F21_one` in place of `F_one`/`F_two`. Their general
-  `poincare_perron` and `euler_integral` statements are not proved here.
+  `minimal_F`, `minimal_X`; `F21_zero`/`F21_one` in place of `F_one`/`F_two`. General
+  Poincaré–Perron is not proved here. The official `euler_integral` statement is itself
+  restricted to the Problem 2.1 parameter family; this library proves that family using
+  its own definitions, rather than filling every intermediary in the official file.
 * **Problem 2.2.** The telescoping identity, the companion determinant, the Casoratian ratio and
   its closed-form product are proved. Nothing about `γ`: the recurrence operator is irreducible
   over `ℚ(n)` (Sage, August 2026) and no closed form for `q_n` is known.

@@ -10,6 +10,17 @@ creative-telescoping certificate and the dominance bound in SymPy, checked them 
 had the Lean kernel check them.
 
 No statement here rests on an AI's say-so. Every proof is checked by the Lean kernel and
-replayed by an independent kernel checker on every push, every theorem's axioms are audited,
+replayed by an independent kernel checker (`scripts/check_review.py`), every theorem's axioms are audited,
 and every false control must be rejected for the check to pass. What the statements mean, and
 what they do not claim, is set out in plain words in `README.md` and `LIMITATIONS.md`.
+
+On 17 October 2026 Grok Bot also cleaned the library to Mathlib style (zero build warnings,
+Mathlib's standard linter set, `#lint` and `lint-style`) without changing any theorem statement.
+
+The separate review edition was produced by OpenAI Codex on 18 October 2026 UTC at the
+author's request. Codex reviewed the supplied archive, added the reviewed interface and direct
+error-bound proof (`RamanujanChallenge/ReviewedProblem21.lean`), and hardened the checks
+(`scripts/verify.py`, `scripts/check_review.py`, `scripts/test_verify.py`). Codex also reviewed
+the Grok Bot cleanup independently. Grok Bot merged the two editions on 17 October 2026
+(Chicago time). The merged copy has local build and kernel replay evidence; no claim is made
+that it has run on hosted CI.

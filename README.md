@@ -2,9 +2,8 @@
 
 # Ramanujan Challenge submissions — Lean proofs of the exact algebra
 
-[![Lean proof check](https://github.com/dicipler-pixel/ramanujan-challenge-lean/actions/workflows/build.yml/badge.svg)](https://github.com/dicipler-pixel/ramanujan-challenge-lean/actions/workflows/build.yml)
 ![Lean](https://img.shields.io/badge/Lean-v4.34.1-blue)
-![Theorems](https://img.shields.io/badge/theorems-124-2EA043)
+![Theorems](https://img.shields.io/badge/theorems-132-2EA043)
 ![sorry](https://img.shields.io/badge/sorry-0-2EA043)
 ![Code: MIT](https://img.shields.io/badge/code-MIT-lightgrey)
 ![Text: CC BY 4.0](https://img.shields.io/badge/text-CC%20BY%204.0-lightgrey)
@@ -47,6 +46,7 @@ numerics for the limits. This library states that algebra and has the Lean kerne
 | 2.1 | **Counterexample to the Technion skeleton's `pincherle` statement.** Their definition of minimal solution omits `D n ≠ 0` eventually; under Lean's `x / 0 = 0` the period-2 recurrence `a = 17/2, 0, …`, `b = −4, 1/4, …` with `Z_n = 2^{−n}` satisfies every hypothesis of their statement while the convergents `P_n/Q_n` are `0` at even `n` and tend to `8` at odd `n` | `zCE_isMinimalWeak`, `bCE_ne_zero`, `technion_pincherle_fails` |
 
 | 2.1 | **The challenge limit: `P_n/Q_n → 6/(3 − π)`** for `a_n = −220n³−484n²−301n−42`, `b_n = 4n²(2n+1)²(5n−4)(5n+6)` | `pcf21_tendsto` |
+| 2.1 | **Reviewed interface (Codex):** convergents indexed from the first actual one, `P 0 = −42`, `Q 0 = 1`, every `Q n ≠ 0`; the exact residual `P_n/Q_n − 6/(3−π) = (Z(n+1)/Q_n)/Z(0)`; the geometric bound `‖P_n/Q_n − 6/(3−π)‖ ≤ (300√2/Z(0))·(1/5)^n`; and the limit from that bound alone, without `pcf21_tendsto` or `pincherle` | `Reviewed.P_eq`, `Reviewed.Q_eq`, `Reviewed.Q_ne_zero`, `Reviewed.initial_values`, `Reviewed.value`, `Reviewed.error_identity`, `Reviewed.error_bound`, `Reviewed.limit` |
 | 2.1 | Lemma 3 of the official proof: `F_{n+2} = A(n)F_{n+1} + B(n)F_n` for every `n ≥ 1`, for `F_n` given by Euler's integral (in the paper's substitution `t = 2u²/(1+u²)`). Proved by creative telescoping: an explicit antiderivative `Φ` with `Φ' = −2n(2n+1)(5n+6)ω_n + (220n³+484n²+301n+42)ω_{n+1} + 2(n+1)(2n+3)(5n+1)ω_{n+2}`, plus the Gamma-prefactor ratio | `hasDerivAt_Phi21`, `K21_rec`, `kap21_succ`, `F21_rec` |
 | 2.1 | Lemma 7, the anchors: `F_1 = (15√2/2)(π − 3)`, `F_2 = (1155√2/8)(22 − 7π)` | `K21_zero`, `K21_one`, `F21_zero`, `F21_one` |
 | 2.1 | **Euler's integral (Lemma 1) for the sequence:** `F_n` is Mathlib's `₂F₁(n+½, n+½; 3n+½; 1/2)`. The proof uses the real Beta integral, the binomial series, termwise integration (dominated convergence) and the change of variables `t = 2u²/(1+u²)`. In `₂F₁` form: Lemma 3, `₂F₁(3/2,3/2;7/2;1/2) = (15√2/2)(π−3)` and `₂F₁(5/2,5/2;13/2;1/2) = (1155√2/8)(22−7π)` | `F21_eq_hypergeometric`, `hypergeometric_eq_euler`, `E21_eq`, `beta_integral_real`, `hasSum_one_div_one_sub_rpow`, `hypergeometric21_rec`, `hypergeometric21_one`, `hypergeometric21_two` |
@@ -61,13 +61,21 @@ Pincherle's theorem and the counterexample are in
 [`RamanujanChallenge/Series.lean`](RamanujanChallenge/Series.lean); the Problem 2.1 analysis and the
 challenge limit are in [`RamanujanChallenge/Problem21.lean`](RamanujanChallenge/Problem21.lean), and Euler's
 integral identifying `F_n` with Mathlib's `₂F₁` is in
-[`RamanujanChallenge/Euler21.lean`](RamanujanChallenge/Euler21.lean).
+[`RamanujanChallenge/Euler21.lean`](RamanujanChallenge/Euler21.lean). The reviewed interface and the
+direct error-bound proof are in
+[`RamanujanChallenge/ReviewedProblem21.lean`](RamanujanChallenge/ReviewedProblem21.lean); see
+[`REVIEW.md`](REVIEW.md).
 
 ## How it is checked
 
-Every push runs [the proof check](.github/workflows/build.yml): build against Lean v4.34.1 and
-Mathlib v4.34.1, independent replay in Lean's kernel checker, an axiom audit (only `propext`,
-`Classical.choice`, `Quot.sound`), and six deliberately false statements that must fail.
+Run `lake exe cache get`, then `python3 scripts/check_review.py` (do not run `lake update`; the
+committed `lake-manifest.json` fixes the dependency set). It runs the verifier's regression tests,
+builds every module against Lean v4.34.1 and Mathlib v4.34.1, replays each one in Lean's
+independent kernel checker, audits the axioms of all 132 named theorems (only `propext`,
+`Classical.choice`, `Quot.sound`), and requires six deliberately false statements to fail.
+Evidence is written to `verification/`. [The workflow](.github/workflows/build.yml) runs the
+same command; this merged copy has local evidence only and no hosted CI run.
+
 Every identity was also checked symbolically before being written in Lean
 ([`scripts/precheck.py`](scripts/precheck.py), [`scripts/precheck2.py`](scripts/precheck2.py),
 [`scripts/precheck3.py`](scripts/precheck3.py) for Problem 2.1's analysis).

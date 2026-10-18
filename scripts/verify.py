@@ -11,14 +11,15 @@ Why each check proves what it claims:
    three every Mathlib theorem may use) rules out `sorry` (sorryAx), project
    axioms, and native_decide (Lean.ofReduceBool) for every named theorem.
 
-2. Theorem inventory. The script discovers theorem names from the source files
-   and fails if any expected module is missing or the count drops, so a theorem
-   cannot silently disappear from the audit.
+2. Theorem inventory. The script discovers theorem and lemma names from the
+   source files and fails unless every source module is configured and the names
+   match the exact list in config.json, so a theorem cannot silently disappear
+   from the audit or be swapped for another.
 
 3. False controls. Each file in FalseControls/ states something deliberately
    false. It must FAIL to compile, and it must fail for a mathematical reason
    (unsolved goals, a failed tactic, a proposition proved false), not because of
-   a typo or a missing name. This shows the checker can say no: a pipeline that
+   a typo, a missing name or a plain type mismatch. This shows the checker can say no: a pipeline that
    accepts everything would pass the first two checks and fail this one.
 
 4. Hashes. The SHA-256 of every source file is written to the report, so anyone
@@ -44,11 +45,11 @@ ROOT_IMPORTS = CONFIG["root_imports"]
 # Private helper lemmas cannot be named from another file, so they are not listed; their
 # axioms are audited through every public theorem that uses them.
 THEOREM_RE = re.compile(
-    r"^\s*(?:@\[[^\]]*\]\s*)?(?:protected\s+)?theorem\s+([^\s:({\[]+)", re.M)
+    r"^\s*(?:@\[[^\]]*\]\s*)?(?:protected\s+)?(?:theorem|lemma)\s+([^\s:({\[]+)", re.M)
 NAMESPACE_RE = re.compile(r"^namespace\s+(\S+)", re.M)
 MATH_FAILURE = re.compile(
     r"unsolved goals|proved that the proposition.*false|tactic '.*' failed|"
-    r"linarith failed|failed to prove|decide failed|norm_num failed|type mismatch|"
+    r"linarith failed|failed to prove|decide failed|norm_num failed|"
     r"made no progress|failed to simplify",
     re.S | re.I)
 INFRA_FAILURE = re.compile(
@@ -67,8 +68,49 @@ def run(argv: list[str]) -> subprocess.CompletedProcess:
 
 
 def strip_comments(text: str) -> str:
-    text = re.sub(r"/-.*?-/", "", text, flags=re.S)
-    return re.sub(r"--[^\n]*", "", text)
+    # Lean block comments nest. Preserve newlines so anchored declaration matching
+    # remains meaningful. Preserve string literals rather than treating their text
+    # as comment delimiters.
+    out, i, depth, quoted = [], 0, 0, False
+    while i < len(text):
+        pair = text[i:i + 2]
+        c = text[i]
+        if depth:
+            if pair == "/-":
+                depth += 1
+                out.extend("  ")
+                i += 2
+            elif pair == "-/":
+                depth -= 1
+                out.extend("  ")
+                i += 2
+            else:
+                out.append("\n" if c == "\n" else " ")
+                i += 1
+        elif quoted:
+            out.append(c)
+            i += 1
+            if c == "\\" and i < len(text):
+                out.append(text[i])
+                i += 1
+            elif c == '"':
+                quoted = False
+        elif pair == "/-":
+            depth = 1
+            out.extend("  ")
+            i += 2
+        elif pair == "--":
+            end = text.find("\n", i)
+            end = len(text) if end < 0 else end
+            out.extend(" " * (end - i))
+            i = end
+        else:
+            out.append(c)
+            quoted = c == '"'
+            i += 1
+    if depth:
+        raise ValueError("unterminated Lean block comment")
+    return "".join(out)
 
 
 def theorems_in(path: pathlib.Path) -> list[str]:
@@ -81,7 +123,18 @@ def theorems_in(path: pathlib.Path) -> list[str]:
 
 def main() -> int:
     OUT.mkdir(exist_ok=True)
-    report: dict = {"lean": run(["lean", "--version"]).stdout.strip(), "modules": {}}
+    (OUT / "report.json").unlink(missing_ok=True)
+    version = run(["lean", "--version"])
+    if version.returncode:
+        raise SystemExit("Lean version check failed")
+    report: dict = {"lean": version.stdout.strip(), "modules": {}}
+    report["inputs"] = {
+        rel: hashlib.sha256((ROOT / rel).read_bytes()).hexdigest()
+        for rel in ("lean-toolchain", "lake-manifest.json", "lakefile.toml", "scripts/config.json")
+    }
+    actual_sources = {str(p.relative_to(ROOT)) for p in (ROOT / "RamanujanChallenge").glob("*.lean")}
+    if actual_sources != {rel for _, rel in MODULES}:
+        raise SystemExit("source modules differ from configured audit modules")
 
     # Inventory and hashes.
     names: list[str] = []
@@ -99,6 +152,8 @@ def main() -> int:
     total = sum(v["theorems"] for v in report["modules"].values())
     if total != EXPECTED_THEOREMS:
         raise SystemExit(f"inventory changed: {total} theorems, expected {EXPECTED_THEOREMS}")
+    if sorted(names) != sorted(CONFIG["expected_names"]):
+        raise SystemExit("named declaration inventory changed; review config.json")
     report["theorems"] = total
 
     # Axiom audit.
@@ -142,7 +197,7 @@ def main() -> int:
             print(text)
             raise SystemExit(f"false control failed for the wrong reason: {path.name}")
         controls[path.stem] = "rejected"
-    if len(controls) < EXPECTED_FALSE_CONTROLS:
+    if len(controls) != EXPECTED_FALSE_CONTROLS:
         raise SystemExit(f"expected {EXPECTED_FALSE_CONTROLS} false controls, found {len(controls)}")
     report["false_controls"] = controls
 

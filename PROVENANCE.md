@@ -31,3 +31,17 @@ new here:
 parameters, the classical way: Beta integrals, the binomial series, termwise integration.
 
 Every identity was checked in SymPy first (`scripts/precheck3.py`).
+
+## Codex review edition and merge (18 October 2026 UTC)
+
+At the author's request, Codex added `ReviewedProblem21.lean`: the explicit convergent
+interface starting at the first actual convergent `-42`, a residual identity, a geometric
+error bound `(300√2 / Z21 0)·(1/5)^n`, and a limit proof from that bound that does not invoke
+`pcf21_tendsto` or `pincherle`. These additions depend on the original proof lemmas; they are
+not a claim of an independent discovery or a new proof of all six problems. Codex also
+hardened the verifier (exact name inventory, nested-comment handling, stricter false-control
+rules, no stale reports) and the CI (committed lockfile, no `lake update`). Its review records
+are in `REVIEW.md`.
+
+This branch merges that edition into the Grok Bot style cleanup (commit `7cebef4`). The five
+original Lean files carry the cleanup; `ReviewedProblem21.lean` is Codex's file unchanged.

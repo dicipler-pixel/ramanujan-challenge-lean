@@ -9,4 +9,4 @@ rev = "v4.34.1"
 
 [[lean_lib]]
 name = "RamanujanChallenge"
-roots = ["RamanujanChallenge.Exact", "RamanujanChallenge.Pincherle", "RamanujanChallenge.Series", "RamanujanChallenge.Problem21", "RamanujanChallenge.Euler21"]
+roots = ["RamanujanChallenge.Exact", "RamanujanChallenge.Pincherle", "RamanujanChallenge.Series", "RamanujanChallenge.Problem21", "RamanujanChallenge.Euler21", "RamanujanChallenge.ReviewedProblem21"]

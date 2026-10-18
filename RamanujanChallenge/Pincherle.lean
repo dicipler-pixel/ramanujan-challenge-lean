@@ -198,10 +198,10 @@ vanishing at every even index. All hypotheses of the skeleton's `pincherle` hold
 (`IsMinimalWeak`, `Z 0 ≠ 0`, `b n ≠ 0`), yet `P n / Q n` is `0` at even `n` and tends to
 `8 = a 0 - Z 1 / Z 0` only along odd `n`, so it has no limit. -/
 
-/-- Partial numerators of the counterexample: `17/2` at even `n`, `0` at odd `n`. -/
+/-- Partial denominators of the counterexample: `17/2` at even `n`, `0` at odd `n`. -/
 noncomputable def aCE (n : ℕ) : ℝ := if n % 2 = 0 then 17 / 2 else 0
 
-/-- Partial denominators of the counterexample: `−4` at even `n`, `1/4` at odd `n`. -/
+/-- Partial numerators of the counterexample: `−4` at even `n`, `1/4` at odd `n`. -/
 noncomputable def bCE (n : ℕ) : ℝ := if n % 2 = 0 then -4 else 1 / 4
 
 /-- The counterexample's minimal solution `Z_n = 2^{−n}`. -/
