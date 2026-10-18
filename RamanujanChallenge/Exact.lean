@@ -1,3 +1,8 @@
+/-
+Copyright (c) 2026 Jeromie Beasley. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Jeromie Beasley
+-/
 import Mathlib
 
 /-!
@@ -99,50 +104,64 @@ theorem pochhammer_product (n : ℕ) :
     rw [prod_range_succ, ih, prod_range_succ, prod_range_succ, hf, b1_succ_factor]
     ring
 
-/-! ### Problem 2.1: the limiting characteristic roots
+/-! ### Problem 2.1: the roots of the limiting characteristic equation
 
-After the rescaling that makes the coefficients converge, the recurrence for `F_n` has
-`A(n) → −297/2` and `B(n) → 729/4`, so Poincaré–Perron's characteristic polynomial is
-`λ² + (297/2) λ − 729/4` with roots `λ_s = (−297 + 135√5)/4 ≈ 1.217` and
-`λ_d = (−297 − 135√5)/4 ≈ −149.7`. The `₂F₁` solution grows like `λ_s^n`, the dominant one like
-`λ_d^n`; `|λ_s| < |λ_d|` is what makes it minimal (`isMinimal_of_ratio` in `Pincherle.lean`). -/
+The rescaled 2.1 coefficients tend to `−297/2` and `729/4` (`tendsto_midCoeff21`,
+`tendsto_tailCoeff21` in `Problem21.lean`), so the limiting characteristic equation is
+`x² = −(297/2) x + 729/4`, i.e. `4x² + 594x − 729 = 0`. Its discriminant is
+`594² + 16 · 729 = 364500 = (270√5)²`, and Mathlib's quadratic formula `quadratic_eq_zero_iff`
+gives the two roots `(−594 ± 270√5)/8`. By Vieta their sum is `−297/2` and their product
+`−729/4`; the product is negative, so the roots have opposite signs, and the negative sum makes
+the negative root the one of larger modulus. -/
 
-/-- The subdominant root `λ_s`. -/
-noncomputable def lamS : ℝ := (-297 + 135 * Real.sqrt 5) / 4
+/-- The root `(−594 + 270√5)/8 ≈ 1.22` of `4x² + 594x − 729`: the growth rate of the
+recessive solution. -/
+noncomputable def subdominantRoot21 : ℝ := (-594 + 270 * Real.sqrt 5) / (2 * 4)
 
-/-- The dominant root `λ_d`. -/
-noncomputable def lamD : ℝ := (-297 - 135 * Real.sqrt 5) / 4
+/-- The root `(−594 − 270√5)/8 ≈ −149.7` of `4x² + 594x − 729`: the growth rate of the
+dominant solution. -/
+noncomputable def dominantRoot21 : ℝ := (-594 - 270 * Real.sqrt 5) / (2 * 4)
 
-theorem lamS_root : lamS ^ 2 + 297 / 2 * lamS - 729 / 4 = 0 := by
-  have h5 : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num)
-  unfold lamS
-  linear_combination (18225 / 16 : ℝ) * h5
+theorem discrim_charPoly21 :
+    discrim (4 : ℝ) 594 (-729) = (270 * Real.sqrt 5) * (270 * Real.sqrt 5) := by
+  have h5 : Real.sqrt 5 * Real.sqrt 5 = 5 := Real.mul_self_sqrt (by norm_num)
+  rw [discrim, mul_mul_mul_comm, h5]
+  norm_num
 
-theorem lamD_root : lamD ^ 2 + 297 / 2 * lamD - 729 / 4 = 0 := by
-  have h5 : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num)
-  unfold lamD
-  linear_combination (18225 / 16 : ℝ) * h5
+/-- The real solutions of `4x² + 594x − 729 = 0` are exactly the two roots. -/
+theorem charPoly21_eq_zero_iff (x : ℝ) :
+    4 * (x * x) + 594 * x + -729 = 0 ↔ x = subdominantRoot21 ∨ x = dominantRoot21 :=
+  quadratic_eq_zero_iff (by norm_num) discrim_charPoly21 x
 
-theorem lamS_mul_lamD : lamS * lamD = -729 / 4 := by
-  have h5 : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num)
-  unfold lamS lamD
-  linear_combination (-18225 / 16 : ℝ) * h5
+theorem subdominantRoot21_add_dominantRoot21 : subdominantRoot21 + dominantRoot21 = -297 / 2 := by
+  rw [subdominantRoot21, dominantRoot21]
+  ring
 
-theorem lamS_pos : 0 < lamS := by
-  have h5 : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num)
-  have h0 : 0 ≤ Real.sqrt 5 := Real.sqrt_nonneg 5
-  unfold lamS
-  nlinarith
+theorem subdominantRoot21_mul_dominantRoot21 : subdominantRoot21 * dominantRoot21 = -729 / 4 := by
+  have h5 : Real.sqrt 5 * Real.sqrt 5 = 5 := Real.mul_self_sqrt (by norm_num)
+  rw [subdominantRoot21, dominantRoot21]
+  linear_combination (-(270 * 270) / 64 : ℝ) * h5
 
-theorem lamD_neg : lamD < 0 := by
-  have h0 : 0 ≤ Real.sqrt 5 := Real.sqrt_nonneg 5
-  unfold lamD
-  linarith
+/-- The roots lie on opposite sides of zero, as their product is negative. -/
+theorem dominantRoot21_neg_and_subdominantRoot21_pos :
+    dominantRoot21 < 0 ∧ 0 < subdominantRoot21 := by
+  have hd : dominantRoot21 < 0 := by
+    rw [dominantRoot21]
+    have := Real.sqrt_nonneg 5
+    linarith
+  refine ⟨hd, ?_⟩
+  by_contra hs
+  have h := mul_nonneg_of_nonpos_of_nonpos (not_lt.1 hs) hd.le
+  rw [subdominantRoot21_mul_dominantRoot21] at h
+  norm_num at h
 
-theorem abs_lamS_lt_abs_lamD : |lamS| < |lamD| := by
-  rw [abs_of_pos lamS_pos, abs_of_neg lamD_neg]
-  unfold lamS lamD
-  linarith [Real.sqrt_nonneg 5]
+/-- The subdominant root has the smaller modulus: with opposite signs, `|s| < |d|` is
+`s + d < 0`, which is Vieta's sum `−297/2`. -/
+theorem abs_subdominantRoot21_lt_abs_dominantRoot21 :
+    |subdominantRoot21| < |dominantRoot21| := by
+  obtain ⟨hd, hs⟩ := dominantRoot21_neg_and_subdominantRoot21_pos
+  rw [abs_of_pos hs, abs_of_neg hd]
+  linarith [subdominantRoot21_add_dominantRoot21]
 
 /-! ## Problem 2.2: the telescoping cubic and the companion determinant -/
 

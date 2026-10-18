@@ -37,24 +37,30 @@ def Q : ℕ → ℝ
   | 1 => a 1
   | n + 2 => a (n + 2) * Q (n + 1) + b (n + 2) * Q n
 
-theorem P_eq (n : ℕ) : P n = convNum a21 b21 (n + 1) := by
+theorem P_eq (n : ℕ) : P n = cf21.numer (n + 1) := by
   induction n using Nat.twoStepInduction with
-  | zero => norm_num [P, convNum, a21]
-  | one => simp [P, convNum, a, b, a21, b21]
+  | zero => norm_num [P, a21]
+  | one =>
+    rw [CFData.numer_add_two]
+    simp [P, a, b, a21, b21]
   | more n ih0 ih1 =>
-    simp only [P, convNum, ih0, ih1, a, b, a21, b21]
+    rw [CFData.numer_add_two, ← ih0, ← ih1]
+    simp only [P, a, b, a21, b21, cf21_partialDen, cf21_partialNum]
 
-theorem Q_eq (n : ℕ) : Q n = convDen a21 b21 (n + 1) := by
+theorem Q_eq (n : ℕ) : Q n = cf21.denom (n + 1) := by
   induction n using Nat.twoStepInduction with
-  | zero => rfl
-  | one => simp [Q, convDen, a, a21]
+  | zero => simp [Q]
+  | one =>
+    rw [CFData.denom_add_two]
+    simp [Q, a, a21]
   | more n ih0 ih1 =>
-    simp only [Q, convDen, ih0, ih1, a, b, a21, b21]
+    rw [CFData.denom_add_two, ← ih0, ← ih1]
+    simp only [Q, a, b, a21, b21, cf21_partialDen, cf21_partialNum]
 
 /-- Every denominator in this indexing is nonzero, including the first. -/
 theorem Q_ne_zero (n : ℕ) : Q n ≠ 0 := by
   rw [Q_eq]
-  exact convDen21_ne n
+  exact denom21_ne_zero n
 
 /-- An explicit check of the first two convergents and their indexing. -/
 theorem initial_values : P 0 = -42 ∧ Q 0 = 1 ∧ P 1 = 44370 ∧ Q 1 = -1047 := by
@@ -75,7 +81,8 @@ theorem error_identity (n : ℕ) :
     P n / Q n - 6 / (3 - Real.pi) = (Z21 (n + 1) / Q n) / Z21 0 := by
   have hz : Z21 0 ≠ 0 := (mul_pos (sig21_pos 0) (F21_pos 0)).ne'
   have hq := Q_ne_zero n
-  have h := congrFun (solution_eq_combo a21 b21 Z21 Z21_isSolution) (n + 1)
+  have h := congrFun (CFData.eq_numer_denom_combo Z21_mem_solutions) (n + 1)
+  simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, cf21_partialDen] at h
   rw [← P_eq, ← Q_eq] at h
   rw [← value]
   field_simp
@@ -90,11 +97,11 @@ theorem error_bound (n : ℕ) :
   calc
     ‖Z21 (n + 1) / Q n‖ / Z21 0 ≤
         (300 * Real.sqrt 2 * (1 / 5)^n) / Z21 0 :=
-      div_le_div_of_nonneg_right (by simpa only [Q_eq] using Z21_div_convDen_le n) hz.le
+      div_le_div_of_nonneg_right (by simpa only [Q_eq] using norm_Z21_div_denom21_le n) hz.le
     _ = _ := by ring
 
 /-- The challenge limit, derived directly from the geometric error bound.
-This proof does not invoke `pcf21_tendsto` or `pincherle`. -/
+This proof does not invoke `pcf21_tendsto` or `CFData.tendsto_convergent`. -/
 theorem limit : Tendsto (fun n => P n / Q n) atTop (𝓝 (6 / (3 - Real.pi))) := by
   have hzero : Tendsto (fun n => P n / Q n - 6 / (3 - Real.pi)) atTop (𝓝 0) := by
     refine squeeze_zero_norm error_bound ?_

@@ -24,6 +24,16 @@ Why each check proves what it claims:
 
 4. Hashes. The SHA-256 of every source file is written to the report, so anyone
    can confirm the checked files are the files in the repository.
+
+5. Licence headers. Every library file must open with the exact Apache-2.0 header
+   in config.json, so no file can silently fall outside the stated licence.
+
+6. No placeholder token. No library file and no false control may contain the
+   placeholder keyword anywhere, comments included, so the axiom audit is not the
+   only line of defence and no stale remark survives a rewrite.
+
+7. Main theorems. The headline results listed in config.json must be in the
+   inventory, and their axiom sets are reported separately.
 """
 from __future__ import annotations
 
@@ -52,6 +62,7 @@ MATH_FAILURE = re.compile(
     r"linarith failed|failed to prove|decide failed|norm_num failed|"
     r"made no progress|failed to simplify",
     re.S | re.I)
+PLACEHOLDER_RE = re.compile(r"\bsorry\b", re.I)
 INFRA_FAILURE = re.compile(
     r"unknown (?:module|identifier|constant|namespace)|unexpected token|"
     r"object file .* does not exist|invalid field", re.I)
@@ -121,6 +132,16 @@ def theorems_in(path: pathlib.Path) -> list[str]:
     return [f"{spaces[0]}.{name}" for name in THEOREM_RE.findall(text)]
 
 
+def header_ok(text: str) -> bool:
+    lines = text.splitlines()
+    want = CONFIG["license_header"]
+    return lines[:len(want)] == want
+
+
+def placeholder_lines(text: str) -> list[int]:
+    return [i + 1 for i, line in enumerate(text.splitlines()) if PLACEHOLDER_RE.search(line)]
+
+
 def main() -> int:
     OUT.mkdir(exist_ok=True)
     (OUT / "report.json").unlink(missing_ok=True)
@@ -135,6 +156,18 @@ def main() -> int:
     actual_sources = {str(p.relative_to(ROOT)) for p in (ROOT / "RamanujanChallenge").glob("*.lean")}
     if actual_sources != {rel for _, rel in MODULES}:
         raise SystemExit("source modules differ from configured audit modules")
+
+    # Licence headers and placeholder tokens.
+    for _, rel in MODULES:
+        text = (ROOT / rel).read_text()
+        if not header_ok(text):
+            raise SystemExit(f"{rel}: missing or altered Apache-2.0 header")
+    for path in [ROOT / rel for _, rel in MODULES] + sorted((ROOT / "FalseControls").glob("*.lean")):
+        bad_lines = placeholder_lines(path.read_text())
+        if bad_lines:
+            raise SystemExit(f"{path.relative_to(ROOT)}: placeholder keyword on lines {bad_lines}")
+    report["license_headers"] = "ok"
+    report["placeholder_free"] = True
 
     # Inventory and hashes.
     names: list[str] = []
@@ -155,6 +188,9 @@ def main() -> int:
     if sorted(names) != sorted(CONFIG["expected_names"]):
         raise SystemExit("named declaration inventory changed; review config.json")
     report["theorems"] = total
+    missing_main = sorted(set(CONFIG["main_theorems"]) - set(names))
+    if missing_main:
+        raise SystemExit(f"main theorems missing from inventory: {missing_main}")
 
     # Axiom audit.
     audit = OUT / "AxiomAudit.lean"
@@ -183,6 +219,7 @@ def main() -> int:
         axioms[name] = used
     report["axioms"] = axioms
     report["axiom_union"] = sorted({a for used in axioms.values() for a in used})
+    report["main_theorem_axioms"] = {name: axioms[name] for name in CONFIG["main_theorems"]}
 
     # False controls.
     controls = {}

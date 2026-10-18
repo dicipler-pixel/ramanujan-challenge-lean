@@ -26,16 +26,44 @@ def main():
     manifest = (ROOT / 'lake-manifest.json').read_bytes()
     run('audit_regressions', [sys.executable, 'scripts/test_verify.py'])
     run('build', ['lake', 'build'])
+    build_log = (OUT / 'build.log').read_text()
+    if 'warning' in build_log or 'error' in build_log:
+        print(build_log)
+        raise SystemExit('lake build reported warnings or errors')
     config = json.loads((ROOT / 'scripts/config.json').read_text())
     for module in config['modules']:
         run(module['module'] + '_kernel', ['lake', 'env', 'leanchecker', module['module']])
     run('audit', [sys.executable, 'scripts/verify.py'])
+    # Mathlib's style checks: the standard linter set on every module, the declaration
+    # linters (#lint), and the text-based lint-style.
+    for module in config['modules']:
+        run(module['module'] + '_standard_lint',
+            ['lake', 'env', 'lean', '-Dlinter.mathlibStandardSet=true', module['path']])
+        if 'warning' in (OUT / f"{module['module']}_standard_lint.log").read_text():
+            print((OUT / f"{module['module']}_standard_lint.log").read_text())
+            raise SystemExit(f"standard linter warnings in {module['module']}")
+    lint = OUT / 'DeclarationLint.lean'
+    lint.write_text(''.join(f'import {m}\n' for m in config['root_imports'])
+                    + 'import Mathlib.Tactic.Linter\n#lint in RamanujanChallenge\n')
+    run('declaration_lint', ['lake', 'env', 'lean', str(lint.relative_to(ROOT))])
+    if 'All linting checks passed!' not in (OUT / 'declaration_lint.log').read_text():
+        print((OUT / 'declaration_lint.log').read_text())
+        raise SystemExit('#lint reported problems')
+    run('lint_style', ['lake', 'exe', 'lint-style'] + config['root_imports'])
+    if (OUT / 'lint_style.log').read_text().replace(
+            'warning: nolints file could not be read; treating as empty: '
+            'scripts/nolints-style.txt', '').strip():
+        print((OUT / 'lint_style.log').read_text())
+        raise SystemExit('lint-style reported problems')
     if manifest != (ROOT / 'lake-manifest.json').read_bytes():
         raise SystemExit('dependency manifest changed during verification')
     result.write_text(json.dumps({
         'build': 'passed',
         'kernel_replay': [m['module'] for m in config['modules']],
         'audit': 'passed',
+        'standard_lint': 'passed',
+        'declaration_lint': 'passed',
+        'lint_style': 'passed',
         'audit_regressions': 'passed',
         'manifest_sha256': hashlib.sha256(manifest).hexdigest(),
     }, indent=2) + '\n')

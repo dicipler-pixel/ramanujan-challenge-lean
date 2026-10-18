@@ -269,9 +269,9 @@ theorem F21_eq_hypergeometric (m : ℕ) :
 theorem hypergeometric21_rec (m : ℕ) :
     ordinaryHypergeometric (((m + 2 : ℕ) : ℝ) + 1 + 1 / 2) (((m + 2 : ℕ) : ℝ) + 1 + 1 / 2)
         (3 * (((m + 2 : ℕ) : ℝ) + 1) + 1 / 2) (1 / 2 : ℝ) =
-      A21 ((m + 1 : ℕ) : ℝ) * ordinaryHypergeometric (((m + 1 : ℕ) : ℝ) + 1 + 1 / 2)
+      midCoeff21 ((m + 1 : ℕ) : ℝ) * ordinaryHypergeometric (((m + 1 : ℕ) : ℝ) + 1 + 1 / 2)
           (((m + 1 : ℕ) : ℝ) + 1 + 1 / 2) (3 * (((m + 1 : ℕ) : ℝ) + 1) + 1 / 2) (1 / 2 : ℝ) +
-        B21 ((m + 1 : ℕ) : ℝ) * ordinaryHypergeometric (((m : ℕ) : ℝ) + 1 + 1 / 2)
+        tailCoeff21 ((m + 1 : ℕ) : ℝ) * ordinaryHypergeometric (((m : ℕ) : ℝ) + 1 + 1 / 2)
           (((m : ℕ) : ℝ) + 1 + 1 / 2) (3 * (((m : ℕ) : ℝ) + 1) + 1 / 2) (1 / 2 : ℝ) := by
   rw [← F21_eq_hypergeometric, ← F21_eq_hypergeometric, ← F21_eq_hypergeometric]
   exact F21_rec m

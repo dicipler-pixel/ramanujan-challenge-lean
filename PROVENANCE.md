@@ -64,6 +64,61 @@ found matching code in two files, both written on 16 October 2026 (phases 3a and
 * `Pincherle.lean`: `IsSolution`, `convNum`, `convDen`, the skeleton's minimality definition
   (here `IsMinimalWeak`), the statement shape of `pincherle`, and the formulas `A21`, `B21`.
 
-These two files were not relicensed and have no Apache header; see `LICENSING.md`. The other
-four library files share no line with the skeleton. `Problem21.lean`'s `r21` restates the
-paper's Eq. (21), which the skeleton also states as `r`.
+These two files were at first not relicensed. They have since been rewritten; see the next
+section.
+
+## Independent rewrite of the overlapping parts (17 October 2026, Chicago time)
+
+At the author's request, Grok Bot (an AI agent working for him) replaced every declaration
+listed above with independently designed definitions and proofs, on the local branch
+`phase2-cleanroom` (from `phase2-dual-license`, commit `31a2bb3`). The rewrite was written from
+the mathematics only: the three-term recurrence, its characteristic equation, Pincherle's
+theorem and the paper's Eq. (21). The Technion file was not opened while the new code was
+written. It was fetched once afterwards, only to measure similarity
+(`audit/similarity_PiPCF.md`).
+
+One limitation is stated plainly. The agent that wrote the rewrite had worked on this
+repository earlier the same day, so it had seen the earlier (overlapping) versions of these
+declarations. The new code therefore uses a deliberately different design rather than a
+lightly edited one:
+
+* **Recurrences (`Pincherle.lean`).** A structure `CFData` (partial denominators and numerators)
+  replaces the pair of sequences. The recurrence is stated in transfer-matrix form
+  (`CFData.transfer`, `CFData.Satisfies`), and the solutions form a submodule
+  (`CFData.solutions`). The convergent numerators and denominators are orbits of the start
+  vectors `![1, d₀]` and `![0, 1]` under the transfer matrices (`CFData.state`, `CFData.orbit`,
+  `CFData.numer`, `CFData.denom`, `CFData.convergent`), not a two-step recursive definition.
+* **Minimality.** `CFData.IsRecessive` asks for a dominating solution that is eventually
+  nonzero, with `y =o[atTop] w` (Mathlib's little-o). The "not a scalar multiple" clause is
+  dropped from the definition and proved instead (`CFData.IsRecessive.ne_smul`).
+* **Pincherle (`CFData.tendsto_convergent`).** The proof is new: little-o algebra
+  (`IsLittleO.right_isBigO_sub`, `isLittleO_const_smul_right`, `IsBigO.eq_zero_imp`,
+  `IsLittleO.tendsto_div_nhds_zero`) in place of an explicit quotient computation.
+* **Counterexample.** It is stated as an existence theorem over `CFData`
+  (`pincherle_needs_eventually_ne_zero`), with the period-two fraction `altCF`. The skeleton's
+  minimality definition is no longer restated anywhere.
+* **Roots (`Exact.lean`).** The roots of `4x² + 594x − 729` come from Mathlib's quadratic
+  formula (`quadratic_eq_zero_iff`, with `discrim_charPoly21`). Their order of moduli is proved
+  through Vieta's sum and product (`subdominantRoot21_add_dominantRoot21`,
+  `subdominantRoot21_mul_dominantRoot21`, `dominantRoot21_neg_and_subdominantRoot21_pos`,
+  `abs_subdominantRoot21_lt_abs_dominantRoot21`).
+* **Rescaled coefficients (`Problem21.lean`).** `midCoeff21 = a/r` and
+  `tailCoeff21 = b/(r·r(·−1))` are defined as quotients by the normaliser, so Eq. (22) holds by
+  construction. The factored formulas are no longer written out as definitions. Their limits
+  (`tendsto_midCoeff21`, `tendsto_tailCoeff21`) are proved by scaling numerator and normaliser
+  by `n³` (`n⁶`). `r21` is written in a regrouped form `(8/3)((x+1)(2x+3))²(5x+1)/((6x+7)(6x+11))`.
+
+Everything downstream (`Problem21.lean`, `Euler21.lean`, `ReviewedProblem21.lean`) was re-derived
+against the new interface, and the main statements keep their meaning: `pcf21_tendsto`
+(convergents `cf21.numer n / cf21.denom n → 6/(3 − π)`), `F21_eq_hypergeometric`,
+`hypergeometric21_rec`, `Reviewed.error_bound` and `Reviewed.limit`. After the rewrite, all six
+library files carry the Apache header, and the GPL exception was removed from `LICENSE` and
+`LICENSING.md`.
+
+The similarity measurement (per declaration, token sequence and verbatim lines, against
+`PiPCF.lean` at SHA-256 `b82635f6…16e35ef`) found no shared line of 12 or more characters in any
+of the six files (previously 13 in `Exact.lean` and 5 in `Pincherle.lean`). The highest
+token similarities left are short formula definitions that encode the same mathematics: the
+challenge's `a_n`, `b_n` (`a1`, `b1`, `a21`, `b21`, `Reviewed.a`, `Reviewed.b`), the paper's
+`r_n` (`r21`), and the quotients `midCoeff21`, `tailCoeff21` that contain `a_n` and `b_n`.
+Details are in `audit/similarity_PiPCF.md`.

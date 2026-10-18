@@ -21,7 +21,8 @@ trajectory `(1,1,3)` of the ₂F₁ conservative matrix field), step by step:
   defined by that formula: `F21 m = kap21 m * K21 m`, `K21 m = ∫₀¹ w21 m`,
   `w21 m u = u²(1−u²)/(1+u²)² · G(u)^m`, `G(u) = u²(1−u²)²/(1+u²)²`.
 * **Lemma 3 (scalar recurrence).** `F_{n+2} = A(n)F_{n+1} + B(n)F_n` for every `n ≥ 1`
-  (`F21_rec`), with `A = A21`, `B = B21` of `Pincherle.lean`. Proved by creative telescoping:
+  (`F21_rec`), with `A = midCoeff21 = a/r`, `B = tailCoeff21 = b/(r·r(·−1))`. Proved by
+  creative telescoping:
   `Phi21 m` is an explicit antiderivative (`hasDerivAt_Phi21`) of
   `P₀ω_n + P₁ω_{n+1} + P₂ω_{n+2}` with `P₀ = −2n(2n+1)(5n+6)`, `P₁ = 220n³+484n²+301n+42 = −a_n`,
   `P₂ = 2(n+1)(2n+3)(5n+1)`; it vanishes at `u = 0` and `u = 1`, so `K21_rec` follows from
@@ -30,13 +31,13 @@ trajectory `(1,1,3)` of the ₂F₁ conservative matrix field), step by step:
 * **Lemma 7 (anchors).** `F_1 = (15√2/2)(π − 3)`, `F_2 = (1155√2/8)(22 − 7π)` (`F21_zero`,
   `F21_one`), from explicit arctan antiderivatives (`K21_zero`, `K21_one`).
 * **Lemma 4 (rescaling, Eqs. 21–24).** `r_n A(n) = a_n`, `r_n r_{n−1} B(n) = b_n`, and
-  `X_n = s_n F_{n+2}` solves the challenge recurrence (`Z21_isSolution`, `Z21 m = X_{m−1}`).
+  `X_n = s_n F_{n+2}` solves the challenge recurrence (`Z21_mem_solutions`, `Z21 m = X_{m−1}`).
 * **Lemmas 5–6 (minimality).** Instead of Poincaré–Perron plus Stirling, a direct dominance
   bound for this recurrence: `−A(x) ≥ 100` for `x ≥ 0` and `b_n ≥ 0`, so the convergent
-  denominators alternate in sign with `|Q_{k+1}| ≥ s_k·100^k` (`convDen21_bound`), while
+  denominators alternate in sign with `|Q_{k+1}| ≥ s_k·100^k` (`denom21_bound`), while
   `0 < F_n ≤ 15√2·20^{n−1}` (`F21_pos`, `F21_le`); hence `|X/Q| ≤ 300√2·5^{−k} → 0`
-  (`Z21_div_convDen_le`) and `X` is minimal with `Q` as the dominant companion (`Z21_isMinimal`).
-* **Theorem 2.** Pincherle's theorem (`pincherle`) then gives
+  (`norm_Z21_div_denom21_le`), so `X` is recessive, dominated by `Q` (`Z21_isRecessive`).
+* **Theorem 2.** Pincherle's theorem (`CFData.tendsto_convergent`) then gives
   `P_n/Q_n → a_0 − X_0/X_{−1} = −42 − 24F_2/(77F_1) = 6/(3 − π)`.
 
 `Euler21.lean` proves that this `F_n` is Mathlib's `ordinaryHypergeometric (n+½) (n+½) (3n+½) (1/2)`
@@ -46,7 +47,7 @@ Every identity here was checked in SymPy before it was written in Lean
 (`scripts/precheck3.py`).
 -/
 
-open Filter Topology
+open Filter Topology Asymptotics
 
 namespace RamanujanChallenge
 
@@ -311,10 +312,48 @@ theorem F21_one : F21 1 = 1155 * Real.sqrt 2 / 8 * (22 - 7 * Real.pi) := by
 
 theorem F21_pos (m : ℕ) : 0 < F21 m := mul_pos (kap21_pos m) (K21_pos m)
 
+/-! ### The challenge coefficients, the normaliser `r_n`, and the rescaled coefficients -/
+
+/-- `a_n` of Problem 2.1 over `ℝ`. -/
+noncomputable def a21 (n : ℕ) : ℝ := -220 * (n:ℝ) ^ 3 - 484 * (n:ℝ) ^ 2 - 301 * (n:ℝ) - 42
+
+/-- `b_n` of Problem 2.1 over `ℝ`. -/
+noncomputable def b21 (n : ℕ) : ℝ :=
+  4 * (n:ℝ) ^ 2 * (2 * (n:ℝ) + 1) ^ 2 * (5 * (n:ℝ) - 4) * (5 * (n:ℝ) + 6)
+
+theorem a21_eq_a1 (n : ℕ) : a21 n = ((a1 n : ℚ) : ℝ) := by simp [a21, a1]
+theorem b21_eq_b1 (n : ℕ) : b21 n = ((b1 n : ℚ) : ℝ) := by simp [b21, b1]
+
+/-- The challenge continued fraction of Problem 2.1: partial denominators `a_n`, partial
+numerators `b_n`. -/
+noncomputable def cf21 : CFData := ⟨a21, b21⟩
+
+@[simp] theorem cf21_partialDen (n : ℕ) : cf21.partialDen n = a21 n := rfl
+@[simp] theorem cf21_partialNum (n : ℕ) : cf21.partialNum n = b21 n := rfl
+
+/-- The normaliser `r_n` of Equation (21), written as `(8/3) ((x+1)(2x+3))² (5x+1)` over
+`(6x+7)(6x+11)`. -/
+noncomputable def r21 (x : ℝ) : ℝ :=
+  8 / 3 * ((x + 1) * (2 * x + 3)) ^ 2 * (5 * x + 1) / ((6 * x + 7) * (6 * x + 11))
+
+theorem r21_pos_of_nonneg {x : ℝ} (hx : 0 ≤ x) : 0 < r21 x := by unfold r21; positivity
+
+theorem r21_pos (n : ℕ) : 0 < r21 n := r21_pos_of_nonneg (Nat.cast_nonneg n)
+
+/-- The rescaled middle coefficient of Lemma 3: the cubic `a(x)` divided by the normaliser
+`r(x)`, so that `r_n A(n) = a_n` holds by construction. -/
+noncomputable def midCoeff21 (x : ℝ) : ℝ := (-220 * x ^ 3 - 484 * x ^ 2 - 301 * x - 42) / r21 x
+
+/-- The rescaled trailing coefficient of Lemma 3: the sextic `b(x)` divided by
+`r(x) r(x − 1)`, so that `r_n r_{n−1} B(n) = b_n` holds by construction. -/
+noncomputable def tailCoeff21 (x : ℝ) : ℝ :=
+  4 * x ^ 2 * (2 * x + 1) ^ 2 * (5 * x - 4) * (5 * x + 6) / (r21 x * r21 (x - 1))
+
 /-- **Lemma 3 of the official proof**: `F_{n+2} = A(n) F_{n+1} + B(n) F_n` for every `n ≥ 1`
-(here `n = m + 1`), with `A = A21`, `B = B21` the coefficients of `Pincherle.lean`. -/
+(here `n = m + 1`), with `A = midCoeff21`, `B = tailCoeff21`. -/
 theorem F21_rec (m : ℕ) :
-    F21 (m + 2) = A21 ((m + 1 : ℕ) : ℝ) * F21 (m + 1) + B21 ((m + 1 : ℕ) : ℝ) * F21 m := by
+    F21 (m + 2) = midCoeff21 ((m + 1 : ℕ) : ℝ) * F21 (m + 1) +
+      tailCoeff21 ((m + 1 : ℕ) : ℝ) * F21 m := by
   have hK := K21_rec m
   have k1 := kap21_succ m
   have k2 := kap21_succ (m + 1)
@@ -325,14 +364,12 @@ theorem F21_rec (m : ℕ) :
     rw [eq_div_iff hP]; linear_combination hK
   unfold F21
   rw [k2, k1, hK2]
-  unfold A21 B21
+  unfold midCoeff21 tailCoeff21 r21
   push_cast
+  rw [add_sub_cancel_right]
   have h1 : (4 * ((m:ℝ) + 1) * (2 * (m:ℝ) + 3)) ≠ 0 := by positivity
   have h2 : (4 * ((m:ℝ) + 1 + 1) * (2 * ((m:ℝ) + 1) + 3)) ≠ 0 := by positivity
-  have h3 : (8 * ((m:ℝ) + 1 + 1) ^ 2 * (2 * ((m:ℝ) + 1) + 3) ^ 2 * (5 * ((m:ℝ) + 1) + 1)) ≠ 0 := by
-    positivity
-  have h4 : (16 * ((m:ℝ) + 1 + 1) ^ 2 * (2 * ((m:ℝ) + 1) + 3) ^ 2 * (5 * ((m:ℝ) + 1) + 1)) ≠ 0 := by
-    positivity
+  have h3 : 0 < (m:ℝ) + 1 := by positivity
   field_simp
   ring
 
@@ -357,41 +394,15 @@ theorem F21_le (m : ℕ) : F21 m ≤ 15 * Real.sqrt 2 * 20 ^ m := by
 
 /-! ### Transport to the challenge recurrence (Lemma 4) -/
 
-/-- `a_n` of Problem 2.1 over `ℝ`. -/
-noncomputable def a21 (n : ℕ) : ℝ := -220 * (n:ℝ) ^ 3 - 484 * (n:ℝ) ^ 2 - 301 * (n:ℝ) - 42
-
-/-- `b_n` of Problem 2.1 over `ℝ`. -/
-noncomputable def b21 (n : ℕ) : ℝ :=
-  4 * (n:ℝ) ^ 2 * (2 * (n:ℝ) + 1) ^ 2 * (5 * (n:ℝ) - 4) * (5 * (n:ℝ) + 6)
-
-theorem a21_eq_a1 (n : ℕ) : a21 n = ((a1 n : ℚ) : ℝ) := by simp [a21, a1]
-theorem b21_eq_b1 (n : ℕ) : b21 n = ((b1 n : ℚ) : ℝ) := by simp [b21, b1]
-
-/-- `r_n` of Equation (21). -/
-noncomputable def r21 (x : ℝ) : ℝ :=
-  8 * (x + 1) ^ 2 * (2 * x + 3) ^ 2 * (5 * x + 1) / (3 * (6 * x + 7) * (6 * x + 11))
-
-theorem r21_pos (n : ℕ) : 0 < r21 n := by unfold r21; positivity
-
 /-- Equation (22), first half: `r_n A(n) = a_n`. -/
-theorem r21_mul_A21 (n : ℕ) : r21 n * A21 n = a21 n := by
-  unfold r21 A21 a21
-  have h1 : (3 * (6 * (n:ℝ) + 7) * (6 * (n:ℝ) + 11)) ≠ 0 := by positivity
-  have h2 : (8 * ((n:ℝ) + 1) ^ 2 * (2 * (n:ℝ) + 3) ^ 2 * (5 * (n:ℝ) + 1)) ≠ 0 := by positivity
-  field_simp
-  ring
+theorem r21_mul_midCoeff21 (n : ℕ) : r21 n * midCoeff21 n = a21 n := by
+  rw [midCoeff21, mul_div_cancel₀ _ (r21_pos n).ne', a21]
 
 /-- Equation (22), second half: `r_n r_{n−1} B(n) = b_n` (`n ≥ 1`). -/
-theorem r21_mul_r21_mul_B21 (n : ℕ) :
-    r21 ((n + 1 : ℕ) : ℝ) * r21 n * B21 ((n + 1 : ℕ) : ℝ) = b21 (n + 1) := by
-  unfold r21 B21 b21
-  push_cast
-  have h1 : (3 * (6 * ((n:ℝ) + 1) + 7) * (6 * ((n:ℝ) + 1) + 11)) ≠ 0 := by positivity
-  have h2 : (3 * (6 * (n:ℝ) + 7) * (6 * (n:ℝ) + 11)) ≠ 0 := by positivity
-  have h3 : (16 * ((n:ℝ) + 1 + 1) ^ 2 * (2 * ((n:ℝ) + 1) + 3) ^ 2 * (5 * ((n:ℝ) + 1) + 1)) ≠ 0 := by
-    positivity
-  field_simp
-  ring
+theorem r21_mul_r21_mul_tailCoeff21 (n : ℕ) :
+    r21 ((n + 1 : ℕ) : ℝ) * r21 n * tailCoeff21 ((n + 1 : ℕ) : ℝ) = b21 (n + 1) := by
+  have hr : ((n + 1 : ℕ) : ℝ) - 1 = n := by push_cast; ring
+  rw [tailCoeff21, hr, mul_div_cancel₀ _ (mul_ne_zero (r21_pos _).ne' (r21_pos n).ne'), b21]
 
 /-- `σ m = s_{m−1}` of Equation (23): `s_{−1} = 77/24`, `s_n = r_n s_{n−1}`. -/
 noncomputable def sig21 : ℕ → ℝ
@@ -407,21 +418,23 @@ theorem sig21_pos (m : ℕ) : 0 < sig21 m := by
 noncomputable def Z21 (m : ℕ) : ℝ := sig21 m * F21 m
 
 /-- **Lemma 4**: `X_n = s_n F_{n+2}` solves the challenge recurrence. -/
-theorem Z21_isSolution : IsSolution a21 b21 Z21 := by
+theorem Z21_mem_solutions : Z21 ∈ cf21.solutions := by
+  rw [CFData.mem_solutions]
   intro n
   have hF := F21_rec n
-  have hA := r21_mul_A21 (n + 1)
-  have hB := r21_mul_r21_mul_B21 n
+  have hA := r21_mul_midCoeff21 (n + 1)
+  have hB := r21_mul_r21_mul_tailCoeff21 n
+  simp only [cf21_partialDen, cf21_partialNum]
   simp only [Z21, sig21]
   rw [hF, ← hA, ← hB]
   ring
 
 /-! ### Minimality (Lemmas 5 and 6) by a direct dominance bound -/
 
-theorem negA21_ge (x : ℝ) (hx : 0 ≤ x) : 100 ≤ -A21 x := by
-  unfold A21
-  have hd : 0 < 8 * (x + 1) ^ 2 * (2 * x + 3) ^ 2 * (5 * x + 1) := by positivity
-  rw [neg_div, neg_neg, le_div_iff₀ hd]
+theorem neg_midCoeff21_ge (x : ℝ) (hx : 0 ≤ x) : 100 ≤ -midCoeff21 x := by
+  have hr := r21_pos_of_nonneg hx
+  have hD : 0 < (6 * x + 7) * (6 * x + 11) := by positivity
+  rw [midCoeff21, neg_div', le_div_iff₀ hr, r21, mul_div_assoc', div_le_iff₀ hD]
   nlinarith [pow_pos (by linarith : (0:ℝ) < x + 1) 5, sq_nonneg x, mul_nonneg hx (sq_nonneg x),
     pow_nonneg hx 4, pow_nonneg hx 5]
 
@@ -431,67 +444,69 @@ theorem b21_succ_nonneg (n : ℕ) : 0 ≤ b21 (n + 1) := by
   positivity
 
 /-- The convergent denominators alternate in sign and grow at least like `σ · 100^k`. -/
-theorem convDen21_bound (k : ℕ) :
-    sig21 (k + 1) * 100 ^ k ≤ (-1) ^ k * convDen a21 b21 (k + 1) ∧
-      sig21 (k + 2) * 100 ^ (k + 1) ≤ (-1) ^ (k + 1) * convDen a21 b21 (k + 2) := by
+theorem denom21_bound (k : ℕ) :
+    sig21 (k + 1) * 100 ^ k ≤ (-1) ^ k * cf21.denom (k + 1) ∧
+      sig21 (k + 2) * 100 ^ (k + 1) ≤ (-1) ^ (k + 1) * cf21.denom (k + 2) := by
   induction k with
   | zero =>
     refine ⟨?_, ?_⟩
-    · norm_num [sig21, r21, convDen]
-    · norm_num [sig21, r21, convDen, a21, b21]
+    · norm_num [sig21, r21]
+    · rw [show (0 + 2 : ℕ) = 0 + 2 from rfl, CFData.denom_add_two]
+      norm_num [sig21, r21, a21, b21]
   | succ k ih =>
     obtain ⟨h0, h1⟩ := ih
     refine ⟨h1, ?_⟩
-    have hrec : convDen a21 b21 (k + 3) =
-        a21 (k + 2) * convDen a21 b21 (k + 2) + b21 (k + 2) * convDen a21 b21 (k + 1) :=
-      convDen_isSolution a21 b21 (k + 1)
-    have hA := r21_mul_A21 (k + 2)
-    have hneg := negA21_ge ((k + 2 : ℕ) : ℝ) (Nat.cast_nonneg _)
+    have hrec : cf21.denom (k + 3) =
+        a21 (k + 2) * cf21.denom (k + 2) + b21 (k + 2) * cf21.denom (k + 1) :=
+      CFData.denom_add_two cf21 (k + 1)
+    have hA := r21_mul_midCoeff21 (k + 2)
+    have hneg := neg_midCoeff21_ge ((k + 2 : ℕ) : ℝ) (Nat.cast_nonneg _)
     have hr := r21_pos (k + 2)
     have hs0 := sig21_pos (k + 1)
     have hs := sig21_pos (k + 2)
     have hb := b21_succ_nonneg (k + 1)
     have hsig : sig21 (k + 3) = r21 ((k + 2 : ℕ) : ℝ) * sig21 (k + 2) := rfl
-    have hQ1 : 0 ≤ (-1) ^ k * convDen a21 b21 (k + 1) := le_trans (by positivity) h0
+    have hQ1 : 0 ≤ (-1) ^ k * cf21.denom (k + 1) := le_trans (by positivity) h0
     have hpow : (-1 : ℝ) ^ (k + 1 + 1) = (-1) ^ k := by rw [pow_succ, pow_succ]; ring
     have hpow2 : (-1 : ℝ) ^ (k + 1) = -(-1) ^ k := by rw [pow_succ]; ring
     rw [show k + 1 + 2 = k + 3 by ring, hrec, hsig, hpow, show k + 1 + 1 = k + 2 by ring]
     rw [hpow2] at h1
     -- (-1)^k Q(k+3) = (-a)((-1)^{k+1} Q(k+2)) + b ((-1)^k Q(k+1))
     have key :
-        (-1) ^ k * (a21 (k + 2) * convDen a21 b21 (k + 2) + b21 (k + 2) * convDen a21 b21 (k + 1))
-        = (r21 ((k + 2 : ℕ) : ℝ) * (-A21 ((k + 2 : ℕ) : ℝ))) * (-(-1) ^ k * convDen a21 b21 (k + 2))
-          + b21 (k + 2) * ((-1) ^ k * convDen a21 b21 (k + 1)) := by
+        (-1) ^ k * (a21 (k + 2) * cf21.denom (k + 2) + b21 (k + 2) * cf21.denom (k + 1))
+        = (r21 ((k + 2 : ℕ) : ℝ) * (-midCoeff21 ((k + 2 : ℕ) : ℝ))) *
+            (-(-1) ^ k * cf21.denom (k + 2))
+          + b21 (k + 2) * ((-1) ^ k * cf21.denom (k + 1)) := by
       rw [← hA]; ring
     rw [key]
-    have hbt : 0 ≤ b21 (k + 2) * ((-1) ^ k * convDen a21 b21 (k + 1)) := mul_nonneg hb hQ1
+    have hbt : 0 ≤ b21 (k + 2) * ((-1) ^ k * cf21.denom (k + 1)) := mul_nonneg hb hQ1
     have hmain : r21 ((k + 2 : ℕ) : ℝ) * sig21 (k + 2) * 100 ^ (k + 2) ≤
-        (r21 ((k + 2 : ℕ) : ℝ) * (-A21 ((k + 2 : ℕ) : ℝ))) *
-          (-(-1) ^ k * convDen a21 b21 (k + 2)) := by
+        (r21 ((k + 2 : ℕ) : ℝ) * (-midCoeff21 ((k + 2 : ℕ) : ℝ))) *
+          (-(-1) ^ k * cf21.denom (k + 2)) := by
       calc r21 ((k + 2 : ℕ) : ℝ) * sig21 (k + 2) * 100 ^ (k + 2)
           = (r21 ((k + 2 : ℕ) : ℝ) * 100) * (sig21 (k + 2) * 100 ^ (k + 1)) := by ring
-        _ ≤ (r21 ((k + 2 : ℕ) : ℝ) * (-A21 ((k + 2 : ℕ) : ℝ))) *
-            (-(-1) ^ k * convDen a21 b21 (k + 2)) :=
+        _ ≤ (r21 ((k + 2 : ℕ) : ℝ) * (-midCoeff21 ((k + 2 : ℕ) : ℝ))) *
+            (-(-1) ^ k * cf21.denom (k + 2)) :=
           mul_le_mul (mul_le_mul_of_nonneg_left hneg hr.le) h1 (by positivity) (by nlinarith)
     linarith
 
-theorem convDen21_ne (k : ℕ) : convDen a21 b21 (k + 1) ≠ 0 := by
+theorem denom21_ne_zero (k : ℕ) : cf21.denom (k + 1) ≠ 0 := by
   intro h
-  have h0 := (convDen21_bound k).1
+  have h0 := (denom21_bound k).1
   rw [h, mul_zero] at h0
   have : 0 < sig21 (k + 1) * 100 ^ k := mul_pos (sig21_pos _) (by positivity)
   linarith
 
-theorem Z21_div_convDen_le (k : ℕ) :
-    ‖Z21 (k + 1) / convDen a21 b21 (k + 1)‖ ≤ 300 * Real.sqrt 2 * (1 / 5) ^ k := by
-  have hb := (convDen21_bound k).1
+theorem norm_Z21_div_denom21_le (k : ℕ) :
+    ‖Z21 (k + 1) / cf21.denom (k + 1)‖ ≤ 300 * Real.sqrt 2 * (1 / 5) ^ k := by
+  have hb := (denom21_bound k).1
   have hs := sig21_pos (k + 1)
   have hF := F21_le (k + 1)
   have hF0 := F21_pos (k + 1)
-  have hQ0 : 0 ≤ (-1) ^ k * convDen a21 b21 (k + 1) := le_trans (by positivity) hb
-  have hQ : |convDen a21 b21 (k + 1)| = (-1) ^ k * convDen a21 b21 (k + 1) := by
+  have hQ0 : 0 ≤ (-1) ^ k * cf21.denom (k + 1) := le_trans (by positivity) hb
+  have hQ : |cf21.denom (k + 1)| = (-1) ^ k * cf21.denom (k + 1) := by
     rw [← abs_of_nonneg hQ0, abs_mul, abs_pow, abs_neg, abs_one, one_pow, one_mul]
-  have hQpos : 0 < (-1) ^ k * convDen a21 b21 (k + 1) :=
+  have hQpos : 0 < (-1) ^ k * cf21.denom (k + 1) :=
     lt_of_lt_of_le (mul_pos hs (by positivity)) hb
   have hZ : 0 < Z21 (k + 1) := mul_pos hs hF0
   rw [Real.norm_eq_abs, abs_div, hQ, abs_of_pos hZ, div_le_iff₀ hQpos]
@@ -500,44 +515,35 @@ theorem Z21_div_convDen_le (k : ℕ) :
   calc Z21 (k + 1) = sig21 (k + 1) * F21 (k + 1) := rfl
     _ ≤ sig21 (k + 1) * (15 * Real.sqrt 2 * 20 ^ (k + 1)) := mul_le_mul_of_nonneg_left hF hs.le
     _ = 300 * Real.sqrt 2 * (1 / 5) ^ k * (sig21 (k + 1) * 100 ^ k) := by rw [h20]; ring
-    _ ≤ 300 * Real.sqrt 2 * (1 / 5) ^ k * ((-1) ^ k * convDen a21 b21 (k + 1)) :=
+    _ ≤ 300 * Real.sqrt 2 * (1 / 5) ^ k * ((-1) ^ k * cf21.denom (k + 1)) :=
         mul_le_mul_of_nonneg_left hb (by positivity)
 
-/-- **Lemma 6**: `X_n` is a minimal solution of the challenge recurrence, with the convergent
-denominators `Q` as the dominant companion. -/
-theorem Z21_isMinimal : IsMinimal a21 b21 Z21 := by
-  refine ⟨Z21_isSolution, convDen a21 b21, convDen_isSolution a21 b21, ?_, ?_, ?_⟩
-  · intro c hc
-    have h0 : convDen a21 b21 0 = c * Z21 0 := by rw [hc]; rfl
-    have h1 : convDen a21 b21 1 = c * Z21 1 := by rw [hc]; rfl
-    have hZ0 : Z21 0 ≠ 0 := (mul_pos (sig21_pos 0) (F21_pos 0)).ne'
-    simp only [convDen] at h0 h1
-    have hc0 : c = 0 := by
-      rcases mul_eq_zero.mp h0.symm with h | h
-      · exact h
-      · exact absurd h hZ0
-    rw [hc0, zero_mul] at h1
-    exact one_ne_zero h1
-  · rw [eventually_atTop]
+/-- **Lemma 6**: `X_n` is a recessive (minimal) solution of the challenge recurrence, dominated
+by the convergent denominators. -/
+theorem Z21_isRecessive : cf21.IsRecessive Z21 := by
+  have hne : ∀ᶠ n in atTop, cf21.denom n ≠ 0 := by
+    rw [eventually_atTop]
     exact ⟨1, fun n hn => by
       obtain ⟨k, rfl⟩ : ∃ k, n = k + 1 := ⟨n - 1, by omega⟩
-      exact convDen21_ne k⟩
-  · rw [← tendsto_add_atTop_iff_nat 1]
-    refine squeeze_zero_norm (fun k => Z21_div_convDen_le k) ?_
-    have h := (tendsto_pow_atTop_nhds_zero_of_lt_one (by norm_num : (0:ℝ) ≤ 1 / 5)
-      (by norm_num)).const_mul (300 * Real.sqrt 2)
-    rw [mul_zero] at h
-    exact h
+      exact denom21_ne_zero k⟩
+  refine ⟨Z21_mem_solutions, cf21.denom, cf21.denom_mem_solutions, hne, ?_⟩
+  rw [isLittleO_iff_tendsto' (hne.mono fun n hn h => absurd h hn),
+    ← tendsto_add_atTop_iff_nat 1]
+  refine squeeze_zero_norm (fun k => norm_Z21_div_denom21_le k) ?_
+  have h := (tendsto_pow_atTop_nhds_zero_of_lt_one (by norm_num : (0:ℝ) ≤ 1 / 5)
+    (by norm_num)).const_mul (300 * Real.sqrt 2)
+  rw [mul_zero] at h
+  exact h
 
 /-- **Theorem 2 (the challenge limit).** The polynomial continued fraction of Problem 2.1,
 `a_n = −220n³ − 484n² − 301n − 42`, `b_n = 4n²(2n+1)²(5n−4)(5n+6)`, converges to `6/(3 − π)`:
 its convergents `P_n/Q_n` tend to `6/(3 − π)`. -/
 theorem pcf21_tendsto :
-    Tendsto (fun n => convNum a21 b21 n / convDen a21 b21 n) atTop (𝓝 (6 / (3 - Real.pi))) := by
+    Tendsto (fun n => cf21.numer n / cf21.denom n) atTop (𝓝 (6 / (3 - Real.pi))) := by
   have hZ0 : Z21 0 ≠ 0 := (mul_pos (sig21_pos 0) (F21_pos 0)).ne'
-  have h := pincherle a21 b21 Z21 Z21_isMinimal hZ0
-  have hval : a21 0 - Z21 1 / Z21 0 = 6 / (3 - Real.pi) := by
-    simp only [Z21, sig21, F21_zero, F21_one, a21]
+  have h := CFData.tendsto_convergent Z21_isRecessive hZ0
+  have hval : cf21.partialDen 0 - Z21 1 / Z21 0 = 6 / (3 - Real.pi) := by
+    simp only [cf21_partialDen, Z21, sig21, F21_zero, F21_one, a21]
     have hpi : Real.pi - 3 ≠ 0 := (sub_pos.mpr Real.pi_gt_three).ne'
     have hpi' : 3 - Real.pi ≠ 0 := (sub_neg.mpr Real.pi_gt_three).ne
     have hs : Real.sqrt 2 ≠ 0 := by positivity
@@ -546,5 +552,70 @@ theorem pcf21_tendsto :
     ring
   rw [hval] at h
   exact h
+
+/-! ### The rescaled coefficients converge (the limits behind the characteristic equation)
+
+With `u = 1/n`: `a(n)/n³`, `r(n)/n³`, `r(n−1)/n³` and `b(n)/n⁶` are continuous functions of `u`
+with values `−220`, `40/27`, `40/27` and `400` at `u = 0`. Hence
+`A(n) → −220 · 27/40 = −297/2` and `B(n) → 400 · (27/40)² = 729/4`, the coefficients of the
+characteristic equation `4x² + 594x − 729 = 0` of `charPoly21_eq_zero_iff` (`Exact.lean`). -/
+
+theorem tendsto_comp_inv_natCast {g : ℝ → ℝ} (hg : Continuous g) :
+    Tendsto (fun n : ℕ => g (n : ℝ)⁻¹) atTop (𝓝 (g 0)) :=
+  (hg.tendsto 0).comp (tendsto_inv_atTop_zero.comp tendsto_natCast_atTop_atTop)
+
+theorem tendsto_midCoeff21 : Tendsto (fun n : ℕ => midCoeff21 n) atTop (𝓝 (-297 / 2)) := by
+  have ha := tendsto_comp_inv_natCast
+    (g := fun u => -220 - 484 * u - 301 * u ^ 2 - 42 * u ^ 3) (by fun_prop)
+  have hp := tendsto_comp_inv_natCast
+    (g := fun u => 8 * (1 + u) ^ 2 * (2 + 3 * u) ^ 2 * (5 + u)) (by fun_prop)
+  have hq := tendsto_comp_inv_natCast
+    (g := fun u => 3 * (6 + 7 * u) * (6 + 11 * u)) (by fun_prop)
+  have h : Tendsto (fun n : ℕ =>
+      (-220 - 484 * (n : ℝ)⁻¹ - 301 * (n : ℝ)⁻¹ ^ 2 - 42 * (n : ℝ)⁻¹ ^ 3) /
+      (8 * (1 + (n : ℝ)⁻¹) ^ 2 * (2 + 3 * (n : ℝ)⁻¹) ^ 2 * (5 + (n : ℝ)⁻¹) /
+        (3 * (6 + 7 * (n : ℝ)⁻¹) * (6 + 11 * (n : ℝ)⁻¹)))) atTop (𝓝 (-297 / 2)) := by
+    convert ha.div (hp.div hq (by norm_num)) (by norm_num) using 2
+    norm_num
+  refine h.congr' ?_
+  filter_upwards [eventually_ge_atTop 1] with n hn
+  have hn' : (0 : ℝ) < n := by exact_mod_cast hn
+  simp only [midCoeff21, r21]
+  field_simp
+
+theorem tendsto_tailCoeff21 : Tendsto (fun n : ℕ => tailCoeff21 n) atTop (𝓝 (729 / 4)) := by
+  have hb := tendsto_comp_inv_natCast
+    (g := fun u => 4 * (2 + u) ^ 2 * (5 - 4 * u) * (5 + 6 * u)) (by fun_prop)
+  have hp := tendsto_comp_inv_natCast
+    (g := fun u => 8 * (1 + u) ^ 2 * (2 + 3 * u) ^ 2 * (5 + u)) (by fun_prop)
+  have hq := tendsto_comp_inv_natCast
+    (g := fun u => 3 * (6 + 7 * u) * (6 + 11 * u)) (by fun_prop)
+  have hp' := tendsto_comp_inv_natCast
+    (g := fun u => 8 * (2 + u) ^ 2 * (5 - 4 * u)) (by fun_prop)
+  have hq' := tendsto_comp_inv_natCast
+    (g := fun u => 3 * (6 + u) * (6 + 5 * u)) (by fun_prop)
+  have h : Tendsto (fun n : ℕ =>
+      4 * (2 + (n : ℝ)⁻¹) ^ 2 * (5 - 4 * (n : ℝ)⁻¹) * (5 + 6 * (n : ℝ)⁻¹) /
+        (8 * (1 + (n : ℝ)⁻¹) ^ 2 * (2 + 3 * (n : ℝ)⁻¹) ^ 2 * (5 + (n : ℝ)⁻¹) /
+            (3 * (6 + 7 * (n : ℝ)⁻¹) * (6 + 11 * (n : ℝ)⁻¹)) *
+          (8 * (2 + (n : ℝ)⁻¹) ^ 2 * (5 - 4 * (n : ℝ)⁻¹) /
+            (3 * (6 + (n : ℝ)⁻¹) * (6 + 5 * (n : ℝ)⁻¹))))) atTop (𝓝 (729 / 4)) := by
+    convert hb.div ((hp.div hq (by norm_num)).mul (hp'.div hq' (by norm_num))) (by norm_num)
+      using 2
+    norm_num
+  refine h.congr' ?_
+  filter_upwards [eventually_ge_atTop 1] with n hn
+  have hn' : (1 : ℝ) ≤ n := by exact_mod_cast hn
+  have h5 : (n : ℝ) * 5 - 4 ≠ 0 := ne_of_gt (by linarith)
+  have e1 : (5 : ℝ) * ((n : ℝ) - 1) + 1 ≠ 0 := ne_of_gt (by linarith)
+  have e2 : (n : ℝ) - 1 + 1 ≠ 0 := ne_of_gt (by linarith)
+  have e3 : (2 : ℝ) * ((n : ℝ) - 1) + 3 ≠ 0 := ne_of_gt (by linarith)
+  have e4 : (6 : ℝ) * ((n : ℝ) - 1) + 7 ≠ 0 := ne_of_gt (by linarith)
+  have e5 : (6 : ℝ) * ((n : ℝ) - 1) + 11 ≠ 0 := ne_of_gt (by linarith)
+  have hn0 : (n : ℝ) ≠ 0 := ne_of_gt (by linarith)
+  rw [show (5 : ℝ) - 4 * (n : ℝ)⁻¹ = (5 * n - 4) / n by field_simp]
+  simp only [tailCoeff21, r21]
+  field_simp
+  ring
 
 end RamanujanChallenge

@@ -29,3 +29,13 @@ On 17 October 2026 (Chicago time), at the author's request, Grok Bot added the d
 (`MIT OR Apache-2.0`) and the Mathlib-style headers. It also compared the library line by line
 with the Technion's GPL-3.0 skeleton and kept the Apache option off the two files that overlap
 it (see `PROVENANCE.md`). No proof or theorem statement changed.
+
+On 17 October 2026 (Chicago time), at the author's request, Grok Bot rewrote the parts of
+`Exact.lean` and `Pincherle.lean` that had matched the Technion's GPL-3.0 skeleton. The new
+definitions and proofs (a `CFData` structure with transfer-matrix recurrences, recessive
+solutions via little-o, Pincherle's theorem by little-o algebra, the 2.1 roots from Mathlib's
+quadratic formula, the rescaled coefficients as quotients by `r_n`) were written from the
+mathematics without opening the Technion file. That file was fetched afterwards only for a
+similarity check. The agent had seen the earlier overlapping versions in this repository the
+same day; `PROVENANCE.md` says so and records the result of the check. The downstream proofs were
+re-derived, and the theorem inventory changed from 132 to 146 names (see `scripts/config.json`).

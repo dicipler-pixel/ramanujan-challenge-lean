@@ -13,12 +13,8 @@ A Lean file whose header reads "Released under Apache 2.0 license as described i
 LICENSE" may be used under the Apache License, Version 2.0, as given in LICENSE-APACHE, or
 under the MIT License, as given in LICENSE-MIT.
 
-Exception, pending review: RamanujanChallenge/Exact.lean and RamanujanChallenge/Pincherle.lean
-are not offered under the Apache-2.0 option and carry no Apache header. Parts of them match
-code in the Ramanujan Machine group's GPL-3.0 repository
-(https://github.com/RamanujanMachine/RamanujanChallengeSolutions). Until their provenance
-is reviewed, they stay under the terms they carried before the dual licence was added.
-See LICENSING.md and PROVENANCE.md.
+All six Lean library files in RamanujanChallenge/ carry this header and are offered under
+both options.
 
 The written text (README and the other prose files) is licensed separately under CC BY 4.0;
 see LICENSE-CC-BY-4.0.md and LICENSING.md.

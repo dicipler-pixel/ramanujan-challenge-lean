@@ -29,6 +29,18 @@ class AuditTests(unittest.TestCase):
     def test_unsolved_goal_is_detected(self):
         self.assertIsNotNone(verify.MATH_FAILURE.search('error: unsolved goals'))
 
+    def test_header_required(self):
+        good = "\n".join(verify.CONFIG['license_header']) + "\nimport Mathlib\n"
+        self.assertTrue(verify.header_ok(good))
+        self.assertFalse(verify.header_ok("import Mathlib\n" + good))
+        self.assertFalse(verify.header_ok(good.replace("Apache 2.0", "GPL-3.0")))
+
+    def test_placeholder_found_in_comments(self):
+        token = "sor" + "ry"
+        self.assertEqual(verify.placeholder_lines("theorem t : True := trivial\n-- " + token), [2])
+        self.assertEqual(verify.placeholder_lines("/- " + token.upper() + " -/"), [1])
+        self.assertEqual(verify.placeholder_lines("theorem " + token + "less : True := trivial"), [])
+
 
 if __name__ == '__main__':
     unittest.main()

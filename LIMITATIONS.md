@@ -10,21 +10,22 @@ Lean proves exactly the statements written, under exactly the hypotheses written
 * **Problem 2.1 is closed.** `pcf21_tendsto` proves that the convergents `P_n/Q_n` of
   `a_n = −220n³−484n²−301n−42`, `b_n = 4n²(2n+1)²(5n−4)(5n+6)` tend to `6/(3 − π)`, with no
   `sorry` and only the three standard axioms. The four items this file used to list are done:
-  1. the coefficient limits `A(n) → −297/2`, `B(n) → 729/4`: `A21_limit`, `B21_limit` (`Pincherle.lean`);
-  2. minimality of the hypergeometric solution: `Z21_isMinimal`;
+  1. the coefficient limits `A(n) → −297/2`, `B(n) → 729/4`: `tendsto_midCoeff21`,
+     `tendsto_tailCoeff21` (`Problem21.lean`);
+  2. minimality (recessiveness) of the hypergeometric solution: `Z21_isRecessive`;
   3. Euler's integral and the anchors. Euler's integral is proved for the sequence
      (`hypergeometric_eq_euler`, `E21_eq`, `F21_eq_hypergeometric` in `Euler21.lean`): the
      integral-defined `F_n` of `Problem21.lean` equals Mathlib's
      `ordinaryHypergeometric (n+½) (n+½) (3n+½) (1/2)`. The anchors are `F21_zero`, `F21_one`,
      and in `₂F₁` form `hypergeometric21_one`, `hypergeometric21_two`;
-  4. the limit itself: `pcf21_tendsto`, via `pincherle`.
+  4. the limit itself: `pcf21_tendsto`, via `CFData.tendsto_convergent`.
 
   **Where the route differs from the paper, and what is still not formalised.**
   * *Minimality.* It is **not** proved through Poincaré–Perron or Stirling. It uses a direct
-    dominance bound for this recurrence: `−A(x) ≥ 100` for `x ≥ 0` (`negA21_ge`), so the
+    dominance bound for this recurrence: `−A(x) ≥ 100` for `x ≥ 0` (`neg_midCoeff21_ge`), so the
     convergent denominators alternate in sign with `|Q_{k+1}| ≥ s_k·100^k`
-    (`convDen21_bound`), while `0 < F_n ≤ 15√2·20^{n−1}` (`F21_pos`, `F21_le`). That gives
-    `|X/Q| ≤ 300√2·5^{−k} → 0` (`Z21_div_convDen_le`). The paper's sharper statement
+    (`denom21_bound`), while `0 < F_n ≤ 15√2·20^{n−1}` (`F21_pos`, `F21_le`). That gives
+    `|X/Q| ≤ 300√2·5^{−k} → 0` (`norm_Z21_div_denom21_le`). The paper's sharper statement
     `F_{n+1}/F_n → λ_s` (Laplace's method on Euler's integral plus Poincaré–Perron) is **not**
     formalised; nothing needs it. General Poincaré–Perron is in neither Mathlib nor this library.
   * *Lemma 3.* It is not obtained from the CMF trajectory matrix `T(n)` and the coboundary
@@ -34,16 +35,18 @@ Lean proves exactly the statements written, under exactly the hypotheses written
   * *Euler's integral* is proved for the parameters Problem 2.1 uses (`a = b = n+½`, `c = 3n+½`,
     `z = 1/2`), not as a general Mathlib lemma for every `a, b, c, z`.
 * **The Technion skeleton's Pincherle statement is false as written.** Their
-  `Code/2.1/LeanFormal/PiPCF.lean` defines a minimal solution by `Z n / D n → 0` only; with
-  Lean's convention `x / 0 = 0` a dominant solution vanishing at infinitely many indices passes
-  that test, and then the convergents need not converge. `technion_pincherle_fails` exhibits
-  explicit period-2 coefficients for which all of their hypotheses hold and the conclusion is
-  false. The corrected definition (`IsMinimal`) adds `∀ᶠ n, D n ≠ 0`; their extra hypothesis
-  `b n ≠ 0` is not needed for this direction. Their skeleton's remaining `sorry`s
-  (`A_limit`, `B_limit`, `poincare_perron`, `euler_integral`, `F_growth`, `minimal_F`,
-  `minimal_X`, `F_one`, `F_two`) were checked on 17 October 2026 and are still open in their
-  repository (last commit 2 August 2026). This library gets past each of them without their
-  statements: `A21_limit`/`B21_limit`; `Z21_isMinimal` in place of `poincare_perron`, `F_growth`,
+  `Code/2.1/LeanFormal/PiPCF.lean` asks of the companion solution only that `Z n / D n → 0`;
+  with Lean's convention `x / 0 = 0` a companion vanishing at infinitely many indices passes
+  that test, and then the convergents need not converge. `pincherle_needs_eventually_ne_zero`
+  exhibits explicit period-2 coefficients for which all of those hypotheses hold (including
+  nonzero partial numerators) and the conclusion is false. This library's notion of a
+  recessive solution (`CFData.IsRecessive`) asks for a companion that is eventually nonzero and
+  uses little-o (`y =o[atTop] w`); the hypothesis `b n ≠ 0` is not needed for this direction.
+  Their skeleton's remaining open statements (`A_limit`, `B_limit`, `poincare_perron`,
+  `euler_integral`, `F_growth`, `minimal_F`, `minimal_X`, `F_one`, `F_two`) were checked on
+  17 October 2026 and are still open in their repository (last commit 2 August 2026). This
+  library gets past each of them without their statements: `tendsto_midCoeff21` /
+  `tendsto_tailCoeff21`; `Z21_isRecessive` in place of `poincare_perron`, `F_growth`,
   `minimal_F`, `minimal_X`; `F21_zero`/`F21_one` in place of `F_one`/`F_two`. General
   Poincaré–Perron is not proved here. The official `euler_integral` statement is itself
   restricted to the Problem 2.1 parameter family; this library proves that family using

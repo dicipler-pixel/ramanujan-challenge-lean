@@ -106,3 +106,14 @@ denominators and `b` the partial numerators. The docstrings are corrected on thi
 This branch combines the cleanup, `ReviewedProblem21.lean`, and the hardened verifier and CI.
 The theorem name list in `scripts/config.json` covers all 132 public theorems. License
 headers for a possible Mathlib submission are not added yet.
+
+## Later change: independent rewrite (17 October 2026, Chicago time)
+
+The names reviewed above were later replaced (branch `phase2-cleanroom`; see `PROVENANCE.md`):
+`convNum`/`convDen` → `CFData.numer`/`CFData.denom` (with `cf21` the challenge fraction),
+`IsSolution` → membership in `CFData.solutions`, `IsMinimal` → `CFData.IsRecessive`,
+`pincherle` → `CFData.tendsto_convergent`, `Z21_isMinimal` → `Z21_isRecessive`,
+`Z21_div_convDen_le` → `norm_Z21_div_denom21_le`, `convDen21_ne` → `denom21_ne_zero`, and the
+counterexample (`aCE`, `bCE`, `technion_pincherle_fails`) → `altCF`,
+`pincherle_needs_eventually_ne_zero`. The `Reviewed.*` statements are unchanged in meaning. The
+inventory is now 146 names with seven false controls.
