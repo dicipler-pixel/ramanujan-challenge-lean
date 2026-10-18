@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Jeromie Beasley
 -/
 import RamanujanChallenge.Problem21
+import RamanujanChallenge.EulerIntegral
 
 /-!
 Euler's integral for the Problem 2.1 hypergeometric sequence: `F21` is Mathlib's `₂F₁`.
@@ -23,6 +24,9 @@ paper's Lemma 1 (Euler's integral), in four steps:
   integral (`integral_gEk`), and `Γ(x+k) = (x)_k Γ(x)` (`Gamma_add_nat_real`) turns the sum into
   the `₂F₁` series (`hypergeometric_eq_euler`);
 * the change of variables `t = 2u²/(1+u²)` back to `Problem21.lean`'s integral (`E21_eq`).
+
+The same identity also follows from the general real Euler integral of `EulerIntegral.lean`
+(`E21_eq_eulerIntegral`, `hypergeometric_eq_euler_of_general`); the direct proof above is kept.
 
 Corollaries in `₂F₁` form: Lemma 3 for the official sequence (`hypergeometric21_rec`) and the
 two anchors `₂F₁(3/2,3/2;7/2;1/2) = (15√2/2)(π−3)`, `₂F₁(5/2,5/2;13/2;1/2) = (1155√2/8)(22−7π)`
@@ -194,6 +198,37 @@ theorem hypergeometric_eq_euler (m : ℕ) :
   rw [e1, e2, e3, Gamma_add_nat_real ha0, Gamma_add_nat_real hc0]
   have hAc : (ascPochhammer ℝ k).eval c ≠ 0 := (ascPochhammer_pos k c hc0).ne'
   field_simp
+
+/-- `E21 m` is the general Euler integral of `EulerIntegral.lean` at `a = b = n+½`, `c = 3n+½`,
+`x = 1/2` (`n = m + 1`). -/
+theorem E21_eq_eulerIntegral (m : ℕ) :
+    E21 m = ∫ t in (0:ℝ)..1, t ^ ((((m : ℝ) + 1) + 1 / 2) - 1) *
+      (1 - t) ^ ((3 * ((m : ℝ) + 1) + 1 / 2) - (((m : ℝ) + 1) + 1 / 2) - 1) *
+        (1 - 1 / 2 * t) ^ (-(((m : ℝ) + 1) + 1 / 2)) := by
+  unfold E21
+  refine intervalIntegral.integral_congr (fun t ht => ?_)
+  rw [Set.uIcc_of_le zero_le_one] at ht
+  have h2 : 0 ≤ 1 - 1 / 2 * t := by linarith [ht.2]
+  rw [show (((m : ℝ) + 1) + 1 / 2) - 1 = (m : ℝ) + 1 / 2 by ring, rpow_nat_add_half ht.1,
+    show (3 * ((m : ℝ) + 1) + 1 / 2) - (((m : ℝ) + 1) + 1 / 2) - 1 = ((2 * m + 1 : ℕ) : ℝ) by
+      push_cast; ring,
+    Real.rpow_natCast, Real.rpow_neg h2, show 1 / 2 * t = t / 2 by ring,
+    show ((m : ℝ) + 1) + 1 / 2 = (m : ℝ) + 3 / 2 by ring]
+  unfold gE21
+  rw [one_div ((1 - t / 2) ^ ((m : ℝ) + 3 / 2))]
+
+/-- `hypergeometric_eq_euler` again, now as a corollary of the general Euler integral
+`ordinaryHypergeometric_eq_integral` rather than by a separate series argument. -/
+theorem hypergeometric_eq_euler_of_general (m : ℕ) :
+    ordinaryHypergeometric (((m : ℝ) + 1) + 1 / 2) (((m : ℝ) + 1) + 1 / 2)
+        (3 * ((m : ℝ) + 1) + 1 / 2) (1 / 2 : ℝ) =
+      Real.Gamma (3 * ((m : ℝ) + 1) + 1 / 2) /
+          (Real.Gamma (((m : ℝ) + 1) + 1 / 2) * Real.Gamma (2 * ((m : ℝ) + 1)))
+        * E21 m := by
+  rw [ordinaryHypergeometric_eq_integral (by positivity) (by linarith)
+      (by rw [abs_of_pos (by norm_num)]; norm_num),
+    E21_eq_eulerIntegral,
+    show (3 * ((m : ℝ) + 1) + 1 / 2) - (((m : ℝ) + 1) + 1 / 2) = 2 * ((m : ℝ) + 1) by ring]
 
 /-- The paper's substitution `t = 2u²/(1+u²)` (`t = 2 sin²θ`, `u = tan θ`). -/
 noncomputable def phi21 (u : ℝ) : ℝ := 2 * u ^ 2 / (1 + u ^ 2)

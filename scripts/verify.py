@@ -4,11 +4,11 @@
 
 Why each check proves what it claims:
 
-1. Axiom audit. `lake build` accepts a proof that uses `sorry` with only a
-   warning, and a declared `axiom` would be accepted silently. `#print axioms`
+1. Axiom audit. `lake build` accepts an unfinished proof (the placeholder
+   keyword) with only a warning, and a declared `axiom` would be accepted silently. `#print axioms`
    asks the kernel which axioms each theorem actually rests on. Requiring the
    answer to lie inside {propext, Classical.choice, Quot.sound} (the standard
-   three every Mathlib theorem may use) rules out `sorry` (sorryAx), project
+   three every Mathlib theorem may use) rules out the placeholder axiom, project
    axioms, and native_decide (Lean.ofReduceBool) for every named theorem.
 
 2. Theorem inventory. The script discovers theorem and lemma names from the

@@ -1,0 +1,2238 @@
+{
+ "WORKTREE": {
+  "Exact": [
+   {
+    "decl": "a1",
+    "tokens": 29,
+    "token_sim": 0.897,
+    "closest": "a",
+    "structure_sim": 0.931,
+    "closest_structure": "a",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "b1",
+    "tokens": 42,
+    "token_sim": 0.929,
+    "closest": "b",
+    "structure_sim": 0.952,
+    "closest_structure": "b",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "casoratian_step",
+    "tokens": 160,
+    "token_sim": 0.314,
+    "closest": "IsSolution",
+    "structure_sim": 0.434,
+    "closest_structure": "poincare_perron_ratio",
+    "lines": 6,
+    "shared_lines": []
+   },
+   {
+    "decl": "casoratian_closed",
+    "tokens": 210,
+    "token_sim": 0.254,
+    "closest": "IsSolution",
+    "structure_sim": 0.382,
+    "closest_structure": "poincare_perron_ratio",
+    "lines": 10,
+    "shared_lines": []
+   },
+   {
+    "decl": "convergent_difference",
+    "tokens": 101,
+    "token_sim": 0.411,
+    "closest": "IsSolution",
+    "structure_sim": 0.538,
+    "closest_structure": "pincherle",
+    "lines": 4,
+    "shared_lines": []
+   },
+   {
+    "decl": "b1_succ_factor",
+    "tokens": 59,
+    "token_sim": 0.581,
+    "closest": "r",
+    "structure_sim": 0.598,
+    "closest_structure": "r",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "pochhammer_product",
+    "tokens": 229,
+    "token_sim": 0.315,
+    "closest": "b_pos",
+    "structure_sim": 0.394,
+    "closest_structure": "b_pos",
+    "lines": 12,
+    "shared_lines": []
+   },
+   {
+    "decl": "subdominantRoot21",
+    "tokens": 22,
+    "token_sim": 0.718,
+    "closest": "lamS",
+    "structure_sim": 0.769,
+    "closest_structure": "lamS",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "dominantRoot21",
+    "tokens": 22,
+    "token_sim": 0.718,
+    "closest": "lamD",
+    "structure_sim": 0.769,
+    "closest_structure": "lamD",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "discrim_charPoly21",
+    "tokens": 57,
+    "token_sim": 0.43,
+    "closest": "lamS_root",
+    "structure_sim": 0.523,
+    "closest_structure": "lamS_root",
+    "lines": 4,
+    "shared_lines": []
+   },
+   {
+    "decl": "charPoly21_eq_zero_iff",
+    "tokens": 41,
+    "token_sim": 0.361,
+    "closest": "b",
+    "structure_sim": 0.451,
+    "closest_structure": "s_succ",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "subdominantRoot21_add_dominantRoot21",
+    "tokens": 21,
+    "token_sim": 0.45,
+    "closest": "A_limit",
+    "structure_sim": 0.65,
+    "closest_structure": "A_limit",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "subdominantRoot21_mul_dominantRoot21",
+    "tokens": 52,
+    "token_sim": 0.569,
+    "closest": "lamS_root",
+    "structure_sim": 0.667,
+    "closest_structure": "lamS_root",
+    "lines": 4,
+    "shared_lines": []
+   },
+   {
+    "decl": "dominantRoot21_neg_and_subdominantRoot21_pos",
+    "tokens": 60,
+    "token_sim": 0.343,
+    "closest": "lamS_pos",
+    "structure_sim": 0.444,
+    "closest_structure": "lamS_pos",
+    "lines": 10,
+    "shared_lines": []
+   },
+   {
+    "decl": "abs_subdominantRoot21_lt_abs_dominantRoot21",
+    "tokens": 34,
+    "token_sim": 0.603,
+    "closest": "abs_lamS_lt_abs_lamD",
+    "structure_sim": 0.794,
+    "closest_structure": "abs_lamS_lt_abs_lamD",
+    "lines": 5,
+    "shared_lines": []
+   },
+   {
+    "decl": "P22",
+    "tokens": 28,
+    "token_sim": 0.632,
+    "closest": "a",
+    "structure_sim": 0.667,
+    "closest_structure": "a",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "telescoping_factor",
+    "tokens": 39,
+    "token_sim": 0.471,
+    "closest": "a",
+    "structure_sim": 0.667,
+    "closest_structure": "s_succ",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "companion3_det",
+    "tokens": 58,
+    "token_sim": 0.3,
+    "closest": "I_one",
+    "structure_sim": 0.455,
+    "closest_structure": "s_succ",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "P22_pos",
+    "tokens": 23,
+    "token_sim": 0.453,
+    "closest": "s_succ",
+    "structure_sim": 0.642,
+    "closest_structure": "s_succ",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "casoratian22_ratio",
+    "tokens": 97,
+    "token_sim": 0.492,
+    "closest": "B",
+    "structure_sim": 0.503,
+    "closest_structure": "B",
+    "lines": 4,
+    "shared_lines": []
+   },
+   {
+    "decl": "casoratian22_closed",
+    "tokens": 322,
+    "token_sim": 0.258,
+    "closest": "F_recurrence",
+    "structure_sim": 0.298,
+    "closest_structure": "X_recurrence",
+    "lines": 15,
+    "shared_lines": []
+   },
+   {
+    "decl": "a22Coeff1",
+    "tokens": 40,
+    "token_sim": 0.522,
+    "closest": "a",
+    "structure_sim": 0.551,
+    "closest_structure": "a",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "a22Coeff2",
+    "tokens": 55,
+    "token_sim": 0.5,
+    "closest": "A",
+    "structure_sim": 0.515,
+    "closest_structure": "A",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "a22Coeff3",
+    "tokens": 50,
+    "token_sim": 0.522,
+    "closest": "b",
+    "structure_sim": 0.543,
+    "closest_structure": "b",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "q22",
+    "tokens": 57,
+    "token_sim": 0.417,
+    "closest": "convNum",
+    "structure_sim": 0.678,
+    "closest_structure": "convNum",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "q22_values",
+    "tokens": 46,
+    "token_sim": 0.227,
+    "closest": "I_one",
+    "structure_sim": 0.386,
+    "closest_structure": "I_one",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "sqrt2_sq",
+    "tokens": 16,
+    "token_sim": 0.473,
+    "closest": "lamS_pos",
+    "structure_sim": 0.519,
+    "closest_structure": "minimal_F",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "rPlus",
+    "tokens": 11,
+    "token_sim": 0.483,
+    "closest": "Fs",
+    "structure_sim": 0.621,
+    "closest_structure": "Fs",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "rMinus",
+    "tokens": 11,
+    "token_sim": 0.429,
+    "closest": "lamS",
+    "structure_sim": 0.56,
+    "closest_structure": "aSeq",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "roots_reciprocal",
+    "tokens": 16,
+    "token_sim": 0.37,
+    "closest": "minimal_F",
+    "structure_sim": 0.667,
+    "closest_structure": "minimal_F",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "rPlus_char",
+    "tokens": 31,
+    "token_sim": 0.42,
+    "closest": "lamS_root",
+    "structure_sim": 0.543,
+    "closest_structure": "lamS_root",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "rMinus_char",
+    "tokens": 31,
+    "token_sim": 0.42,
+    "closest": "lamS_root",
+    "structure_sim": 0.543,
+    "closest_structure": "lamS_root",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "A23Coeff0",
+    "tokens": 27,
+    "token_sim": 0.643,
+    "closest": "a",
+    "structure_sim": 0.679,
+    "closest_structure": "a",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "A23Coeff1",
+    "tokens": 40,
+    "token_sim": 0.609,
+    "closest": "a",
+    "structure_sim": 0.638,
+    "closest_structure": "a",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "A23Coeff2",
+    "tokens": 52,
+    "token_sim": 0.543,
+    "closest": "a",
+    "structure_sim": 0.568,
+    "closest_structure": "a",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "A23Coeff3",
+    "tokens": 52,
+    "token_sim": 0.532,
+    "closest": "b",
+    "structure_sim": 0.553,
+    "closest_structure": "b",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "A23Coeff4",
+    "tokens": 45,
+    "token_sim": 0.621,
+    "closest": "b",
+    "structure_sim": 0.644,
+    "closest_structure": "b",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "p23",
+    "tokens": 93,
+    "token_sim": 0.413,
+    "closest": "convDen",
+    "structure_sim": 0.6,
+    "closest_structure": "convDen",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "q23",
+    "tokens": 93,
+    "token_sim": 0.424,
+    "closest": "convNum",
+    "structure_sim": 0.609,
+    "closest_structure": "convNum",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "p23_five",
+    "tokens": 42,
+    "token_sim": 0.225,
+    "closest": "abs_lamS_lt_abs_lamD",
+    "structure_sim": 0.394,
+    "closest_structure": "abs_lamS_lt_abs_lamD",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "L25",
+    "tokens": 37,
+    "token_sim": 0.514,
+    "closest": "C",
+    "structure_sim": 0.543,
+    "closest_structure": "C",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "B25",
+    "tokens": 37,
+    "token_sim": 0.514,
+    "closest": "C",
+    "structure_sim": 0.543,
+    "closest_structure": "C",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "C25",
+    "tokens": 40,
+    "token_sim": 0.521,
+    "closest": "C",
+    "structure_sim": 0.548,
+    "closest_structure": "C",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "L_sq",
+    "tokens": 33,
+    "token_sim": 0.267,
+    "closest": "I_one",
+    "structure_sim": 0.452,
+    "closest_structure": "abs_lamS_lt_abs_lamD",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "L_mul_B",
+    "tokens": 35,
+    "token_sim": 0.26,
+    "closest": "I_one",
+    "structure_sim": 0.438,
+    "closest_structure": "abs_lamS_lt_abs_lamD",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "B_mul_L",
+    "tokens": 35,
+    "token_sim": 0.26,
+    "closest": "I_one",
+    "structure_sim": 0.438,
+    "closest_structure": "abs_lamS_lt_abs_lamD",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "B_sq",
+    "tokens": 42,
+    "token_sim": 0.281,
+    "closest": "F_one",
+    "structure_sim": 0.406,
+    "closest_structure": "F_one",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "B_cube",
+    "tokens": 23,
+    "token_sim": 0.346,
+    "closest": "abs_lamS_lt_abs_lamD",
+    "structure_sim": 0.615,
+    "closest_structure": "abs_lamS_lt_abs_lamD",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "L_mul_C",
+    "tokens": 42,
+    "token_sim": 0.281,
+    "closest": "F_one",
+    "structure_sim": 0.406,
+    "closest_structure": "F_one",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "C_mul_L",
+    "tokens": 42,
+    "token_sim": 0.281,
+    "closest": "F_one",
+    "structure_sim": 0.406,
+    "closest_structure": "F_one",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "sqrt5_sq",
+    "tokens": 16,
+    "token_sim": 0.545,
+    "closest": "lamS_pos",
+    "structure_sim": 0.582,
+    "closest_structure": "lamS_pos",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "phi",
+    "tokens": 15,
+    "token_sim": 0.625,
+    "closest": "lamS",
+    "structure_sim": 0.688,
+    "closest_structure": "lamS",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "phi_sq",
+    "tokens": 26,
+    "token_sim": 0.368,
+    "closest": "lamS_root",
+    "structure_sim": 0.486,
+    "closest_structure": "minimal_F",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "phi_pow5",
+    "tokens": 38,
+    "token_sim": 0.318,
+    "closest": "lamS_root",
+    "structure_sim": 0.455,
+    "closest_structure": "lamS_root",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "zudilin_root",
+    "tokens": 36,
+    "token_sim": 0.372,
+    "closest": "lamS_root",
+    "structure_sim": 0.488,
+    "closest_structure": "lamS_root",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "zudilin_product",
+    "tokens": 29,
+    "token_sim": 0.353,
+    "closest": "F_one",
+    "structure_sim": 0.491,
+    "closest_structure": "F_two",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "r26",
+    "tokens": 38,
+    "token_sim": 0.537,
+    "closest": "a",
+    "structure_sim": 0.567,
+    "closest_structure": "a",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "r26_denom",
+    "tokens": 41,
+    "token_sim": 0.506,
+    "closest": "b",
+    "structure_sim": 0.53,
+    "closest_structure": "b",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "r26_partial",
+    "tokens": 71,
+    "token_sim": 0.337,
+    "closest": "s_succ",
+    "structure_sim": 0.475,
+    "closest_structure": "s_succ",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "A26",
+    "tokens": 37,
+    "token_sim": 0.526,
+    "closest": "r",
+    "structure_sim": 0.611,
+    "closest_structure": "r",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "B26",
+    "tokens": 38,
+    "token_sim": 0.458,
+    "closest": "r",
+    "structure_sim": 0.6,
+    "closest_structure": "b",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "C26",
+    "tokens": 33,
+    "token_sim": 0.533,
+    "closest": "b",
+    "structure_sim": 0.667,
+    "closest_structure": "b",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "r1",
+    "tokens": 22,
+    "token_sim": 0.51,
+    "closest": "a",
+    "structure_sim": 0.549,
+    "closest_structure": "a",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "r0",
+    "tokens": 31,
+    "token_sim": 0.521,
+    "closest": "b",
+    "structure_sim": 0.548,
+    "closest_structure": "b",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "m1",
+    "tokens": 29,
+    "token_sim": 0.759,
+    "closest": "a",
+    "structure_sim": 0.793,
+    "closest_structure": "a",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "m0",
+    "tokens": 28,
+    "token_sim": 0.632,
+    "closest": "a",
+    "structure_sim": 0.667,
+    "closest_structure": "a",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "factor_S2",
+    "tokens": 33,
+    "token_sim": 0.444,
+    "closest": "s_succ",
+    "structure_sim": 0.794,
+    "closest_structure": "s_succ",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "factor_S1",
+    "tokens": 41,
+    "token_sim": 0.423,
+    "closest": "s_succ",
+    "structure_sim": 0.704,
+    "closest_structure": "s_succ",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "factor_S0",
+    "tokens": 29,
+    "token_sim": 0.508,
+    "closest": "s_succ",
+    "structure_sim": 0.847,
+    "closest_structure": "s_succ",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "h_ratio_cross",
+    "tokens": 67,
+    "token_sim": 0.496,
+    "closest": "r",
+    "structure_sim": 0.512,
+    "closest_structure": "r",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "r26_constant",
+    "tokens": 43,
+    "token_sim": 0.337,
+    "closest": "F",
+    "structure_sim": 0.361,
+    "closest_structure": "B_limit",
+    "lines": 2,
+    "shared_lines": []
+   }
+  ],
+  "Pincherle": [
+   {
+    "decl": "CFData",
+    "tokens": 13,
+    "token_sim": 0.37,
+    "closest": "aSeq",
+    "structure_sim": 0.5,
+    "closest_structure": "minimal_F",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.transfer",
+    "tokens": 46,
+    "token_sim": 0.633,
+    "closest": "C",
+    "structure_sim": 0.734,
+    "closest_structure": "C",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.transfer_mulVec",
+    "tokens": 72,
+    "token_sim": 0.467,
+    "closest": "T_shift",
+    "structure_sim": 0.567,
+    "closest_structure": "T_shift",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.Satisfies",
+    "tokens": 54,
+    "token_sim": 0.462,
+    "closest": "IsSolution",
+    "structure_sim": 0.667,
+    "closest_structure": "T_shift",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.satisfies_iff",
+    "tokens": 111,
+    "token_sim": 0.36,
+    "closest": "IsSolution",
+    "structure_sim": 0.559,
+    "closest_structure": "IsSolution",
+    "lines": 7,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.solutions",
+    "tokens": 115,
+    "token_sim": 0.193,
+    "closest": "s_succ",
+    "structure_sim": 0.364,
+    "closest_structure": "U_consec",
+    "lines": 16,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.mem_solutions",
+    "tokens": 56,
+    "token_sim": 0.547,
+    "closest": "IsSolution",
+    "structure_sim": 0.849,
+    "closest_structure": "IsSolution",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.state",
+    "tokens": 40,
+    "token_sim": 0.392,
+    "closest": "convDen",
+    "structure_sim": 0.577,
+    "closest_structure": "convDen",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.orbit",
+    "tokens": 28,
+    "token_sim": 0.393,
+    "closest": "C",
+    "structure_sim": 0.557,
+    "closest_structure": "C",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.state_eq",
+    "tokens": 114,
+    "token_sim": 0.26,
+    "closest": "U_consec",
+    "structure_sim": 0.529,
+    "closest_structure": "U_consec",
+    "lines": 6,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.orbit_mem_solutions",
+    "tokens": 34,
+    "token_sim": 0.344,
+    "closest": "s_succ",
+    "structure_sim": 0.562,
+    "closest_structure": "s_succ",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.numer",
+    "tokens": 21,
+    "token_sim": 0.481,
+    "closest": "C",
+    "structure_sim": 0.593,
+    "closest_structure": "C",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.denom",
+    "tokens": 20,
+    "token_sim": 0.528,
+    "closest": "C",
+    "structure_sim": 0.604,
+    "closest_structure": "C",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.convergent",
+    "tokens": 22,
+    "token_sim": 0.489,
+    "closest": "s",
+    "structure_sim": 0.667,
+    "closest_structure": "s",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.numer_mem_solutions",
+    "tokens": 15,
+    "token_sim": 0.316,
+    "closest": "s",
+    "structure_sim": 0.692,
+    "closest_structure": "minimal_F",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.denom_mem_solutions",
+    "tokens": 15,
+    "token_sim": 0.316,
+    "closest": "s",
+    "structure_sim": 0.692,
+    "closest_structure": "minimal_F",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.numer_zero",
+    "tokens": 19,
+    "token_sim": 0.327,
+    "closest": "s_succ",
+    "structure_sim": 0.533,
+    "closest_structure": "minimal_F",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.numer_one",
+    "tokens": 43,
+    "token_sim": 0.356,
+    "closest": "s_succ",
+    "structure_sim": 0.521,
+    "closest_structure": "s_succ",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.denom_zero",
+    "tokens": 19,
+    "token_sim": 0.327,
+    "closest": "s_succ",
+    "structure_sim": 0.533,
+    "closest_structure": "minimal_F",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.denom_one",
+    "tokens": 41,
+    "token_sim": 0.366,
+    "closest": "s_succ",
+    "structure_sim": 0.507,
+    "closest_structure": "s_succ",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.numer_add_two",
+    "tokens": 53,
+    "token_sim": 0.485,
+    "closest": "IsSolution",
+    "structure_sim": 0.757,
+    "closest_structure": "IsSolution",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.denom_add_two",
+    "tokens": 53,
+    "token_sim": 0.485,
+    "closest": "IsSolution",
+    "structure_sim": 0.757,
+    "closest_structure": "IsSolution",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.ext_of_mem_solutions",
+    "tokens": 137,
+    "token_sim": 0.227,
+    "closest": "convDen",
+    "structure_sim": 0.414,
+    "closest_structure": "poincare_perron_ratio",
+    "lines": 8,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.eq_numer_denom_combo",
+    "tokens": 81,
+    "token_sim": 0.286,
+    "closest": "U_consec",
+    "structure_sim": 0.446,
+    "closest_structure": "U_consec",
+    "lines": 6,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.eq_smul_denom",
+    "tokens": 61,
+    "token_sim": 0.323,
+    "closest": "U_consec",
+    "structure_sim": 0.477,
+    "closest_structure": "U_consec",
+    "lines": 4,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.eq_zero_of_eventually_eq_zero",
+    "tokens": 210,
+    "token_sim": 0.218,
+    "closest": "transport_b",
+    "structure_sim": 0.387,
+    "closest_structure": "poincare_perron",
+    "lines": 14,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.IsRecessive",
+    "tokens": 47,
+    "token_sim": 0.349,
+    "closest": "IsMinimal",
+    "structure_sim": 0.624,
+    "closest_structure": "IsMinimal",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.IsRecessive.ne_smul",
+    "tokens": 126,
+    "token_sim": 0.23,
+    "closest": "b_pos",
+    "structure_sim": 0.373,
+    "closest_structure": "U_consec",
+    "lines": 9,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.tendsto_convergent",
+    "tokens": 549,
+    "token_sim": 0.186,
+    "closest": "poincare_perron_ratio",
+    "structure_sim": 0.307,
+    "closest_structure": "pi_continued_fraction",
+    "lines": 38,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.isRecessive_of_ratio",
+    "tokens": 345,
+    "token_sim": 0.24,
+    "closest": "poincare_perron_ratio",
+    "structure_sim": 0.344,
+    "closest_structure": "poincare_perron",
+    "lines": 22,
+    "shared_lines": []
+   },
+   {
+    "decl": "CFData.tendsto_convergent_of_ratio",
+    "tokens": 163,
+    "token_sim": 0.333,
+    "closest": "poincare_perron",
+    "structure_sim": 0.527,
+    "closest_structure": "poincare_perron",
+    "lines": 6,
+    "shared_lines": []
+   },
+   {
+    "decl": "altCF",
+    "tokens": 33,
+    "token_sim": 0.28,
+    "closest": "lamS",
+    "structure_sim": 0.421,
+    "closest_structure": "IsMinimal",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "altSeq",
+    "tokens": 17,
+    "token_sim": 0.5,
+    "closest": "s",
+    "structure_sim": 0.6,
+    "closest_structure": "s",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "altCF_partialDen_even",
+    "tokens": 25,
+    "token_sim": 0.509,
+    "closest": "s_succ",
+    "structure_sim": 0.655,
+    "closest_structure": "s_succ",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "altCF_partialDen_odd",
+    "tokens": 25,
+    "token_sim": 0.582,
+    "closest": "s_succ",
+    "structure_sim": 0.764,
+    "closest_structure": "s_succ",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "altCF_partialNum_even",
+    "tokens": 24,
+    "token_sim": 0.519,
+    "closest": "s_succ",
+    "structure_sim": 0.667,
+    "closest_structure": "s_succ",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "altCF_partialNum_odd",
+    "tokens": 27,
+    "token_sim": 0.561,
+    "closest": "s_succ",
+    "structure_sim": 0.737,
+    "closest_structure": "s_succ",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "altCF_partialNum_ne_zero",
+    "tokens": 25,
+    "token_sim": 0.4,
+    "closest": "s_succ",
+    "structure_sim": 0.582,
+    "closest_structure": "s_succ",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "altSeq_mem_solutions",
+    "tokens": 72,
+    "token_sim": 0.226,
+    "closest": "F",
+    "structure_sim": 0.4,
+    "closest_structure": "T_shift",
+    "lines": 7,
+    "shared_lines": []
+   },
+   {
+    "decl": "altCF_denom",
+    "tokens": 155,
+    "token_sim": 0.264,
+    "closest": "transport_b",
+    "structure_sim": 0.378,
+    "closest_structure": "U_consec",
+    "lines": 11,
+    "shared_lines": []
+   },
+   {
+    "decl": "altCF_numer",
+    "tokens": 73,
+    "token_sim": 0.371,
+    "closest": "U_consec",
+    "structure_sim": 0.551,
+    "closest_structure": "U_consec",
+    "lines": 7,
+    "shared_lines": []
+   },
+   {
+    "decl": "altCF_not_tendsto",
+    "tokens": 406,
+    "token_sim": 0.219,
+    "closest": "X_recurrence",
+    "structure_sim": 0.264,
+    "closest_structure": "transport_b",
+    "lines": 25,
+    "shared_lines": []
+   },
+   {
+    "decl": "pincherle_needs_eventually_ne_zero",
+    "tokens": 262,
+    "token_sim": 0.203,
+    "closest": "b_pos",
+    "structure_sim": 0.348,
+    "closest_structure": "U_consec",
+    "lines": 19,
+    "shared_lines": []
+   }
+  ],
+  "Series": [
+   {
+    "decl": "r26Term",
+    "tokens": 29,
+    "token_sim": 0.519,
+    "closest": "F",
+    "structure_sim": 0.568,
+    "closest_structure": "F",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "r26Term_eq",
+    "tokens": 74,
+    "token_sim": 0.571,
+    "closest": "F",
+    "structure_sim": 0.587,
+    "closest_structure": "F",
+    "lines": 4,
+    "shared_lines": []
+   },
+   {
+    "decl": "telescope_partial",
+    "tokens": 82,
+    "token_sim": 0.418,
+    "closest": "F",
+    "structure_sim": 0.507,
+    "closest_structure": "F",
+    "lines": 5,
+    "shared_lines": []
+   },
+   {
+    "decl": "hasSum_telescope",
+    "tokens": 208,
+    "token_sim": 0.28,
+    "closest": "pincherle",
+    "structure_sim": 0.321,
+    "closest_structure": "pincherle",
+    "lines": 12,
+    "shared_lines": []
+   },
+   {
+    "decl": "sum_inv_sq_six",
+    "tokens": 33,
+    "token_sim": 0.373,
+    "closest": "I_one",
+    "structure_sim": 0.507,
+    "closest_structure": "I_one",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "hasSum_inv_sq_shift",
+    "tokens": 117,
+    "token_sim": 0.355,
+    "closest": "F",
+    "structure_sim": 0.376,
+    "closest_structure": "G",
+    "lines": 6,
+    "shared_lines": []
+   },
+   {
+    "decl": "r26_hasSum",
+    "tokens": 104,
+    "token_sim": 0.25,
+    "closest": "G",
+    "structure_sim": 0.303,
+    "closest_structure": "U_consec",
+    "lines": 7,
+    "shared_lines": []
+   }
+  ],
+  "Problem21": [
+   {
+    "decl": "G21",
+    "tokens": 35,
+    "token_sim": 0.519,
+    "closest": "b",
+    "structure_sim": 0.597,
+    "closest_structure": "b",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "w21",
+    "tokens": 43,
+    "token_sim": 0.424,
+    "closest": "b",
+    "structure_sim": 0.541,
+    "closest_structure": "b",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "q21",
+    "tokens": 96,
+    "token_sim": 0.329,
+    "closest": "IsSolution",
+    "structure_sim": 0.468,
+    "closest_structure": "r",
+    "lines": 4,
+    "shared_lines": []
+   },
+   {
+    "decl": "N21",
+    "tokens": 43,
+    "token_sim": 0.471,
+    "closest": "b",
+    "structure_sim": 0.583,
+    "closest_structure": "a",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "Phi21",
+    "tokens": 33,
+    "token_sim": 0.424,
+    "closest": "F",
+    "structure_sim": 0.565,
+    "closest_structure": "F",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "one_add_sq_ne",
+    "tokens": 19,
+    "token_sim": 0.459,
+    "closest": "I_one",
+    "structure_sim": 0.492,
+    "closest_structure": "I_one",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "hasDerivAt_G21",
+    "tokens": 263,
+    "token_sim": 0.236,
+    "closest": "T",
+    "structure_sim": 0.328,
+    "closest_structure": "euler_integral",
+    "lines": 13,
+    "shared_lines": []
+   },
+   {
+    "decl": "hasDerivAt_N21",
+    "tokens": 695,
+    "token_sim": 0.156,
+    "closest": "F_recurrence",
+    "structure_sim": 0.299,
+    "closest_structure": "X_recurrence",
+    "lines": 30,
+    "shared_lines": []
+   },
+   {
+    "decl": "hasDerivAt_Phi21",
+    "tokens": 274,
+    "token_sim": 0.297,
+    "closest": "T",
+    "structure_sim": 0.386,
+    "closest_structure": "U_consec",
+    "lines": 10,
+    "shared_lines": []
+   },
+   {
+    "decl": "K21",
+    "tokens": 27,
+    "token_sim": 0.406,
+    "closest": "I_one",
+    "structure_sim": 0.64,
+    "closest_structure": "s",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "continuous_G21",
+    "tokens": 28,
+    "token_sim": 0.304,
+    "closest": "Fs",
+    "structure_sim": 0.462,
+    "closest_structure": "minimal_F",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "continuous_w21",
+    "tokens": 44,
+    "token_sim": 0.354,
+    "closest": "F",
+    "structure_sim": 0.486,
+    "closest_structure": "s_succ",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "K21_rec",
+    "tokens": 373,
+    "token_sim": 0.241,
+    "closest": "X_recurrence",
+    "structure_sim": 0.349,
+    "closest_structure": "poincare_perron_ratio",
+    "lines": 16,
+    "shared_lines": []
+   },
+   {
+    "decl": "K21_zero",
+    "tokens": 184,
+    "token_sim": 0.214,
+    "closest": "b_pos",
+    "structure_sim": 0.344,
+    "closest_structure": "coboundary",
+    "lines": 11,
+    "shared_lines": []
+   },
+   {
+    "decl": "K21_one",
+    "tokens": 318,
+    "token_sim": 0.196,
+    "closest": "pi_continued_fraction",
+    "structure_sim": 0.266,
+    "closest_structure": "pi_continued_fraction",
+    "lines": 16,
+    "shared_lines": []
+   },
+   {
+    "decl": "w21_pos",
+    "tokens": 53,
+    "token_sim": 0.316,
+    "closest": "lamD_neg",
+    "structure_sim": 0.506,
+    "closest_structure": "s_succ",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "w21_le_one",
+    "tokens": 258,
+    "token_sim": 0.339,
+    "closest": "transport_b",
+    "structure_sim": 0.371,
+    "closest_structure": "coboundary",
+    "lines": 14,
+    "shared_lines": []
+   },
+   {
+    "decl": "K21_pos",
+    "tokens": 40,
+    "token_sim": 0.348,
+    "closest": "F",
+    "structure_sim": 0.529,
+    "closest_structure": "IsMinimal",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "K21_le_one",
+    "tokens": 74,
+    "token_sim": 0.381,
+    "closest": "F",
+    "structure_sim": 0.492,
+    "closest_structure": "F",
+    "lines": 6,
+    "shared_lines": []
+   },
+   {
+    "decl": "kap21",
+    "tokens": 75,
+    "token_sim": 0.63,
+    "closest": "F",
+    "structure_sim": 0.676,
+    "closest_structure": "G",
+    "lines": 4,
+    "shared_lines": []
+   },
+   {
+    "decl": "F21",
+    "tokens": 17,
+    "token_sim": 0.5,
+    "closest": "s",
+    "structure_sim": 0.75,
+    "closest_structure": "s",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "kap21_pos",
+    "tokens": 116,
+    "token_sim": 0.47,
+    "closest": "b_pos",
+    "structure_sim": 0.53,
+    "closest_structure": "b_pos",
+    "lines": 6,
+    "shared_lines": []
+   },
+   {
+    "decl": "kap21_succ",
+    "tokens": 374,
+    "token_sim": 0.223,
+    "closest": "X_recurrence",
+    "structure_sim": 0.383,
+    "closest_structure": "coboundary",
+    "lines": 20,
+    "shared_lines": []
+   },
+   {
+    "decl": "kap21_zero",
+    "tokens": 150,
+    "token_sim": 0.288,
+    "closest": "transport_a",
+    "structure_sim": 0.3,
+    "closest_structure": "X_recurrence",
+    "lines": 8,
+    "shared_lines": []
+   },
+   {
+    "decl": "kap21_one",
+    "tokens": 25,
+    "token_sim": 0.468,
+    "closest": "F_one",
+    "structure_sim": 0.596,
+    "closest_structure": "F_one",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "F21_zero",
+    "tokens": 31,
+    "token_sim": 0.642,
+    "closest": "F_one",
+    "structure_sim": 0.792,
+    "closest_structure": "F_one",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "F21_one",
+    "tokens": 33,
+    "token_sim": 0.667,
+    "closest": "F_two",
+    "structure_sim": 0.807,
+    "closest_structure": "F_two",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "F21_pos",
+    "tokens": 23,
+    "token_sim": 0.308,
+    "closest": "b",
+    "structure_sim": 0.528,
+    "closest_structure": "s_succ",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "a21",
+    "tokens": 42,
+    "token_sim": 0.648,
+    "closest": "a",
+    "structure_sim": 0.789,
+    "closest_structure": "a",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "b21",
+    "tokens": 59,
+    "token_sim": 0.693,
+    "closest": "b",
+    "structure_sim": 0.812,
+    "closest_structure": "b",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "a21_eq_a1",
+    "tokens": 30,
+    "token_sim": 0.5,
+    "closest": "s_succ",
+    "structure_sim": 0.633,
+    "closest_structure": "s_succ",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "b21_eq_b1",
+    "tokens": 30,
+    "token_sim": 0.5,
+    "closest": "s_succ",
+    "structure_sim": 0.633,
+    "closest_structure": "s_succ",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "cf21",
+    "tokens": 12,
+    "token_sim": 0.308,
+    "closest": "aSeq",
+    "structure_sim": 0.538,
+    "closest_structure": "aSeq",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "cf21_partialDen",
+    "tokens": 20,
+    "token_sim": 0.48,
+    "closest": "s_succ",
+    "structure_sim": 0.645,
+    "closest_structure": "minimal_F",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "cf21_partialNum",
+    "tokens": 20,
+    "token_sim": 0.48,
+    "closest": "s_succ",
+    "structure_sim": 0.645,
+    "closest_structure": "minimal_F",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "r21",
+    "tokens": 59,
+    "token_sim": 0.906,
+    "closest": "r",
+    "structure_sim": 0.923,
+    "closest_structure": "r",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "r21_pos_of_nonneg",
+    "tokens": 26,
+    "token_sim": 0.327,
+    "closest": "lamD_neg",
+    "structure_sim": 0.541,
+    "closest_structure": "minimal_F",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "r21_pos",
+    "tokens": 19,
+    "token_sim": 0.429,
+    "closest": "s",
+    "structure_sim": 0.571,
+    "closest_structure": "s_succ",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "midCoeff21",
+    "tokens": 35,
+    "token_sim": 0.875,
+    "closest": "a",
+    "structure_sim": 0.906,
+    "closest_structure": "a",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "tailCoeff21",
+    "tokens": 55,
+    "token_sim": 0.845,
+    "closest": "b",
+    "structure_sim": 0.866,
+    "closest_structure": "b",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "F21_rec",
+    "tokens": 404,
+    "token_sim": 0.237,
+    "closest": "T",
+    "structure_sim": 0.37,
+    "closest_structure": "X_recurrence",
+    "lines": 17,
+    "shared_lines": []
+   },
+   {
+    "decl": "F21_le",
+    "tokens": 287,
+    "token_sim": 0.246,
+    "closest": "b_pos",
+    "structure_sim": 0.369,
+    "closest_structure": "b_pos",
+    "lines": 15,
+    "shared_lines": []
+   },
+   {
+    "decl": "r21_mul_midCoeff21",
+    "tokens": 34,
+    "token_sim": 0.5,
+    "closest": "s_succ",
+    "structure_sim": 0.625,
+    "closest_structure": "s_succ",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "r21_mul_r21_mul_tailCoeff21",
+    "tokens": 96,
+    "token_sim": 0.361,
+    "closest": "T_shift",
+    "structure_sim": 0.444,
+    "closest_structure": "T_shift",
+    "lines": 4,
+    "shared_lines": []
+   },
+   {
+    "decl": "sig21",
+    "tokens": 25,
+    "token_sim": 0.419,
+    "closest": "Fs",
+    "structure_sim": 0.652,
+    "closest_structure": "X",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "sig21_pos",
+    "tokens": 39,
+    "token_sim": 0.319,
+    "closest": "s_succ",
+    "structure_sim": 0.493,
+    "closest_structure": "s_succ",
+    "lines": 4,
+    "shared_lines": []
+   },
+   {
+    "decl": "Z21",
+    "tokens": 17,
+    "token_sim": 0.5,
+    "closest": "s",
+    "structure_sim": 0.75,
+    "closest_structure": "s",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "Z21_mem_solutions",
+    "tokens": 62,
+    "token_sim": 0.333,
+    "closest": "U_consec",
+    "structure_sim": 0.462,
+    "closest_structure": "U_consec",
+    "lines": 8,
+    "shared_lines": []
+   },
+   {
+    "decl": "neg_midCoeff21_ge",
+    "tokens": 106,
+    "token_sim": 0.369,
+    "closest": "transport_a",
+    "structure_sim": 0.45,
+    "closest_structure": "U_consec",
+    "lines": 6,
+    "shared_lines": []
+   },
+   {
+    "decl": "b21_succ_nonneg",
+    "tokens": 65,
+    "token_sim": 0.415,
+    "closest": "b_pos",
+    "structure_sim": 0.444,
+    "closest_structure": "F",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "denom21_bound",
+    "tokens": 793,
+    "token_sim": 0.238,
+    "closest": "F_recurrence",
+    "structure_sim": 0.337,
+    "closest_structure": "X_recurrence",
+    "lines": 40,
+    "shared_lines": []
+   },
+   {
+    "decl": "denom21_ne_zero",
+    "tokens": 65,
+    "token_sim": 0.337,
+    "closest": "s_succ",
+    "structure_sim": 0.463,
+    "closest_structure": "s_succ",
+    "lines": 4,
+    "shared_lines": []
+   },
+   {
+    "decl": "norm_Z21_div_denom21_le",
+    "tokens": 379,
+    "token_sim": 0.231,
+    "closest": "X_recurrence",
+    "structure_sim": 0.262,
+    "closest_structure": "transport_b",
+    "lines": 20,
+    "shared_lines": []
+   },
+   {
+    "decl": "Z21_isRecessive",
+    "tokens": 153,
+    "token_sim": 0.221,
+    "closest": "transport_a",
+    "structure_sim": 0.307,
+    "closest_structure": "IsMinimal",
+    "lines": 13,
+    "shared_lines": []
+   },
+   {
+    "decl": "pcf21_tendsto",
+    "tokens": 154,
+    "token_sim": 0.373,
+    "closest": "pi_continued_fraction",
+    "structure_sim": 0.454,
+    "closest_structure": "pi_continued_fraction",
+    "lines": 11,
+    "shared_lines": []
+   },
+   {
+    "decl": "tendsto_comp_inv_natCast",
+    "tokens": 53,
+    "token_sim": 0.362,
+    "closest": "pincherle",
+    "structure_sim": 0.478,
+    "closest_structure": "pincherle",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "tendsto_midCoeff21",
+    "tokens": 334,
+    "token_sim": 0.264,
+    "closest": "T",
+    "structure_sim": 0.283,
+    "closest_structure": "T",
+    "lines": 16,
+    "shared_lines": []
+   },
+   {
+    "decl": "tendsto_tailCoeff21",
+    "tokens": 693,
+    "token_sim": 0.208,
+    "closest": "pi_continued_fraction",
+    "structure_sim": 0.262,
+    "closest_structure": "pi_continued_fraction",
+    "lines": 30,
+    "shared_lines": []
+   }
+  ],
+  "EulerIntegral": [
+   {
+    "decl": "intervalIntegrable_beta",
+    "tokens": 233,
+    "token_sim": 0.224,
+    "closest": "euler_integral",
+    "structure_sim": 0.374,
+    "closest_structure": "b_pos",
+    "lines": 12,
+    "shared_lines": []
+   },
+   {
+    "decl": "integral_beta",
+    "tokens": 195,
+    "token_sim": 0.361,
+    "closest": "euler_integral",
+    "structure_sim": 0.413,
+    "closest_structure": "euler_integral",
+    "lines": 13,
+    "shared_lines": []
+   },
+   {
+    "decl": "Gamma_add_nat_eq_ascPochhammer_mul",
+    "tokens": 73,
+    "token_sim": 0.35,
+    "closest": "s_succ",
+    "structure_sim": 0.544,
+    "closest_structure": "s_succ",
+    "lines": 7,
+    "shared_lines": []
+   },
+   {
+    "decl": "abs_ascPochhammer_eval_le",
+    "tokens": 119,
+    "token_sim": 0.346,
+    "closest": "twoF1",
+    "structure_sim": 0.413,
+    "closest_structure": "twoF1",
+    "lines": 9,
+    "shared_lines": []
+   },
+   {
+    "decl": "hasSum_ascPochhammer_mul_pow",
+    "tokens": 190,
+    "token_sim": 0.24,
+    "closest": "b_pos",
+    "structure_sim": 0.349,
+    "closest_structure": "coboundary",
+    "lines": 15,
+    "shared_lines": []
+   },
+   {
+    "decl": "integral_term",
+    "tokens": 242,
+    "token_sim": 0.263,
+    "closest": "euler_integral",
+    "structure_sim": 0.347,
+    "closest_structure": "poincare_perron",
+    "lines": 11,
+    "shared_lines": []
+   },
+   {
+    "decl": "ordinaryHypergeometric_eq_integral",
+    "tokens": 878,
+    "token_sim": 0.163,
+    "closest": "F_recurrence",
+    "structure_sim": 0.187,
+    "closest_structure": "X_recurrence",
+    "lines": 53,
+    "shared_lines": []
+   }
+  ],
+  "Euler21": [
+   {
+    "decl": "rpow_nat_add_half",
+    "tokens": 56,
+    "token_sim": 0.419,
+    "closest": "s_succ",
+    "structure_sim": 0.628,
+    "closest_structure": "s_succ",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "beta_integral_real",
+    "tokens": 253,
+    "token_sim": 0.237,
+    "closest": "b_pos",
+    "structure_sim": 0.353,
+    "closest_structure": "euler_integral",
+    "lines": 18,
+    "shared_lines": []
+   },
+   {
+    "decl": "Gamma_add_nat_real",
+    "tokens": 73,
+    "token_sim": 0.35,
+    "closest": "s_succ",
+    "structure_sim": 0.544,
+    "closest_structure": "s_succ",
+    "lines": 6,
+    "shared_lines": []
+   },
+   {
+    "decl": "hasSum_one_div_one_sub_rpow",
+    "tokens": 161,
+    "token_sim": 0.226,
+    "closest": "twoF1",
+    "structure_sim": 0.345,
+    "closest_structure": "U_consec",
+    "lines": 13,
+    "shared_lines": []
+   },
+   {
+    "decl": "gE21",
+    "tokens": 61,
+    "token_sim": 0.455,
+    "closest": "euler_integral",
+    "structure_sim": 0.529,
+    "closest_structure": "twoF1",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "E21",
+    "tokens": 27,
+    "token_sim": 0.4,
+    "closest": "s",
+    "structure_sim": 0.64,
+    "closest_structure": "s",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "gEk",
+    "tokens": 77,
+    "token_sim": 0.438,
+    "closest": "twoF1",
+    "structure_sim": 0.54,
+    "closest_structure": "twoF1",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "continuous_gEk",
+    "tokens": 22,
+    "token_sim": 0.462,
+    "closest": "s_succ",
+    "structure_sim": 0.731,
+    "closest_structure": "s_succ",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "gEk_nonneg",
+    "tokens": 84,
+    "token_sim": 0.309,
+    "closest": "F",
+    "structure_sim": 0.455,
+    "closest_structure": "lamS_pos",
+    "lines": 4,
+    "shared_lines": []
+   },
+   {
+    "decl": "hasSum_gEk",
+    "tokens": 129,
+    "token_sim": 0.321,
+    "closest": "G",
+    "structure_sim": 0.402,
+    "closest_structure": "euler_integral",
+    "lines": 8,
+    "shared_lines": []
+   },
+   {
+    "decl": "continuousOn_gE21",
+    "tokens": 84,
+    "token_sim": 0.281,
+    "closest": "s_succ",
+    "structure_sim": 0.386,
+    "closest_structure": "s_succ",
+    "lines": 6,
+    "shared_lines": []
+   },
+   {
+    "decl": "hasSum_integral_gEk",
+    "tokens": 245,
+    "token_sim": 0.211,
+    "closest": "X_recurrence",
+    "structure_sim": 0.281,
+    "closest_structure": "coboundary",
+    "lines": 13,
+    "shared_lines": []
+   },
+   {
+    "decl": "integral_gEk",
+    "tokens": 418,
+    "token_sim": 0.249,
+    "closest": "X_recurrence",
+    "structure_sim": 0.364,
+    "closest_structure": "euler_integral",
+    "lines": 22,
+    "shared_lines": []
+   },
+   {
+    "decl": "hypergeometric_eq_euler",
+    "tokens": 417,
+    "token_sim": 0.256,
+    "closest": "euler_integral",
+    "structure_sim": 0.28,
+    "closest_structure": "T",
+    "lines": 24,
+    "shared_lines": []
+   },
+   {
+    "decl": "E21_eq_eulerIntegral",
+    "tokens": 322,
+    "token_sim": 0.268,
+    "closest": "X_recurrence",
+    "structure_sim": 0.325,
+    "closest_structure": "X_recurrence",
+    "lines": 13,
+    "shared_lines": []
+   },
+   {
+    "decl": "hypergeometric_eq_euler_of_general",
+    "tokens": 198,
+    "token_sim": 0.383,
+    "closest": "euler_integral",
+    "structure_sim": 0.473,
+    "closest_structure": "euler_integral",
+    "lines": 10,
+    "shared_lines": []
+   },
+   {
+    "decl": "phi21",
+    "tokens": 25,
+    "token_sim": 0.478,
+    "closest": "b",
+    "structure_sim": 0.597,
+    "closest_structure": "b",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "hasDerivAt_phi21",
+    "tokens": 81,
+    "token_sim": 0.293,
+    "closest": "I_one",
+    "structure_sim": 0.409,
+    "closest_structure": "transport_a",
+    "lines": 5,
+    "shared_lines": []
+   },
+   {
+    "decl": "gE21_phi21",
+    "tokens": 367,
+    "token_sim": 0.291,
+    "closest": "transport_b",
+    "structure_sim": 0.356,
+    "closest_structure": "coboundary",
+    "lines": 20,
+    "shared_lines": []
+   },
+   {
+    "decl": "E21_eq",
+    "tokens": 254,
+    "token_sim": 0.236,
+    "closest": "b_pos",
+    "structure_sim": 0.357,
+    "closest_structure": "poincare_perron_ratio",
+    "lines": 19,
+    "shared_lines": []
+   },
+   {
+    "decl": "F21_eq_hypergeometric",
+    "tokens": 80,
+    "token_sim": 0.652,
+    "closest": "F",
+    "structure_sim": 0.742,
+    "closest_structure": "F",
+    "lines": 4,
+    "shared_lines": []
+   },
+   {
+    "decl": "hypergeometric21_rec",
+    "tokens": 254,
+    "token_sim": 0.271,
+    "closest": "euler_integral",
+    "structure_sim": 0.314,
+    "closest_structure": "G",
+    "lines": 9,
+    "shared_lines": []
+   },
+   {
+    "decl": "hypergeometric21_one",
+    "tokens": 60,
+    "token_sim": 0.439,
+    "closest": "F_one",
+    "structure_sim": 0.537,
+    "closest_structure": "F_one",
+    "lines": 6,
+    "shared_lines": []
+   },
+   {
+    "decl": "hypergeometric21_two",
+    "tokens": 62,
+    "token_sim": 0.465,
+    "closest": "F_two",
+    "structure_sim": 0.558,
+    "closest_structure": "F_two",
+    "lines": 6,
+    "shared_lines": []
+   }
+  ],
+  "ReviewedProblem21": [
+   {
+    "decl": "a",
+    "tokens": 37,
+    "token_sim": 0.727,
+    "closest": "a",
+    "structure_sim": 0.848,
+    "closest_structure": "a",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "b",
+    "tokens": 46,
+    "token_sim": 0.818,
+    "closest": "b",
+    "structure_sim": 0.932,
+    "closest_structure": "b",
+    "lines": 1,
+    "shared_lines": []
+   },
+   {
+    "decl": "P",
+    "tokens": 55,
+    "token_sim": 0.661,
+    "closest": "convDen",
+    "structure_sim": 0.75,
+    "closest_structure": "convDen",
+    "lines": 3,
+    "shared_lines": []
+   },
+   {
+    "decl": "Q",
+    "tokens": 46,
+    "token_sim": 0.718,
+    "closest": "convDen",
+    "structure_sim": 0.827,
+    "closest_structure": "convNum",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "P_eq",
+    "tokens": 89,
+    "token_sim": 0.317,
+    "closest": "U_consec",
+    "structure_sim": 0.59,
+    "closest_structure": "U_consec",
+    "lines": 8,
+    "shared_lines": []
+   },
+   {
+    "decl": "Q_eq",
+    "tokens": 83,
+    "token_sim": 0.339,
+    "closest": "U_consec",
+    "structure_sim": 0.441,
+    "closest_structure": "U_consec",
+    "lines": 8,
+    "shared_lines": []
+   },
+   {
+    "decl": "Q_ne_zero",
+    "tokens": 22,
+    "token_sim": 0.538,
+    "closest": "s_succ",
+    "structure_sim": 0.654,
+    "closest_structure": "s_succ",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "initial_values",
+    "tokens": 37,
+    "token_sim": 0.278,
+    "closest": "I_one",
+    "structure_sim": 0.458,
+    "closest_structure": "minimal_F",
+    "lines": 2,
+    "shared_lines": []
+   },
+   {
+    "decl": "value",
+    "tokens": 84,
+    "token_sim": 0.276,
+    "closest": "lamS_pos",
+    "structure_sim": 0.374,
+    "closest_structure": "lamS_pos",
+    "lines": 6,
+    "shared_lines": []
+   },
+   {
+    "decl": "error_identity",
+    "tokens": 114,
+    "token_sim": 0.356,
+    "closest": "U_consec",
+    "structure_sim": 0.51,
+    "closest_structure": "U_consec",
+    "lines": 9,
+    "shared_lines": []
+   },
+   {
+    "decl": "error_bound",
+    "tokens": 132,
+    "token_sim": 0.278,
+    "closest": "T_shift",
+    "structure_sim": 0.395,
+    "closest_structure": "poincare_perron",
+    "lines": 9,
+    "shared_lines": []
+   },
+   {
+    "decl": "limit",
+    "tokens": 118,
+    "token_sim": 0.255,
+    "closest": "pi_continued_fraction",
+    "structure_sim": 0.325,
+    "closest_structure": "pi_continued_fraction",
+    "lines": 7,
+    "shared_lines": []
+   }
+  ]
+ }
+}

@@ -9,7 +9,7 @@ Lean proves exactly the statements written, under exactly the hypotheses written
   algebra the submissions established.
 * **Problem 2.1 is closed.** `pcf21_tendsto` proves that the convergents `P_n/Q_n` of
   `a_n = −220n³−484n²−301n−42`, `b_n = 4n²(2n+1)²(5n−4)(5n+6)` tend to `6/(3 − π)`, with no
-  `sorry` and only the three standard axioms. The four items this file used to list are done:
+  unfinished proofs and only the three standard axioms. The four items this file used to list are done:
   1. the coefficient limits `A(n) → −297/2`, `B(n) → 729/4`: `tendsto_midCoeff21`,
      `tendsto_tailCoeff21` (`Problem21.lean`);
   2. minimality (recessiveness) of the hypergeometric solution: `Z21_isRecessive`;
@@ -32,8 +32,15 @@ Lean proves exactly the statements written, under exactly the hypotheses written
     `U(n)` (Eqs. 17–20). It is proved directly for Euler's integral by creative telescoping, with
     an explicit certificate (`hasDerivAt_Phi21`, `K21_rec`, `F21_rec`), and transferred to `₂F₁`
     by `hypergeometric21_rec`. The matrices `T(n)`, `U(n)`, `C(n)` are not stated in Lean.
-  * *Euler's integral* is proved for the parameters Problem 2.1 uses (`a = b = n+½`, `c = 3n+½`,
-    `z = 1/2`), not as a general Mathlib lemma for every `a, b, c, z`.
+  * *Euler's integral* is now proved in general for **real** parameters
+    (`ordinaryHypergeometric_eq_integral` in `EulerIntegral.lean`): for real `a, b, c, x` with
+    `0 < b < c` and `|x| < 1`, `₂F₁(a,b;c;x) = Γ(c)/(Γ(b)Γ(c−b)) ∫₀¹ t^{b−1}(1−t)^{c−b−1}(1−xt)^{−a} dt`.
+    The Problem 2.1 family (`a = b = n+½`, `c = 3n+½`, `x = 1/2`) is re-derived from it
+    (`hypergeometric_eq_euler_of_general`); the original direct proof `hypergeometric_eq_euler`
+    is kept. **Not proved:** the complex case (`Re c > Re b > 0`, complex `z`), the analytic
+    continuation to `z ∉ [1, ∞)`, and `|x| ≥ 1` (where `ordinaryHypergeometric` takes Mathlib's
+    junk value). The real Beta integral is a private copy of the statement proposed in Mathlib
+    PR #44677 (open on 18 October 2026).
 * **The Technion skeleton's Pincherle statement is false as written.** Their
   `Code/2.1/LeanFormal/PiPCF.lean` asks of the companion solution only that `Z n / D n → 0`;
   with Lean's convention `x / 0 = 0` a companion vanishing at infinitely many indices passes

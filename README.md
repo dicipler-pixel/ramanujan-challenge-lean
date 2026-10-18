@@ -3,8 +3,8 @@
 # Ramanujan Challenge submissions — Lean proofs of the exact algebra
 
 ![Lean](https://img.shields.io/badge/Lean-v4.34.1-blue)
-![Theorems](https://img.shields.io/badge/theorems-146-2EA043)
-![sorry](https://img.shields.io/badge/sorry-0-2EA043)
+![Theorems](https://img.shields.io/badge/theorems-152-2EA043)
+![Unfinished proofs: 0](https://img.shields.io/badge/unfinished%20proofs-0-2EA043)
 ![Code: MIT OR Apache-2.0](https://img.shields.io/badge/code-MIT%20OR%20Apache--2.0-lightgrey)
 ![Text: CC BY 4.0](https://img.shields.io/badge/text-CC%20BY%204.0-lightgrey)
 
@@ -49,6 +49,7 @@ numerics for the limits. This library states that algebra and has the Lean kerne
 | 2.1 | **Reviewed interface (Codex):** convergents indexed from the first actual one, `P 0 = −42`, `Q 0 = 1`, every `Q n ≠ 0`; the exact residual `P_n/Q_n − 6/(3−π) = (Z(n+1)/Q_n)/Z(0)`; the geometric bound `‖P_n/Q_n − 6/(3−π)‖ ≤ (300√2/Z(0))·(1/5)^n`; and the limit from that bound alone, without `pcf21_tendsto` or `CFData.tendsto_convergent` | `Reviewed.P_eq`, `Reviewed.Q_eq`, `Reviewed.Q_ne_zero`, `Reviewed.initial_values`, `Reviewed.value`, `Reviewed.error_identity`, `Reviewed.error_bound`, `Reviewed.limit` |
 | 2.1 | Lemma 3 of the official proof: `F_{n+2} = A(n)F_{n+1} + B(n)F_n` for every `n ≥ 1`, for `F_n` given by Euler's integral (in the paper's substitution `t = 2u²/(1+u²)`). Proved by creative telescoping: an explicit antiderivative `Φ` with `Φ' = −2n(2n+1)(5n+6)ω_n + (220n³+484n²+301n+42)ω_{n+1} + 2(n+1)(2n+3)(5n+1)ω_{n+2}`, plus the Gamma-prefactor ratio | `hasDerivAt_Phi21`, `K21_rec`, `kap21_succ`, `F21_rec` |
 | 2.1 | Lemma 7, the anchors: `F_1 = (15√2/2)(π − 3)`, `F_2 = (1155√2/8)(22 − 7π)` | `K21_zero`, `K21_one`, `F21_zero`, `F21_one` |
+| — | **Euler's integral for `₂F₁`, general real parameters:** for real `a, b, c, x` with `0 < b < c` and `\|x\| < 1`, `₂F₁(a, b; c; x) = Γ(c)/(Γ(b)Γ(c−b)) ∫₀¹ t^{b−1}(1−t)^{c−b−1}(1−xt)^{−a} dt` for Mathlib's `ordinaryHypergeometric`. The integrand may be unbounded at either end (`b < 1` or `c − b < 1`); the proof uses the binomial series, dominated convergence with `\|(a)ₖ\| ≤ (\|a\|)ₖ`, and the real Beta integral. Depends only on Mathlib (`EulerIntegral.lean`). The Problem 2.1 case is re-derived from it. The complex case is not proved | `ordinaryHypergeometric_eq_integral`, `abs_ascPochhammer_eval_le`, `Gamma_add_nat_eq_ascPochhammer_mul`, `hasSum_ascPochhammer_mul_pow`, `E21_eq_eulerIntegral`, `hypergeometric_eq_euler_of_general` |
 | 2.1 | **Euler's integral (Lemma 1) for the sequence:** `F_n` is Mathlib's `₂F₁(n+½, n+½; 3n+½; 1/2)`. The proof uses the real Beta integral, the binomial series, termwise integration (dominated convergence) and the change of variables `t = 2u²/(1+u²)`. In `₂F₁` form: Lemma 3, `₂F₁(3/2,3/2;7/2;1/2) = (15√2/2)(π−3)` and `₂F₁(5/2,5/2;13/2;1/2) = (1155√2/8)(22−7π)` | `F21_eq_hypergeometric`, `hypergeometric_eq_euler`, `E21_eq`, `beta_integral_real`, `hasSum_one_div_one_sub_rpow`, `hypergeometric21_rec`, `hypergeometric21_one`, `hypergeometric21_two` |
 | 2.1 | Lemma 4, the rescaling: `r_nA(n) = a_n`, `r_nr_{n−1}B(n) = b_n`; `X_n = s_nF_{n+2}` solves the challenge recurrence | `r21_mul_midCoeff21`, `r21_mul_r21_mul_tailCoeff21`, `Z21_mem_solutions` |
 | 2.1 | Lemmas 5–6, minimality, by a direct dominance bound in place of Poincaré–Perron: `−A(x) ≥ 100`, the denominators alternate with `|Q_{k+1}| ≥ s_k·100^k`, `0 < F_n ≤ 15√2·20^{n−1}`, hence `|X/Q| ≤ 300√2·5^{−k}`, so `X` is recessive | `neg_midCoeff21_ge`, `denom21_bound`, `F21_pos`, `F21_le`, `norm_Z21_div_denom21_le`, `Z21_isRecessive` |
@@ -71,7 +72,7 @@ direct error-bound proof are in
 Run `lake exe cache get`, then `python3 scripts/check_review.py` (do not run `lake update`; the
 committed `lake-manifest.json` fixes the dependency set). It runs the verifier's regression tests,
 builds every module against Lean v4.34.1 and Mathlib v4.34.1, replays each one in Lean's
-independent kernel checker, audits the axioms of all 146 named theorems (only `propext`,
+independent kernel checker, audits the axioms of all 152 named theorems (only `propext`,
 `Classical.choice`, `Quot.sound`), requires seven deliberately false statements to fail,
 checks the Apache header on every library file, and runs Mathlib's standard linter set,
 `#lint` and `lint-style`.
@@ -87,7 +88,7 @@ Every identity was also checked symbolically before being written in Lean
 The problems and their official proofs are the Ramanujan Machine group's: *Ramanujan Challenge
 Proofs* (Technion, 2 August 2026), code at
 [RamanujanMachine/RamanujanChallengeSolutions](https://github.com/RamanujanMachine/RamanujanChallengeSolutions).
-Their repository carries a Lean skeleton for Problem 2.1 whose analytic steps are left as `sorry`
+Their repository carries a Lean skeleton for Problem 2.1 whose analytic steps are left as unproved placeholders
 (still the case on 17 October 2026). `Problem21.lean` proves the challenge limit without them;
 [`LIMITATIONS.md`](LIMITATIONS.md) says which of their statements are still not proved here.
 

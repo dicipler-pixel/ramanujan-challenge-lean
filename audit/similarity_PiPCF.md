@@ -71,3 +71,22 @@ coefficients `a_n`, `b_n` (`a1`, `b1`, `a21`, `b21`, `Reviewed.a`, `Reviewed.b`)
 normaliser `r_n` of Eq. (21) (`r21`, now written in regrouped form), and the quotients
 `midCoeff21 = a/r`, `tailCoeff21 = b/(r·r(·−1))`, which contain those polynomials. No declaration
 in any of the six files shares a line with PiPCF.lean.
+
+## Re-run on branch `phase2-final-grok` (18 October 2026, Chicago time)
+
+Same method and same PiPCF.lean (SHA-256 `b82635f6…e35ef`), worktree including the new
+`EulerIntegral.lean`; raw data in `similarity_PiPCF_final.json`.
+
+| File | Decls | Max token sim | Shared lines |
+| :--- | :--- | :--- | :--- |
+| `Exact.lean` | 71 | 0.93 (`b1`) | 0 |
+| `Pincherle.lean` | 43 | 0.63 (`CFData.transfer`) | 0 |
+| `Series.lean` | 7 | 0.57 (`r26Term_eq`) | 0 |
+| `Problem21.lean` | 58 | 0.91 (`r21`) | 0 |
+| `EulerIntegral.lean` (new) | 7 | 0.36 (`integral_beta`) | 0 |
+| `Euler21.lean` | 24 | 0.65 (`F21_eq_hypergeometric`) | 0 |
+| `ReviewedProblem21.lean` | 12 | 0.82 (`b`) | 0 |
+
+The two new `Euler21.lean` declarations score 0.27 (`E21_eq_eulerIntegral`) and 0.38
+(`hypergeometric_eq_euler_of_general`). Everything new is below the 0.5–0.65 noise floor.
+

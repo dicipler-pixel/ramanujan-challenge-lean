@@ -17,6 +17,10 @@
       "path": "RamanujanChallenge/Problem21.lean"
     },
     {
+      "module": "RamanujanChallenge.EulerIntegral",
+      "path": "RamanujanChallenge/EulerIntegral.lean"
+    },
+    {
       "module": "RamanujanChallenge.Euler21",
       "path": "RamanujanChallenge/Euler21.lean"
     },
@@ -25,13 +29,14 @@
       "path": "RamanujanChallenge/ReviewedProblem21.lean"
     }
   ],
-  "expected_theorems": 146,
+  "expected_theorems": 152,
   "expected_false_controls": 7,
   "root_imports": [
     "RamanujanChallenge.Exact",
     "RamanujanChallenge.Pincherle",
     "RamanujanChallenge.Series",
     "RamanujanChallenge.Problem21",
+    "RamanujanChallenge.EulerIntegral",
     "RamanujanChallenge.Euler21",
     "RamanujanChallenge.ReviewedProblem21"
   ],
@@ -47,6 +52,7 @@
     "RamanujanChallenge.Reviewed.limit",
     "RamanujanChallenge.Reviewed.error_bound",
     "RamanujanChallenge.F21_eq_hypergeometric",
+    "RamanujanChallenge.ordinaryHypergeometric_eq_integral",
     "RamanujanChallenge.hypergeometric21_rec",
     "RamanujanChallenge.CFData.tendsto_convergent",
     "RamanujanChallenge.Z21_isRecessive",
@@ -83,12 +89,14 @@
     "RamanujanChallenge.CFData.transfer_mulVec",
     "RamanujanChallenge.C_mul_L",
     "RamanujanChallenge.E21_eq",
+    "RamanujanChallenge.E21_eq_eulerIntegral",
     "RamanujanChallenge.F21_eq_hypergeometric",
     "RamanujanChallenge.F21_le",
     "RamanujanChallenge.F21_one",
     "RamanujanChallenge.F21_pos",
     "RamanujanChallenge.F21_rec",
     "RamanujanChallenge.F21_zero",
+    "RamanujanChallenge.Gamma_add_nat_eq_ascPochhammer_mul",
     "RamanujanChallenge.Gamma_add_nat_real",
     "RamanujanChallenge.K21_le_one",
     "RamanujanChallenge.K21_one",
@@ -110,6 +118,7 @@
     "RamanujanChallenge.Z21_isRecessive",
     "RamanujanChallenge.Z21_mem_solutions",
     "RamanujanChallenge.a21_eq_a1",
+    "RamanujanChallenge.abs_ascPochhammer_eval_le",
     "RamanujanChallenge.abs_subdominantRoot21_lt_abs_dominantRoot21",
     "RamanujanChallenge.altCF_denom",
     "RamanujanChallenge.altCF_not_tendsto",
@@ -151,6 +160,7 @@
     "RamanujanChallenge.hasDerivAt_N21",
     "RamanujanChallenge.hasDerivAt_Phi21",
     "RamanujanChallenge.hasDerivAt_phi21",
+    "RamanujanChallenge.hasSum_ascPochhammer_mul_pow",
     "RamanujanChallenge.hasSum_gEk",
     "RamanujanChallenge.hasSum_integral_gEk",
     "RamanujanChallenge.hasSum_inv_sq_shift",
@@ -160,6 +170,7 @@
     "RamanujanChallenge.hypergeometric21_rec",
     "RamanujanChallenge.hypergeometric21_two",
     "RamanujanChallenge.hypergeometric_eq_euler",
+    "RamanujanChallenge.hypergeometric_eq_euler_of_general",
     "RamanujanChallenge.integral_gEk",
     "RamanujanChallenge.kap21_one",
     "RamanujanChallenge.kap21_pos",
@@ -168,6 +179,7 @@
     "RamanujanChallenge.neg_midCoeff21_ge",
     "RamanujanChallenge.norm_Z21_div_denom21_le",
     "RamanujanChallenge.one_add_sq_ne",
+    "RamanujanChallenge.ordinaryHypergeometric_eq_integral",
     "RamanujanChallenge.p23_five",
     "RamanujanChallenge.pcf21_tendsto",
     "RamanujanChallenge.phi_pow5",

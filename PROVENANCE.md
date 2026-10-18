@@ -32,6 +32,20 @@ parameters, the classical way: Beta integrals, the binomial series, termwise int
 
 Every identity was checked in SymPy first (`scripts/precheck3.py`).
 
+## General real Euler integral (18 October 2026, Chicago time)
+
+`RamanujanChallenge/EulerIntegral.lean` proves Euler's integral representation of `₂F₁` for real
+parameters, `0 < b < c`, `|x| < 1` (`ordinaryHypergeometric_eq_integral`), using Mathlib only. The
+proof is the textbook one (binomial series, termwise integration by dominated convergence, Beta
+integrals). It was written by Grok Bot, an AI agent working for the author, at his request, on
+branch `phase2-final-grok`. The new code was written from the mathematics and Mathlib's API; the
+Technion file was opened only for the similarity check afterwards (`audit/similarity_PiPCF_final.json`:
+highest token similarity of any new declaration 0.38, no shared lines). The private real Beta
+lemmas restate what Mathlib PR #44677 (Altabeh, open) proposes; they are private so that the PR's
+public names can replace them. `Euler21.lean` gains `E21_eq_eulerIntegral` and
+`hypergeometric_eq_euler_of_general`, which re-derive the Problem 2.1 case from the general
+theorem; the earlier direct proof is kept unchanged.
+
 ## Codex review edition and merge (18 October 2026 UTC)
 
 At the author's request, Codex added `ReviewedProblem21.lean`: the explicit convergent

@@ -58,7 +58,7 @@ def main():
     root = pathlib.Path(__file__).resolve().parents[1]
     theirs = decls(pathlib.Path(sys.argv[1]).read_text())
     result = {}
-    files = ["Exact", "Pincherle", "Series", "Problem21", "Euler21", "ReviewedProblem21"]
+    files = ["Exact", "Pincherle", "Series", "Problem21", "EulerIntegral", "Euler21", "ReviewedProblem21"]
     for ref in sys.argv[3:]:
         result[ref] = {}
         for f in files:

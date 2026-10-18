@@ -39,3 +39,8 @@ mathematics without opening the Technion file. That file was fetched afterwards 
 similarity check. The agent had seen the earlier overlapping versions in this repository the
 same day; `PROVENANCE.md` says so and records the result of the check. The downstream proofs were
 re-derived, and the theorem inventory changed from 132 to 146 names (see `scripts/config.json`).
+
+On 18 October 2026 (Chicago time), at the author's request, Grok Bot proved the general real
+Euler integral for `₂F₁` (`RamanujanChallenge/EulerIntegral.lean`) and re-derived the Problem 2.1
+case from it. The theorem inventory changed from 146 to 152 names. No earlier theorem statement or
+proof changed.

@@ -9,8 +9,8 @@ Copyright (c) 2026 Jeromie Beasley.
 
 SPDX identifier for the code: `MIT OR Apache-2.0`.
 
-All six Lean library files in `RamanujanChallenge/` (`Exact.lean`, `Pincherle.lean`,
-`Series.lean`, `Problem21.lean`, `Euler21.lean`, `ReviewedProblem21.lean`) carry the Mathlib-style
+All seven Lean library files in `RamanujanChallenge/` (`Exact.lean`, `Pincherle.lean`,
+`Series.lean`, `Problem21.lean`, `EulerIntegral.lean`, `Euler21.lean`, `ReviewedProblem21.lean`) carry the Mathlib-style
 header "Released under Apache 2.0 license as described in the file LICENSE"; `scripts/verify.py`
 fails if any of them loses it. `LICENSE` points to the full Apache
 text in `LICENSE-APACHE` and offers MIT as the alternative. The Apache option exists so that
