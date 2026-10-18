@@ -162,7 +162,8 @@ def main() -> int:
         text = (ROOT / rel).read_text()
         if not header_ok(text):
             raise SystemExit(f"{rel}: missing or altered Apache-2.0 header")
-    for path in [ROOT / rel for _, rel in MODULES] + sorted((ROOT / "FalseControls").glob("*.lean")):
+    for path in ([ROOT / rel for _, rel in MODULES] + sorted((ROOT / "FalseControls").glob("*.lean"))
+                 + sorted((ROOT / "checks").glob("*.lean"))):
         bad_lines = placeholder_lines(path.read_text())
         if bad_lines:
             raise SystemExit(f"{path.relative_to(ROOT)}: placeholder keyword on lines {bad_lines}")

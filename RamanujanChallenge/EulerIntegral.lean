@@ -3,7 +3,11 @@ Copyright (c) 2026 Jeromie Beasley. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Jeromie Beasley
 -/
-import Mathlib
+import Mathlib.Analysis.Analytic.Binomial
+import Mathlib.Analysis.SpecialFunctions.Gamma.Beta
+import Mathlib.Analysis.SpecialFunctions.OrdinaryHypergeometric
+import Mathlib.MeasureTheory.Integral.DominatedConvergence
+import Mathlib.Tactic
 
 /-!
 # Euler's integral representation of `₂F₁` (real parameters)
@@ -17,6 +21,8 @@ The proof is the classical one: expand `(1 - x t)^{-a}` by the binomial series, 
 by term (dominated convergence, with the bound `|(a)ₖ| ≤ (|a|)ₖ`), evaluate each term as a Beta
 integral, and use `Γ(s + k) = (s)ₖ Γ(s)`. The integrand may be unbounded at either endpoint
 (`b < 1` or `c - b < 1`); integrability comes from the convergence of the Beta integral.
+
+`intervalIntegrable_eulerIntegrand` records that the integrand is integrable on `[0, 1]`.
 
 This file depends only on Mathlib.
 -/
@@ -174,5 +180,22 @@ theorem ordinaryHypergeometric_eq_integral {a b c x : ℝ} (hb : 0 < b) (hbc : b
     Gamma_add_nat_eq_ascPochhammer_mul hc]
   have hAc : (ascPochhammer ℝ k).eval c ≠ 0 := (ascPochhammer_pos k c hc).ne'
   field_simp
+
+/-- The Euler integrand `t^{b−1}(1−t)^{c−b−1}(1 − x t)^{−a}` is interval integrable on `[0, 1]`
+for `0 < b < c` and `|x| < 1`, although it may be unbounded at either endpoint. -/
+theorem intervalIntegrable_eulerIntegrand (a : ℝ) {b c x : ℝ} (hb : 0 < b) (hbc : b < c)
+    (hx : |x| < 1) :
+    IntervalIntegrable (fun t : ℝ => t ^ (b - 1) * (1 - t) ^ (c - b - 1) * (1 - x * t) ^ (-a))
+      volume 0 1 := by
+  have hpos : ∀ t ∈ Set.uIcc (0:ℝ) 1, 0 < 1 - x * t := by
+    intro t ht
+    rw [Set.uIcc_of_le zero_le_one] at ht
+    have h : |x * t| < 1 := by
+      rw [abs_mul, abs_of_nonneg ht.1]
+      exact lt_of_le_of_lt (mul_le_of_le_one_right (abs_nonneg x) ht.2) hx
+    linarith [le_abs_self (x * t)]
+  have hk : ContinuousOn (fun t : ℝ => (1 - x * t) ^ (-a)) (Set.uIcc 0 1) :=
+    ContinuousOn.rpow_const (by fun_prop) (fun t ht => Or.inl (hpos t ht).ne')
+  exact (intervalIntegrable_beta hb (sub_pos.2 hbc)).mul_continuousOn hk
 
 end RamanujanChallenge

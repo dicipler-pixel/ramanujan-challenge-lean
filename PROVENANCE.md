@@ -46,6 +46,25 @@ public names can replace them. `Euler21.lean` gains `E21_eq_eulerIntegral` and
 `hypergeometric_eq_euler_of_general`, which re-derive the Problem 2.1 case from the general
 theorem; the earlier direct proof is kept unchanged.
 
+### Merge with the Codex edition (branch `phase2-final-merged`)
+
+The author had OpenAI Codex prove the same theorem independently (commit `e977cf2`, kept
+unchanged on branch `gpt-final-e977cf2`, file `RamanujanChallenge/EulerGeneral.lean`). The two
+proofs follow the same textbook route. The merged branch keeps the Grok Bot file
+`EulerIntegral.lean` and takes three ideas from the Codex edition, rewritten here against this
+file's names:
+* a separate integrability theorem for the Euler integrand (`intervalIntegrable_eulerIntegrand`,
+  after Codex's `euler_integrand_intervalIntegrable`, using `IntervalIntegrable.mul_continuousOn`);
+* targeted Mathlib imports in place of `import Mathlib` (Codex's import list);
+* the specialization checks (negative `a` and `x`, both endpoints singular, the Problem 2.1
+  family, `a = x = 0` integrability), now `checks/EulerSpecializations.lean`, and the idea of a
+  false control for the normalization. The false control used here,
+  `FalseControls/euler_prefactor_wrong.lean`, is new: it inverts the Gamma prefactor and goes
+  through the theorem, which Codex's `z = 0` control did not.
+Codex's separate script and evidence (`scripts/check_euler_general.py`, `verification-euler/`)
+are not carried over; `scripts/check_review.py` now runs the specialization step. See
+`COMPARISON.md`.
+
 ## Codex review edition and merge (18 October 2026 UTC)
 
 At the author's request, Codex added `ReviewedProblem21.lean`: the explicit convergent

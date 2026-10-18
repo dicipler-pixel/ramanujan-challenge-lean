@@ -30,6 +30,10 @@ def main():
     if 'warning' in build_log or 'error' in build_log:
         print(build_log)
         raise SystemExit('lake build reported warnings or errors')
+    # Instances of the general Euler integral (negative a and x, singular endpoints, the 2.1
+    # family), compiled with warnings as errors.
+    run('euler_specializations',
+        ['lake', 'env', 'lean', '-DwarningAsError=true', 'checks/EulerSpecializations.lean'])
     config = json.loads((ROOT / 'scripts/config.json').read_text())
     for module in config['modules']:
         run(module['module'] + '_kernel', ['lake', 'env', 'leanchecker', module['module']])
@@ -65,6 +69,7 @@ def main():
         'declaration_lint': 'passed',
         'lint_style': 'passed',
         'audit_regressions': 'passed',
+        'euler_specializations': 'passed',
         'manifest_sha256': hashlib.sha256(manifest).hexdigest(),
     }, indent=2) + '\n')
     print('All review checks passed.', flush=True)

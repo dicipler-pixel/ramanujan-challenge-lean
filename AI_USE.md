@@ -43,4 +43,6 @@ re-derived, and the theorem inventory changed from 132 to 146 names (see `script
 On 18 October 2026 (Chicago time), at the author's request, Grok Bot proved the general real
 Euler integral for `₂F₁` (`RamanujanChallenge/EulerIntegral.lean`) and re-derived the Problem 2.1
 case from it. The theorem inventory changed from 146 to 152 names. No earlier theorem statement or
-proof changed.
+proof changed. The same day OpenAI Codex proved the theorem independently at the author's
+request (commit `e977cf2`); Grok Bot compared the two and merged the better parts of each
+(branch `phase2-final-merged`, 153 names; see `PROVENANCE.md` and `COMPARISON.md`).

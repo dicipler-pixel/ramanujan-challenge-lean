@@ -33,7 +33,8 @@ Lean proves exactly the statements written, under exactly the hypotheses written
     an explicit certificate (`hasDerivAt_Phi21`, `K21_rec`, `F21_rec`), and transferred to `₂F₁`
     by `hypergeometric21_rec`. The matrices `T(n)`, `U(n)`, `C(n)` are not stated in Lean.
   * *Euler's integral* is now proved in general for **real** parameters
-    (`ordinaryHypergeometric_eq_integral` in `EulerIntegral.lean`): for real `a, b, c, x` with
+    (`ordinaryHypergeometric_eq_integral` in `EulerIntegral.lean`, with the integrand's
+    integrability `intervalIntegrable_eulerIntegrand`): for real `a, b, c, x` with
     `0 < b < c` and `|x| < 1`, `₂F₁(a,b;c;x) = Γ(c)/(Γ(b)Γ(c−b)) ∫₀¹ t^{b−1}(1−t)^{c−b−1}(1−xt)^{−a} dt`.
     The Problem 2.1 family (`a = b = n+½`, `c = 3n+½`, `x = 1/2`) is re-derived from it
     (`hypergeometric_eq_euler_of_general`); the original direct proof `hypergeometric_eq_euler`

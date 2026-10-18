@@ -29,8 +29,8 @@
       "path": "RamanujanChallenge/ReviewedProblem21.lean"
     }
   ],
-  "expected_theorems": 152,
-  "expected_false_controls": 7,
+  "expected_theorems": 153,
+  "expected_false_controls": 8,
   "root_imports": [
     "RamanujanChallenge.Exact",
     "RamanujanChallenge.Pincherle",
@@ -172,6 +172,7 @@
     "RamanujanChallenge.hypergeometric_eq_euler",
     "RamanujanChallenge.hypergeometric_eq_euler_of_general",
     "RamanujanChallenge.integral_gEk",
+    "RamanujanChallenge.intervalIntegrable_eulerIntegrand",
     "RamanujanChallenge.kap21_one",
     "RamanujanChallenge.kap21_pos",
     "RamanujanChallenge.kap21_succ",
