@@ -10,7 +10,7 @@ and `Q = convDen` are the solutions with `(P 0, P 1) = (1, a 0)` and `(Q 0, Q 1)
 Pincherle. If `Z` is a minimal solution with `Z 0 ≠ 0`, then `P n / Q n → a 0 - Z 1 / Z 0`.
 
 The hypothesis. The Technion skeleton (`RamanujanMachine/RamanujanChallengeSolutions`,
-`Code/2.1/LeanFormal/LeanFormal/PiPCF.lean`, left as `sorry`) defines a minimal solution as
+`Code/2.1/LeanFormal/LeanFormal/PiPCF.lean`, stated there without proof) defines a minimal solution as
 a solution `Z` with a companion solution `D`, not a scalar multiple of `Z`, such that
 `Z n / D n → 0`. Because Lean sets `x / 0 = 0`, that definition is satisfied by a `D` that
 vanishes infinitely often, and then the conclusion is false (`technion_pincherle_fails`
@@ -196,20 +196,23 @@ vanishing at every even index. All hypotheses of the skeleton's `pincherle` hold
 (`IsMinimalWeak`, `Z 0 ≠ 0`, `b n ≠ 0`), yet `P n / Q n` is `0` at even `n` and tends to
 `8 = a 0 - Z 1 / Z 0` only along odd `n`, so it has no limit. -/
 
+/-- Partial numerators of the counterexample: `17/2` at even `n`, `0` at odd `n`. -/
 noncomputable def aCE (n : ℕ) : ℝ := if n % 2 = 0 then 17 / 2 else 0
 
+/-- Partial denominators of the counterexample: `−4` at even `n`, `1/4` at odd `n`. -/
 noncomputable def bCE (n : ℕ) : ℝ := if n % 2 = 0 then -4 else 1 / 4
 
+/-- The counterexample's minimal solution `Z_n = 2^{−n}`. -/
 noncomputable def zCE (n : ℕ) : ℝ := (1 / 2) ^ n
 
 theorem zCE_isSolution : IsSolution aCE bCE zCE := by
   intro n
   rcases Nat.even_or_odd' n with ⟨k, rfl | rfl⟩
-  · have ha : aCE (2 * k + 1) = 0 := by unfold aCE; rw [if_neg (by omega)]
-    have hb : bCE (2 * k + 1) = 1 / 4 := by unfold bCE; rw [if_neg (by omega)]
+  · have ha : aCE (2 * k + 1) = 0 := by unfold aCE; rw [ite_eq_right (by omega)]
+    have hb : bCE (2 * k + 1) = 1 / 4 := by unfold bCE; rw [ite_eq_right (by omega)]
     rw [ha, hb]; unfold zCE; ring
-  · have ha : aCE (2 * k + 1 + 1) = 17 / 2 := by unfold aCE; rw [if_pos (by omega)]
-    have hb : bCE (2 * k + 1 + 1) = -4 := by unfold bCE; rw [if_pos (by omega)]
+  · have ha : aCE (2 * k + 1 + 1) = 17 / 2 := by unfold aCE; rw [ite_eq_left (by omega)]
+    have hb : bCE (2 * k + 1 + 1) = -4 := by unfold bCE; rw [ite_eq_left (by omega)]
     rw [ha, hb]; unfold zCE; ring
 
 theorem qCE_formula (k : ℕ) :
@@ -218,10 +221,10 @@ theorem qCE_formula (k : ℕ) :
   | zero => simp [convDen]
   | succ k ih =>
     obtain ⟨h0, h1⟩ := ih
-    have ha0 : aCE (2 * k + 1) = 0 := by unfold aCE; rw [if_neg (by omega)]
-    have hb0 : bCE (2 * k + 1) = 1 / 4 := by unfold bCE; rw [if_neg (by omega)]
-    have ha1 : aCE (2 * k + 1 + 1) = 17 / 2 := by unfold aCE; rw [if_pos (by omega)]
-    have hb1 : bCE (2 * k + 1 + 1) = -4 := by unfold bCE; rw [if_pos (by omega)]
+    have ha0 : aCE (2 * k + 1) = 0 := by unfold aCE; rw [ite_eq_right (by omega)]
+    have hb0 : bCE (2 * k + 1) = 1 / 4 := by unfold bCE; rw [ite_eq_right (by omega)]
+    have ha1 : aCE (2 * k + 1 + 1) = 17 / 2 := by unfold aCE; rw [ite_eq_left (by omega)]
+    have hb1 : bCE (2 * k + 1 + 1) = -4 := by unfold bCE; rw [ite_eq_left (by omega)]
     have hQ2 : convDen aCE bCE (2 * k + 2) = 0 := by
       rw [convDen_isSolution aCE bCE (2 * k), ha0, hb0, h0, h1]; ring
     have hQ3 : convDen aCE bCE (2 * k + 1 + 2) = (-4) ^ (k + 1) := by
@@ -237,7 +240,7 @@ theorem pCE_formula (n : ℕ) : convNum aCE bCE n = zCE n + 8 * convDen aCE bCE 
     congrFun (solution_eq_combo aCE bCE zCE zCE_isSolution) n
   have hz0 : zCE 0 = 1 := by simp [zCE]
   have hz1 : zCE 1 = 1 / 2 := by simp [zCE]
-  have ha0 : aCE 0 = 17 / 2 := by unfold aCE; rw [if_pos (by decide)]
+  have ha0 : aCE 0 = 17 / 2 := by unfold aCE; rw [ite_eq_left (by decide)]
   rw [hz0, hz1, ha0] at hP
   linear_combination -hP
 
@@ -360,7 +363,7 @@ theorem pincherle_of_ratio (a b Z D : ℕ → ℝ) (ls ld : ℝ) (hZ : IsSolutio
 
 After the coboundary rescaling in the Technion skeleton, the recurrence for `F_n` has coefficients
 `A(x), B(x)` below (their `A`, `B`), and `A(n) → −297/2`, `B(n) → 729/4`: the characteristic
-polynomial `λ² + (297/2)λ − 729/4` of `lamS_root`, `lamD_root`. Both limits are left as `sorry`
+polynomial `λ² + (297/2)λ − 729/4` of `lamS_root`, `lamD_root`. Both limits are stated without proof
 in the skeleton (`A_limit`, `B_limit`). -/
 
 /-- The rescaled middle coefficient of the 2.1 recurrence. -/
