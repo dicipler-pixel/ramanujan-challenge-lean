@@ -53,10 +53,11 @@ def main():
     if 'All linting checks passed!' not in (OUT / 'declaration_lint.log').read_text():
         print((OUT / 'declaration_lint.log').read_text())
         raise SystemExit('#lint reported problems')
+    # Build the lint-style executable first, in its own log: on a fresh machine `lake exe`
+    # would otherwise print its build progress into the lint report, which must be empty.
+    run('lint_style_build', ['lake', 'build', 'lint-style'])
     run('lint_style', ['lake', 'exe', 'lint-style'] + config['root_imports'])
-    if (OUT / 'lint_style.log').read_text().replace(
-            'warning: nolints file could not be read; treating as empty: '
-            'scripts/nolints-style.txt', '').strip():
+    if (OUT / 'lint_style.log').read_text().strip():
         print((OUT / 'lint_style.log').read_text())
         raise SystemExit('lint-style reported problems')
     if manifest != (ROOT / 'lake-manifest.json').read_bytes():
