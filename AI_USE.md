@@ -24,3 +24,8 @@ error-bound proof (`RamanujanChallenge/ReviewedProblem21.lean`), and hardened th
 the Grok Bot cleanup independently. Grok Bot merged the two editions on 17 October 2026
 (Chicago time). The merged copy has local build and kernel replay evidence; no claim is made
 that it has run on hosted CI.
+
+On 17 October 2026 (Chicago time), at the author's request, Grok Bot added the dual licence
+(`MIT OR Apache-2.0`) and the Mathlib-style headers. It also compared the library line by line
+with the Technion's GPL-3.0 skeleton and kept the Apache option off the two files that overlap
+it (see `PROVENANCE.md`). No proof or theorem statement changed.

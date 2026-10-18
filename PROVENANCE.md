@@ -45,3 +45,25 @@ are in `REVIEW.md`.
 
 This branch merges that edition into the Grok Bot style cleanup (commit `7cebef4`). The five
 original Lean files carry the cleanup; `ReviewedProblem21.lean` is Codex's file unchanged.
+
+## Dual licence and Technion overlap (17 October 2026, Chicago time)
+
+At the author's request the code was made dual-licensed, `MIT OR Apache-2.0`, and the
+Mathlib-style Apache header (author: Jeromie Beasley) was added to `Series.lean`,
+`Problem21.lean`, `Euler21.lean` and `ReviewedProblem21.lean`. Grok Bot, an AI agent working
+for the author, made this change. `ReviewedProblem21.lean` was written by Codex (an AI tool)
+for the author's review edition at his request. It is included under his name because it was
+made for him and he directed it; the AI help is stated here and in `AI_USE.md`.
+
+A line-by-line comparison with the Technion's GPL-3.0 skeleton
+(`RamanujanMachine/RamanujanChallengeSolutions`, `Code/2.1/LeanFormal/LeanFormal/PiPCF.lean`)
+found matching code in two files, both written on 16 October 2026 (phases 3a and 3c):
+
+* `Exact.lean`: `lamS`, `lamD`, `lamS_root`, `lamD_root`, `lamS_pos`, `lamD_neg`,
+  `abs_lamS_lt_abs_lamD` (same names and essentially the same proofs);
+* `Pincherle.lean`: `IsSolution`, `convNum`, `convDen`, the skeleton's minimality definition
+  (here `IsMinimalWeak`), the statement shape of `pincherle`, and the formulas `A21`, `B21`.
+
+These two files were not relicensed and have no Apache header; see `LICENSING.md`. The other
+four library files share no line with the skeleton. `Problem21.lean`'s `r21` restates the
+paper's Eq. (21), which the skeleton also states as `r`.

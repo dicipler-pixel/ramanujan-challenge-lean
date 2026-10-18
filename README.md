@@ -5,7 +5,7 @@
 ![Lean](https://img.shields.io/badge/Lean-v4.34.1-blue)
 ![Theorems](https://img.shields.io/badge/theorems-132-2EA043)
 ![sorry](https://img.shields.io/badge/sorry-0-2EA043)
-![Code: MIT](https://img.shields.io/badge/code-MIT-lightgrey)
+![Code: MIT OR Apache-2.0](https://img.shields.io/badge/code-MIT%20OR%20Apache--2.0-lightgrey)
 ![Text: CC BY 4.0](https://img.shields.io/badge/text-CC%20BY%204.0-lightgrey)
 
 Jeromie Beasley
@@ -91,6 +91,12 @@ Their repository carries a Lean skeleton for Problem 2.1 whose analytic steps ar
 
 ## Licence
 
-Copyright (c) 2026 Jeromie Beasley. Code and proofs: [MIT](LICENSE). Written text:
-[CC BY 4.0](LICENSE-CC-BY-4.0.md). See [`LICENSING.md`](LICENSING.md). Citation metadata is in
-[`CITATION.cff`](CITATION.cff); how AI tools were used is stated in [`AI_USE.md`](AI_USE.md).
+SPDX-License-Identifier: `MIT OR Apache-2.0` (code and proofs).
+
+Copyright (c) 2026 Jeromie Beasley. Code and proofs: [MIT](LICENSE-MIT) OR
+[Apache-2.0](LICENSE-APACHE), at your option (see [`LICENSE`](LICENSE)).
+`RamanujanChallenge/Exact.lean` and `RamanujanChallenge/Pincherle.lean` are not yet offered
+under Apache-2.0 because parts of them match the Technion's GPL-3.0 Lean skeleton; see
+[`LICENSING.md`](LICENSING.md). Written text: [CC BY 4.0](LICENSE-CC-BY-4.0.md). Citation
+metadata is in [`CITATION.cff`](CITATION.cff); how AI tools were used is stated in
+[`AI_USE.md`](AI_USE.md).

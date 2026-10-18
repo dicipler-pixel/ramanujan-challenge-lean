@@ -1,3 +1,8 @@
+/-
+Copyright (c) 2026 Jeromie Beasley. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Jeromie Beasley
+-/
 import Mathlib
 import RamanujanChallenge.Exact
 
