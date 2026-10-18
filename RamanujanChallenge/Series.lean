@@ -1,4 +1,7 @@
-/-
+import Mathlib
+import RamanujanChallenge.Exact
+
+/-!
 Problem 2.6: the series of the rational solution `r(n)` of the top factor of the partial-sum
 operator sums to `π²/84 − 547/7200`.
 
@@ -9,8 +12,6 @@ This is the first limit in the library. It is the rational-solution series, not 
 limits `{1, Σh, p₃(∞)}` whose connection formula assembles `S_∞ = ζ(2) + ζ(3)`
 (see LIMITATIONS.md).
 -/
-import Mathlib
-import RamanujanChallenge.Exact
 
 open Filter Topology
 

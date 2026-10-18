@@ -1,4 +1,6 @@
-/-
+import Mathlib
+
+/-!
 Ramanujan Challenge for AI (Ramanujan Machine Group, Technion, 2026): the exact algebra
 established in Jeromie Beasley's submissions to Problems 2.1–2.6, as machine-checked statements.
 
@@ -33,7 +35,6 @@ Problem 2.6 (a series for ζ(2) + ζ(3)).
     and the partial fractions 1/(7(n+4)) − 1/(7(n+5)) + 1/(14(n+5)²); the rational part of its
     sum is 1/35 − (1/14)(1 + 1/4 + 1/9 + 1/16 + 1/25) = −547/7200.
 -/
-import Mathlib
 
 namespace RamanujanChallenge
 
@@ -65,7 +66,7 @@ theorem casoratian_closed (a b A B : ℕ → ℚ)
   induction n with
   | zero => simp
   | succ n ih =>
-    show A (n + 2) * B (n + 1) - A (n + 1) * B (n + 2) = _
+    change A (n + 2) * B (n + 1) - A (n + 1) * B (n + 2) = _
     rw [casoratian_step a b A B hA hB n, ih, prod_range_succ]
     ring
 
@@ -189,14 +190,16 @@ theorem casoratian22_closed (n : ℕ) :
     field_simp
 
 /-- `a_1(n)` of Problem 2.2. -/
-def a22Coeff1 (x : ℚ) : ℚ := 24 * x ^ 5 + 337 * x ^ 4 + 1833 * x ^ 3 + 4818 * x ^ 2 + 6092 * x + 2928
+def a22Coeff1 (x : ℚ) : ℚ :=
+  24 * x ^ 5 + 337 * x ^ 4 + 1833 * x ^ 3 + 4818 * x ^ 2 + 6092 * x + 2928
 
 /-- `a_2(n)` of Problem 2.2. -/
 def a22Coeff2 (x : ℚ) : ℚ :=
   -(x + 2) * (x + 3) * (24 * x ^ 5 + 273 * x ^ 4 + 1150 * x ^ 3 + 2154 * x ^ 2 + 1635 * x + 268)
 
 /-- `a_3(n)` of Problem 2.2. -/
-def a22Coeff3 (x : ℚ) : ℚ := (x + 1) * (x + 2) ^ 4 * (x + 3) * (8 * x ^ 3 + 75 * x ^ 2 + 231 * x + 232)
+def a22Coeff3 (x : ℚ) : ℚ :=
+  (x + 1) * (x + 2) ^ 4 * (x + 3) * (8 * x ^ 3 + 75 * x ^ 2 + 231 * x + 232)
 
 /-- The denominator sequence `q_n` of Problem 2.2, indexed so that `q22 (n + 3) = q_n`:
 `q_{-3} = 1`, `q_{-2} = 12`, `q_{-1} = 306`, and `a_0(n) q_n + a_1(n) q_{n-1} + a_2(n) q_{n-2}
@@ -245,7 +248,8 @@ def A23Coeff2 (x : ℚ) : ℚ :=
   (x + 2) * (x ^ 6 + 9 * x ^ 5 + 8 * x ^ 4 - 87 * x ^ 3 - 249 * x ^ 2 - 234 * x - 68)
 
 /-- `A_3(n)` of Problem 2.3. -/
-def A23Coeff3 (x : ℚ) : ℚ := (x + 1) ^ 2 * (x + 2) * (2 * x ^ 5 + 3 * x ^ 4 - 13 * x ^ 3 - 21 * x ^ 2 + 4)
+def A23Coeff3 (x : ℚ) : ℚ :=
+  (x + 1) ^ 2 * (x + 2) * (2 * x ^ 5 + 3 * x ^ 4 - 13 * x ^ 3 - 21 * x ^ 2 + 4)
 
 /-- `A_4(n)` of Problem 2.3. -/
 def A23Coeff4 (x : ℚ) : ℚ := -x ^ 3 * (x + 1) ^ 2 * (x + 2) * (x ^ 3 + x ^ 2 - 8 * x - 11)
@@ -386,7 +390,8 @@ theorem factor_S0 (x : ℚ) : C26 (x + 2) = m0 x * r0 x := by
 /-- The hypergeometric piece of the partial-sum operator has term ratio `(n+4)²/(4(n+5)(n+9/2))`,
 which is the first-order recurrence `(n² + 19n/2 + 45/2) h(n+1) = (n²/4 + 2n + 4) h(n)`. -/
 theorem h_ratio_cross (x : ℚ) :
-    (x + 4) ^ 2 * (x ^ 2 + 19 / 2 * x + 45 / 2) = (x ^ 2 / 4 + 2 * x + 4) * (4 * (x + 5) * (x + 9 / 2)) := by
+    (x + 4) ^ 2 * (x ^ 2 + 19 / 2 * x + 45 / 2) =
+      (x ^ 2 / 4 + 2 * x + 4) * (4 * (x + 5) * (x + 9 / 2)) := by
   ring
 
 /-- The rational part of `Σ_{n≥1} r(n)`: the telescoping term gives `1/35`, and the shifted

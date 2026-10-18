@@ -1,6 +1,6 @@
 import RamanujanChallenge.Problem21
 
-/-
+/-!
 Euler's integral for the Problem 2.1 hypergeometric sequence: `F21` is Mathlib's `₂F₁`.
 
 `Problem21.lean` defines `F_n` (`F21 m`, `n = m + 1`) through Euler's integral in the paper's
@@ -29,22 +29,26 @@ open Filter Topology
 namespace RamanujanChallenge
 
 /-- `x^{j+½} = x^j √x` for `x ≥ 0`. -/
-theorem rpow_nat_add_half {x : ℝ} (hx : 0 ≤ x) (j : ℕ) : x ^ ((j : ℝ) + 1 / 2) = x ^ j * Real.sqrt x := by
+theorem rpow_nat_add_half {x : ℝ} (hx : 0 ≤ x) (j : ℕ) :
+    x ^ ((j : ℝ) + 1 / 2) = x ^ j * Real.sqrt x := by
   rw [Real.rpow_add' hx (by positivity), Real.rpow_natCast, Real.sqrt_eq_rpow]
 
 /-- The real Beta integral. -/
 theorem beta_integral_real {p q : ℝ} (hp : 0 < p) (hq : 0 < q) :
-    ∫ x in (0:ℝ)..1, x ^ (p - 1) * (1 - x) ^ (q - 1) = Real.Gamma p * Real.Gamma q / Real.Gamma (p + q) := by
+    ∫ x in (0:ℝ)..1, x ^ (p - 1) * (1 - x) ^ (q - 1) =
+      Real.Gamma p * Real.Gamma q / Real.Gamma (p + q) := by
   have hB := Complex.Gamma_mul_Gamma_eq_betaIntegral (s := (p : ℂ)) (t := (q : ℂ))
     (by simpa using hp) (by simpa using hq)
   have hG : Real.Gamma (p + q) ≠ 0 := (Real.Gamma_pos_of_pos (by linarith)).ne'
-  have hI : Complex.betaIntegral p q = ((∫ x in (0:ℝ)..1, x ^ (p - 1) * (1 - x) ^ (q - 1) : ℝ) : ℂ) := by
+  have hI : Complex.betaIntegral p q =
+      ((∫ x in (0:ℝ)..1, x ^ (p - 1) * (1 - x) ^ (q - 1) : ℝ) : ℂ) := by
     rw [Complex.betaIntegral, ← intervalIntegral.integral_ofReal]
     refine intervalIntegral.integral_congr (fun x hx => ?_)
     rw [Set.uIcc_of_le zero_le_one] at hx
     rw [Complex.ofReal_mul, Complex.ofReal_cpow hx.1, Complex.ofReal_cpow (by linarith [hx.2])]
     push_cast; ring_nf
-  rw [hI, ← Complex.ofReal_add, Complex.Gamma_ofReal, Complex.Gamma_ofReal, Complex.Gamma_ofReal] at hB
+  rw [hI, ← Complex.ofReal_add, Complex.Gamma_ofReal, Complex.Gamma_ofReal,
+    Complex.Gamma_ofReal] at hB
   have := hB
   norm_cast at this
   rw [eq_div_iff hG, mul_comm]
@@ -61,7 +65,8 @@ theorem Gamma_add_nat_real {x : ℝ} (hx : 0 < x) (k : ℕ) :
 
 /-- The binomial series `(1 − y)^{−a} = Σ (a)_k y^k / k!` for `|y| < 1`. -/
 theorem hasSum_one_div_one_sub_rpow (a : ℝ) {y : ℝ} (hy : |y| < 1) :
-    HasSum (fun k : ℕ => ((k.factorial : ℝ))⁻¹ * (ascPochhammer ℝ k).eval a * y ^ k) (1 / (1 - y) ^ a) := by
+    HasSum (fun k : ℕ => ((k.factorial : ℝ))⁻¹ * (ascPochhammer ℝ k).eval a * y ^ k)
+      (1 / (1 - y) ^ a) := by
   have h := (Real.one_div_one_sub_rpow_hasFPowerSeriesOnBall_zero a).hasSum
     (y := y) (by
       have h1 : ‖y‖₊ < 1 := by rw [← NNReal.coe_lt_coe]; simpa using hy
@@ -122,7 +127,8 @@ theorem hasSum_integral_gEk (m : ℕ) :
     (fun k => (continuous_gEk m k).aestronglyMeasurable)
     (fun k => Filter.Eventually.of_forall fun t ht => ?_) ?_ ?_ ?_
   · rw [Real.norm_eq_abs, abs_of_nonneg (gEk_nonneg m k (hmem t ht).1 (hmem t ht).2)]
-  · exact Filter.Eventually.of_forall fun t ht => (hasSum_gEk m (hmem t ht).1 (hmem t ht).2).summable
+  · exact Filter.Eventually.of_forall fun t ht =>
+      (hasSum_gEk m (hmem t ht).1 (hmem t ht).2).summable
   · exact ((continuousOn_gE21 m).intervalIntegrable).congr fun t ht =>
       ((hasSum_gEk m (hmem t ht).1 (hmem t ht).2).tsum_eq).symm
   · exact Filter.Eventually.of_forall fun t ht => hasSum_gEk m (hmem t ht).1 (hmem t ht).2
@@ -135,8 +141,10 @@ theorem integral_gEk (m k : ℕ) :
           Real.Gamma (3 * (m : ℝ) + 7 / 2 + k)) := by
   have hB := beta_integral_real (p := ((m + k : ℕ) : ℝ) + 1 / 2 + 1) (q := 2 * (m : ℝ) + 2)
     (by positivity) (by positivity)
-  have hint : ∫ t in (0:ℝ)..1, gEk m k t = ((k.factorial : ℝ))⁻¹ * (ascPochhammer ℝ k).eval ((m : ℝ) + 3 / 2) *
-      (1 / 2) ^ k * ∫ x in (0:ℝ)..1, x ^ (((m + k : ℕ) : ℝ) + 1 / 2 + 1 - 1) * (1 - x) ^ (2 * (m : ℝ) + 2 - 1) := by
+  have hint : ∫ t in (0:ℝ)..1, gEk m k t =
+      ((k.factorial : ℝ))⁻¹ * (ascPochhammer ℝ k).eval ((m : ℝ) + 3 / 2) *
+        (1 / 2) ^ k * ∫ x in (0:ℝ)..1,
+          x ^ (((m + k : ℕ) : ℝ) + 1 / 2 + 1 - 1) * (1 - x) ^ (2 * (m : ℝ) + 2 - 1) := by
     rw [← intervalIntegral.integral_const_mul]
     refine intervalIntegral.integral_congr (fun x hx => ?_)
     rw [Set.uIcc_of_le zero_le_one] at hx
@@ -156,8 +164,10 @@ theorem integral_gEk (m k : ℕ) :
 `z = 1/2`): Mathlib's `₂F₁(n+½, n+½; 3n+½; 1/2)` equals
 `Γ(3n+½)/(Γ(n+½)Γ(2n)) ∫₀¹ t^{n−½}(1−t)^{2n−1}(1−t/2)^{−n−½} dt`. -/
 theorem hypergeometric_eq_euler (m : ℕ) :
-    ordinaryHypergeometric (((m : ℝ) + 1) + 1 / 2) (((m : ℝ) + 1) + 1 / 2) (3 * ((m : ℝ) + 1) + 1 / 2) (1 / 2 : ℝ) =
-      Real.Gamma (3 * ((m : ℝ) + 1) + 1 / 2) / (Real.Gamma (((m : ℝ) + 1) + 1 / 2) * Real.Gamma (2 * ((m : ℝ) + 1)))
+    ordinaryHypergeometric (((m : ℝ) + 1) + 1 / 2) (((m : ℝ) + 1) + 1 / 2)
+        (3 * ((m : ℝ) + 1) + 1 / 2) (1 / 2 : ℝ) =
+      Real.Gamma (3 * ((m : ℝ) + 1) + 1 / 2) /
+          (Real.Gamma (((m : ℝ) + 1) + 1 / 2) * Real.Gamma (2 * ((m : ℝ) + 1)))
         * E21 m := by
   set a : ℝ := ((m : ℝ) + 1) + 1 / 2 with ha
   set c : ℝ := 3 * ((m : ℝ) + 1) + 1 / 2 with hc
@@ -166,7 +176,8 @@ theorem hypergeometric_eq_euler (m : ℕ) :
   have hGa := (Real.Gamma_pos_of_pos ha0).ne'
   have hGc := (Real.Gamma_pos_of_pos hc0).ne'
   have hG2 := (Real.Gamma_pos_of_pos (by positivity : (0:ℝ) < 2 * ((m : ℝ) + 1))).ne'
-  have hS := (hasSum_integral_gEk m).mul_left (Real.Gamma c / (Real.Gamma a * Real.Gamma (2 * ((m : ℝ) + 1))))
+  have hS := (hasSum_integral_gEk m).mul_left
+    (Real.Gamma c / (Real.Gamma a * Real.Gamma (2 * ((m : ℝ) + 1))))
   rw [ordinaryHypergeometric_eq_tsum]
   refine (HasSum.tsum_eq ?_)
   convert hS using 1

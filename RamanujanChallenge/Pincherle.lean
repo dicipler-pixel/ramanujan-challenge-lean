@@ -1,4 +1,6 @@
-/-
+import Mathlib
+
+/-!
 Pincherle's theorem for three-term recurrences, in the form needed by Problem 2.1
 (the polynomial continued fraction for π), together with a machine-checked
 counterexample to the statement used in the Technion solution skeleton.
@@ -10,7 +12,8 @@ and `Q = convDen` are the solutions with `(P 0, P 1) = (1, a 0)` and `(Q 0, Q 1)
 Pincherle. If `Z` is a minimal solution with `Z 0 ≠ 0`, then `P n / Q n → a 0 - Z 1 / Z 0`.
 
 The hypothesis. The Technion skeleton (`RamanujanMachine/RamanujanChallengeSolutions`,
-`Code/2.1/LeanFormal/LeanFormal/PiPCF.lean`, stated there without proof) defines a minimal solution as
+`Code/2.1/LeanFormal/LeanFormal/PiPCF.lean`, stated there without proof) defines a minimal
+solution as
 a solution `Z` with a companion solution `D`, not a scalar multiple of `Z`, such that
 `Z n / D n → 0`. Because Lean sets `x / 0 = 0`, that definition is satisfied by a `D` that
 vanishes infinitely often, and then the conclusion is false (`technion_pincherle_fails`
@@ -19,7 +22,6 @@ below gives explicit period-2 coefficients). `IsMinimal` here adds the clause
 is only meaningful when `D n ≠ 0`). With that clause the theorem is proved, and the
 skeleton's extra hypothesis `∀ n ≥ 1, b n ≠ 0` is not needed for this direction.
 -/
-import Mathlib
 
 open Filter Topology
 
@@ -68,20 +70,20 @@ theorem zero_isSolution (a b : ℕ → ℝ) : IsSolution a b (fun _ => 0) := fun
 theorem IsSolution.const_mul {a b Z : ℕ → ℝ} (hZ : IsSolution a b Z) (k : ℝ) :
     IsSolution a b (fun n => k * Z n) := by
   intro n
-  show k * Z (n + 2) = a (n + 1) * (k * Z (n + 1)) + b (n + 1) * (k * Z n)
+  change k * Z (n + 2) = a (n + 1) * (k * Z (n + 1)) + b (n + 1) * (k * Z n)
   rw [hZ n]; ring
 
 theorem IsSolution.sub_smul {a b D Z : ℕ → ℝ} (hD : IsSolution a b D) (hZ : IsSolution a b Z)
     (c : ℝ) : IsSolution a b (fun n => D n - c * Z n) := by
   intro n
-  show D (n + 2) - c * Z (n + 2) =
+  change D (n + 2) - c * Z (n + 2) =
     a (n + 1) * (D (n + 1) - c * Z (n + 1)) + b (n + 1) * (D n - c * Z n)
   rw [hD n, hZ n]; ring
 
 theorem IsSolution.combo (a b : ℕ → ℝ) (α β : ℝ) :
     IsSolution a b (fun n => α * convNum a b n + β * convDen a b n) := by
   intro n
-  show α * convNum a b (n + 2) + β * convDen a b (n + 2) =
+  change α * convNum a b (n + 2) + β * convDen a b (n + 2) =
     a (n + 1) * (α * convNum a b (n + 1) + β * convDen a b (n + 1)) +
       b (n + 1) * (α * convNum a b n + β * convDen a b n)
   rw [convNum_isSolution a b n, convDen_isSolution a b n]; ring
@@ -346,7 +348,8 @@ theorem isMinimal_of_ratio (a b Z D : ℕ → ℝ) (ls ld : ℝ) (hZ : IsSolutio
     have hl1 : ‖ls / ld‖ < 1 := by
       rw [norm_div, Real.norm_eq_abs, Real.norm_eq_abs, div_lt_one (abs_pos.mpr hld)]
       exact hlt
-    exact (summable_of_ratio_test_tendsto_lt_one (f := fun n => Z n / D n) hl1 hf hr).tendsto_atTop_zero
+    exact (summable_of_ratio_test_tendsto_lt_one (f := fun n => Z n / D n) hl1 hf
+      hr).tendsto_atTop_zero
 
 /-- Pincherle from ratio limits: a solution `Z` with `Z 0 ≠ 0` whose ratio tends to the root of
 smaller modulus, beside a solution whose ratio tends to the other root, determines the limit of

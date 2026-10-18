@@ -1,7 +1,7 @@
 import RamanujanChallenge.Exact
 import RamanujanChallenge.Pincherle
 
-/-
+/-!
 Problem 2.1 of the Ramanujan Challenge, closed: the polynomial continued fraction
 `a_n = −220n³ − 484n² − 301n − 42`, `b_n = 4n²(2n+1)²(5n−4)(5n+6)` converges to `6/(3 − π)`
 (`pcf21_tendsto`).
@@ -9,7 +9,8 @@ Problem 2.1 of the Ramanujan Challenge, closed: the polynomial continued fractio
 The route is the official one (*Ramanujan Challenge Proofs*, Technion, 2 August 2026, §4,
 trajectory `(1,1,3)` of the ₂F₁ conservative matrix field), step by step:
 
-* **Euler's integral (Eq. 28).** `F_n = Γ(3n+½)/(Γ(n+½)Γ(2n)) ∫₀¹ t^{n−½}(1−t)^{2n−1}(1−t/2)^{−n−½} dt`.
+* **Euler's integral (Eq. 28).**
+  `F_n = Γ(3n+½)/(Γ(n+½)Γ(2n)) ∫₀¹ t^{n−½}(1−t)^{2n−1}(1−t/2)^{−n−½} dt`.
   Under the paper's own substitution `t = 2u²/(1+u²)` (`t = 2 sin²θ`, `u = tan θ`, Eqs. 36–37)
   the integral is `2^{n+3/2} ∫₀¹ u^{2n}(1−u²)^{2n−1}/(1+u²)^{2n} du`. Here `F21 m = F_{m+1}` is
   defined by that formula: `F21 m = kap21 m * K21 m`, `K21 m = ∫₀¹ w21 m`,
@@ -62,7 +63,8 @@ noncomputable def Phi21 (m : ℕ) (u : ℝ) : ℝ := N21 ((m : ℝ) + 1) u * G21
 theorem one_add_sq_ne (u : ℝ) : 1 + u ^ 2 ≠ 0 := by positivity
 
 theorem hasDerivAt_G21 (u : ℝ) :
-    HasDerivAt G21 ((2 * u * (1 - u ^ 2) ^ 2 + u ^ 2 * (2 * (1 - u ^ 2) * (-(2 * u)))) / (1 + u ^ 2) ^ 2
+    HasDerivAt G21
+      ((2 * u * (1 - u ^ 2) ^ 2 + u ^ 2 * (2 * (1 - u ^ 2) * (-(2 * u)))) / (1 + u ^ 2) ^ 2
       - u ^ 2 * (1 - u ^ 2) ^ 2 * (2 * (1 + u ^ 2) * (2 * u)) / ((1 + u ^ 2) ^ 2) ^ 2) u := by
   have h1 : HasDerivAt (fun u : ℝ => u ^ 2) (2 * u) u := by
     simpa using hasDerivAt_pow 2 u
@@ -79,19 +81,26 @@ theorem hasDerivAt_G21 (u : ℝ) :
 
 theorem hasDerivAt_N21 (n u : ℝ) : HasDerivAt (N21 n) (-(
     ((3 * u ^ 2 * (1 - u ^ 2) ^ 2 + u ^ 3 * (2 * (1 - u ^ 2) * (-(2 * u)))) * q21 n u
-      + u ^ 3 * (1 - u ^ 2) ^ 2 * ((10 * n ^ 2 + 12 * n + 2) * (8 * u ^ 7) + (30 * n ^ 2 + 41 * n + 6) * (6 * u ^ 5)
-        - (60 * n ^ 2 + 82 * n + 18) * (4 * u ^ 3) - (30 * n ^ 2 + 51 * n + 14) * (2 * u))) / (1 + u ^ 2) ^ 5
-    - u ^ 3 * (1 - u ^ 2) ^ 2 * q21 n u * (5 * (1 + u ^ 2) ^ 4 * (2 * u)) / ((1 + u ^ 2) ^ 5) ^ 2)) u := by
-  have hp : ∀ k : ℕ, HasDerivAt (fun u : ℝ => u ^ k) (k * u ^ (k - 1)) u := fun k => hasDerivAt_pow k u
+      + u ^ 3 * (1 - u ^ 2) ^ 2 * ((10 * n ^ 2 + 12 * n + 2) * (8 * u ^ 7)
+        + (30 * n ^ 2 + 41 * n + 6) * (6 * u ^ 5)
+        - (60 * n ^ 2 + 82 * n + 18) * (4 * u ^ 3) - (30 * n ^ 2 + 51 * n + 14) * (2 * u)))
+          / (1 + u ^ 2) ^ 5
+    - u ^ 3 * (1 - u ^ 2) ^ 2 * q21 n u * (5 * (1 + u ^ 2) ^ 4 * (2 * u))
+      / ((1 + u ^ 2) ^ 5) ^ 2)) u := by
+  have hp : ∀ k : ℕ, HasDerivAt (fun u : ℝ => u ^ k) (k * u ^ (k - 1)) u :=
+    fun k => hasDerivAt_pow k u
   have h1 : HasDerivAt (fun u : ℝ => u ^ 2) (2 * u) u := by simpa using hp 2
   have h2 : HasDerivAt (fun u : ℝ => 1 - u ^ 2) (-(2 * u)) u := by
     simpa using (hasDerivAt_const u (1:ℝ)).fun_sub h1
   have h3 : HasDerivAt (fun u : ℝ => 1 + u ^ 2) (2 * u) u := by
     simpa using (hasDerivAt_const u (1:ℝ)).fun_add h1
-  have hq : HasDerivAt (q21 n) ((10 * n ^ 2 + 12 * n + 2) * (8 * u ^ 7) + (30 * n ^ 2 + 41 * n + 6) * (6 * u ^ 5)
+  have hq : HasDerivAt (q21 n) ((10 * n ^ 2 + 12 * n + 2) * (8 * u ^ 7)
+        + (30 * n ^ 2 + 41 * n + 6) * (6 * u ^ 5)
         - (60 * n ^ 2 + 82 * n + 18) * (4 * u ^ 3) - (30 * n ^ 2 + 51 * n + 14) * (2 * u)) u := by
-    have := (((((hp 8).const_mul (10 * n ^ 2 + 12 * n + 2)).fun_add ((hp 6).const_mul (30 * n ^ 2 + 41 * n + 6))).fun_sub
-      ((hp 4).const_mul (60 * n ^ 2 + 82 * n + 18))).fun_sub ((hp 2).const_mul (30 * n ^ 2 + 51 * n + 14))).fun_add
+    have := (((((hp 8).const_mul (10 * n ^ 2 + 12 * n + 2)).fun_add
+      ((hp 6).const_mul (30 * n ^ 2 + 41 * n + 6))).fun_sub
+      ((hp 4).const_mul (60 * n ^ 2 + 82 * n + 18))).fun_sub
+      ((hp 2).const_mul (30 * n ^ 2 + 51 * n + 14))).fun_add
       (hasDerivAt_const u (10 * n ^ 2 + 12 * n))
     convert this using 1
     · funext x; unfold q21; ring
@@ -139,7 +148,8 @@ theorem continuous_w21 (m : ℕ) : Continuous (w21 m) := by
 theorem K21_rec (m : ℕ) :
     2 * ((m:ℝ) + 2) * (2 * ((m:ℝ) + 1) + 3) * (5 * ((m:ℝ) + 1) + 1) * K21 (m + 2) =
       2 * ((m:ℝ) + 1) * (2 * ((m:ℝ) + 1) + 1) * (5 * ((m:ℝ) + 1) + 6) * K21 m
-        - (220 * ((m:ℝ) + 1) ^ 3 + 484 * ((m:ℝ) + 1) ^ 2 + 301 * ((m:ℝ) + 1) + 42) * K21 (m + 1) := by
+        - (220 * ((m:ℝ) + 1) ^ 3 + 484 * ((m:ℝ) + 1) ^ 2 + 301 * ((m:ℝ) + 1) + 42)
+          * K21 (m + 1) := by
   have hi : ∀ k, IntervalIntegrable (w21 k) MeasureTheory.volume 0 1 :=
     fun k => (continuous_w21 k).intervalIntegrable 0 1
   have hc : ∀ (c : ℝ) k, IntervalIntegrable (fun u => c * w21 k u) MeasureTheory.volume 0 1 :=
@@ -177,7 +187,8 @@ theorem K21_one : K21 1 = 11 - 7 * Real.pi / 2 := by
       - u ^ 3 / 3 + 7 * u - 14 * Real.arctan u) (w21 1 x) x := by
     intro x
     have hx := one_add_sq_ne x
-    have hp : ∀ k : ℕ, HasDerivAt (fun u : ℝ => u ^ k) (k * x ^ (k - 1)) x := fun k => hasDerivAt_pow k x
+    have hp : ∀ k : ℕ, HasDerivAt (fun u : ℝ => u ^ k) (k * x ^ (k - 1)) x :=
+      fun k => hasDerivAt_pow k x
     have hnum := (((hp 5).const_mul 33).fun_add ((hp 3).const_mul 50)).fun_add ((hp 1).const_mul 21)
     have hden := (((hasDerivAt_const x (1:ℝ)).fun_add (hp 2)).fun_pow 3).const_mul 3
     have h := (((hnum.fun_div hden (by positivity)).fun_sub ((hp 3).div_const 3)).fun_add
@@ -224,7 +235,8 @@ theorem K21_pos (m : ℕ) : 0 < K21 m :=
 
 theorem K21_le_one (m : ℕ) : K21 m ≤ 1 := by
   have h := intervalIntegral.integral_mono_on (a := 0) (b := 1) (by norm_num)
-    ((continuous_w21 m).intervalIntegrable 0 1) (continuous_const.intervalIntegrable (μ := MeasureTheory.volume) 0 1)
+    ((continuous_w21 m).intervalIntegrable 0 1)
+    (continuous_const.intervalIntegrable (μ := MeasureTheory.volume) 0 1)
     (fun x hx => w21_le_one m hx.1 hx.2)
   simpa [K21] using h
 
@@ -232,7 +244,8 @@ theorem K21_le_one (m : ℕ) : K21 m ≤ 1 := by
 
 /-- `κ_{m+1} = Γ(3n+1/2)/(Γ(n+1/2)Γ(2n)) · 2^{n+3/2}` with `n = m+1`. -/
 noncomputable def kap21 (m : ℕ) : ℝ :=
-  Real.Gamma (3 * ((m:ℝ) + 1) + 1 / 2) / (Real.Gamma (((m:ℝ) + 1) + 1 / 2) * Real.Gamma (2 * ((m:ℝ) + 1)))
+  Real.Gamma (3 * ((m:ℝ) + 1) + 1 / 2) /
+      (Real.Gamma (((m:ℝ) + 1) + 1 / 2) * Real.Gamma (2 * ((m:ℝ) + 1)))
     * 2 ^ (m + 2) * Real.sqrt 2
 
 /-- `F21 m = F_{m+1}`. -/
@@ -247,7 +260,8 @@ theorem kap21_pos (m : ℕ) : 0 < kap21 m := by
   positivity
 
 theorem kap21_succ (m : ℕ) :
-    kap21 (m + 1) = 3 * (6 * (m:ℝ) + 7) * (6 * (m:ℝ) + 11) / (4 * ((m:ℝ) + 1) * (2 * (m:ℝ) + 3)) * kap21 m := by
+    kap21 (m + 1) =
+      3 * (6 * (m:ℝ) + 7) * (6 * (m:ℝ) + 11) / (4 * ((m:ℝ) + 1) * (2 * (m:ℝ) + 3)) * kap21 m := by
   unfold kap21
   set x : ℝ := 3 * ((m:ℝ) + 1) + 1 / 2 with hx
   set y : ℝ := ((m:ℝ) + 1) + 1 / 2 with hy
@@ -273,7 +287,8 @@ theorem kap21_zero : kap21 0 = 15 * Real.sqrt 2 := by
   have e1 : 3 * (((0:ℕ):ℝ) + 1) + 1 / 2 = (3 / 2 + 1) + 1 := by norm_num
   have e2 : (((0:ℕ):ℝ) + 1) + 1 / 2 = 3 / 2 := by norm_num
   have e3 : 2 * (((0:ℕ):ℝ) + 1) = 2 := by norm_num
-  rw [e1, e2, e3, Real.Gamma_add_one (by norm_num), Real.Gamma_add_one (by norm_num), Real.Gamma_two]
+  rw [e1, e2, e3, Real.Gamma_add_one (by norm_num), Real.Gamma_add_one (by norm_num),
+    Real.Gamma_two]
   have g := (Real.Gamma_pos_of_pos (by norm_num : (0:ℝ) < 3 / 2)).ne'
   field_simp
   norm_num
@@ -323,7 +338,8 @@ theorem F21_le (m : ℕ) : F21 m ≤ 15 * Real.sqrt 2 * 20 ^ m := by
     | zero => rw [kap21_zero]; simp
     | succ k ih =>
       rw [kap21_succ]
-      have hr : 3 * (6 * (k:ℝ) + 7) * (6 * (k:ℝ) + 11) / (4 * ((k:ℝ) + 1) * (2 * (k:ℝ) + 3)) ≤ 20 := by
+      have hr :
+          3 * (6 * (k:ℝ) + 7) * (6 * (k:ℝ) + 11) / (4 * ((k:ℝ) + 1) * (2 * (k:ℝ) + 3)) ≤ 20 := by
         rw [div_le_iff₀ (by positivity)]; nlinarith
       have hp := kap21_pos k
       calc 3 * (6 * (k:ℝ) + 7) * (6 * (k:ℝ) + 11) / (4 * ((k:ℝ) + 1) * (2 * (k:ℝ) + 3)) * kap21 k
@@ -340,7 +356,8 @@ theorem F21_le (m : ℕ) : F21 m ≤ 15 * Real.sqrt 2 * 20 ^ m := by
 noncomputable def a21 (n : ℕ) : ℝ := -220 * (n:ℝ) ^ 3 - 484 * (n:ℝ) ^ 2 - 301 * (n:ℝ) - 42
 
 /-- `b_n` of Problem 2.1 over `ℝ`. -/
-noncomputable def b21 (n : ℕ) : ℝ := 4 * (n:ℝ) ^ 2 * (2 * (n:ℝ) + 1) ^ 2 * (5 * (n:ℝ) - 4) * (5 * (n:ℝ) + 6)
+noncomputable def b21 (n : ℕ) : ℝ :=
+  4 * (n:ℝ) ^ 2 * (2 * (n:ℝ) + 1) ^ 2 * (5 * (n:ℝ) - 4) * (5 * (n:ℝ) + 6)
 
 theorem a21_eq_a1 (n : ℕ) : a21 n = ((a1 n : ℚ) : ℝ) := by simp [a21, a1]
 theorem b21_eq_b1 (n : ℕ) : b21 n = ((b1 n : ℚ) : ℝ) := by simp [b21, b1]
@@ -360,7 +377,8 @@ theorem r21_mul_A21 (n : ℕ) : r21 n * A21 n = a21 n := by
   ring
 
 /-- Equation (22), second half: `r_n r_{n−1} B(n) = b_n` (`n ≥ 1`). -/
-theorem r21_mul_r21_mul_B21 (n : ℕ) : r21 ((n + 1 : ℕ) : ℝ) * r21 n * B21 ((n + 1 : ℕ) : ℝ) = b21 (n + 1) := by
+theorem r21_mul_r21_mul_B21 (n : ℕ) :
+    r21 ((n + 1 : ℕ) : ℝ) * r21 n * B21 ((n + 1 : ℕ) : ℝ) = b21 (n + 1) := by
   unfold r21 B21 b21
   push_cast
   have h1 : (3 * (6 * ((n:ℝ) + 1) + 7) * (6 * ((n:ℝ) + 1) + 11)) ≠ 0 := by positivity
@@ -435,17 +453,20 @@ theorem convDen21_bound (k : ℕ) :
     rw [show k + 1 + 2 = k + 3 by ring, hrec, hsig, hpow, show k + 1 + 1 = k + 2 by ring]
     rw [hpow2] at h1
     -- (-1)^k Q(k+3) = (-a)((-1)^{k+1} Q(k+2)) + b ((-1)^k Q(k+1))
-    have key : (-1) ^ k * (a21 (k + 2) * convDen a21 b21 (k + 2) + b21 (k + 2) * convDen a21 b21 (k + 1))
+    have key :
+        (-1) ^ k * (a21 (k + 2) * convDen a21 b21 (k + 2) + b21 (k + 2) * convDen a21 b21 (k + 1))
         = (r21 ((k + 2 : ℕ) : ℝ) * (-A21 ((k + 2 : ℕ) : ℝ))) * (-(-1) ^ k * convDen a21 b21 (k + 2))
           + b21 (k + 2) * ((-1) ^ k * convDen a21 b21 (k + 1)) := by
       rw [← hA]; ring
     rw [key]
     have hbt : 0 ≤ b21 (k + 2) * ((-1) ^ k * convDen a21 b21 (k + 1)) := mul_nonneg hb hQ1
     have hmain : r21 ((k + 2 : ℕ) : ℝ) * sig21 (k + 2) * 100 ^ (k + 2) ≤
-        (r21 ((k + 2 : ℕ) : ℝ) * (-A21 ((k + 2 : ℕ) : ℝ))) * (-(-1) ^ k * convDen a21 b21 (k + 2)) := by
+        (r21 ((k + 2 : ℕ) : ℝ) * (-A21 ((k + 2 : ℕ) : ℝ))) *
+          (-(-1) ^ k * convDen a21 b21 (k + 2)) := by
       calc r21 ((k + 2 : ℕ) : ℝ) * sig21 (k + 2) * 100 ^ (k + 2)
           = (r21 ((k + 2 : ℕ) : ℝ) * 100) * (sig21 (k + 2) * 100 ^ (k + 1)) := by ring
-        _ ≤ (r21 ((k + 2 : ℕ) : ℝ) * (-A21 ((k + 2 : ℕ) : ℝ))) * (-(-1) ^ k * convDen a21 b21 (k + 2)) :=
+        _ ≤ (r21 ((k + 2 : ℕ) : ℝ) * (-A21 ((k + 2 : ℕ) : ℝ))) *
+            (-(-1) ^ k * convDen a21 b21 (k + 2)) :=
           mul_le_mul (mul_le_mul_of_nonneg_left hneg hr.le) h1 (by positivity) (by nlinarith)
     linarith
 
