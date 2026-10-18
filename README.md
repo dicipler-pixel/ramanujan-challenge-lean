@@ -3,7 +3,7 @@
 # Ramanujan Challenge submissions — Lean proofs of the exact algebra
 
 ![Lean](https://img.shields.io/badge/Lean-v4.34.1-blue)
-![Theorems](https://img.shields.io/badge/theorems-146-2EA043)
+![Theorems](https://img.shields.io/badge/theorems-161-2EA043)
 ![sorry](https://img.shields.io/badge/sorry-0-2EA043)
 ![Code: MIT OR Apache-2.0](https://img.shields.io/badge/code-MIT%20OR%20Apache--2.0-lightgrey)
 ![Text: CC BY 4.0](https://img.shields.io/badge/text-CC%20BY%204.0-lightgrey)
@@ -71,7 +71,7 @@ direct error-bound proof are in
 Run `lake exe cache get`, then `python3 scripts/check_review.py` (do not run `lake update`; the
 committed `lake-manifest.json` fixes the dependency set). It runs the verifier's regression tests,
 builds every module against Lean v4.34.1 and Mathlib v4.34.1, replays each one in Lean's
-independent kernel checker, audits the axioms of all 146 named theorems (only `propext`,
+independent kernel checker, audits the axioms of all 161 named theorems (only `propext`,
 `Classical.choice`, `Quot.sound`), requires seven deliberately false statements to fail,
 checks the Apache header on every library file, and runs Mathlib's standard linter set,
 `#lint` and `lint-style`.
@@ -103,3 +103,16 @@ that had matched the Technion's GPL-3.0 Lean skeleton were rewritten independent
 Written text: [CC BY 4.0](LICENSE-CC-BY-4.0.md). Citation
 metadata is in [`CITATION.cff`](CITATION.cff); how AI tools were used is stated in
 [`AI_USE.md`](AI_USE.md).
+
+## Independent general Euler-integral edition
+
+`RamanujanChallenge/EulerGeneral.lean` proves Euler’s real integral representation
+for Mathlib’s `ordinaryHypergeometric`, for arbitrary real `a`, `0 < b < c`, and
+`|z| < 1`. It includes endpoint-singular integrability and permits negative `a`
+and `z`. The original Problem 2.1 source files are unchanged.
+
+Run `python3 scripts/check_euler_general.py` for the focused source, kernel, axiom,
+specialization and negative-control checks. See `EULER_GENERAL_REVIEW.md` for the
+exact scope, attribution and comparison criteria. The repository inventory now
+contains 161 declarations; the independent local validation for this edition
+covers the 15 declarations in the new module.

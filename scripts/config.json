@@ -23,9 +23,13 @@
     {
       "module": "RamanujanChallenge.ReviewedProblem21",
       "path": "RamanujanChallenge/ReviewedProblem21.lean"
+    },
+    {
+      "module": "RamanujanChallenge.EulerGeneral",
+      "path": "RamanujanChallenge/EulerGeneral.lean"
     }
   ],
-  "expected_theorems": 146,
+  "expected_theorems": 161,
   "expected_false_controls": 7,
   "root_imports": [
     "RamanujanChallenge.Exact",
@@ -33,7 +37,8 @@
     "RamanujanChallenge.Series",
     "RamanujanChallenge.Problem21",
     "RamanujanChallenge.Euler21",
-    "RamanujanChallenge.ReviewedProblem21"
+    "RamanujanChallenge.ReviewedProblem21",
+    "RamanujanChallenge.EulerGeneral"
   ],
   "license_header": [
     "/-",
@@ -202,6 +207,21 @@
     "RamanujanChallenge.w21_le_one",
     "RamanujanChallenge.w21_pos",
     "RamanujanChallenge.zudilin_product",
-    "RamanujanChallenge.zudilin_root"
+    "RamanujanChallenge.zudilin_root",
+    "EulerIntegralReview.beta_integral_real",
+    "EulerIntegralReview.Gamma_add_nat_real",
+    "EulerIntegralReview.hasSum_one_div_one_sub_rpow",
+    "EulerIntegralReview.weight_nonneg",
+    "EulerIntegralReview.abs_pochhammer_le",
+    "EulerIntegralReview.abs_mul_lt_one",
+    "EulerIntegralReview.hasSum_term",
+    "EulerIntegralReview.norm_term_le",
+    "EulerIntegralReview.weight_integrable",
+    "EulerIntegralReview.kernel_continuous",
+    "EulerIntegralReview.hasSum_integral_term",
+    "EulerIntegralReview.integral_term",
+    "EulerIntegralReview.ordinaryHypergeometric_eq_integral",
+    "EulerIntegralReview.euler_integrand_intervalIntegrable",
+    "EulerIntegralReview.ordinaryHypergeometric_eq_eulerIntegral"
   ]
 }

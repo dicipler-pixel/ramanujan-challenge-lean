@@ -1,0 +1,16 @@
+import RamanujanChallenge.EulerGeneral
+#print axioms EulerIntegralReview.beta_integral_real
+#print axioms EulerIntegralReview.Gamma_add_nat_real
+#print axioms EulerIntegralReview.hasSum_one_div_one_sub_rpow
+#print axioms EulerIntegralReview.weight_nonneg
+#print axioms EulerIntegralReview.abs_pochhammer_le
+#print axioms EulerIntegralReview.abs_mul_lt_one
+#print axioms EulerIntegralReview.hasSum_term
+#print axioms EulerIntegralReview.norm_term_le
+#print axioms EulerIntegralReview.weight_integrable
+#print axioms EulerIntegralReview.kernel_continuous
+#print axioms EulerIntegralReview.hasSum_integral_term
+#print axioms EulerIntegralReview.integral_term
+#print axioms EulerIntegralReview.ordinaryHypergeometric_eq_integral
+#print axioms EulerIntegralReview.euler_integrand_intervalIntegrable
+#print axioms EulerIntegralReview.ordinaryHypergeometric_eq_eulerIntegral
