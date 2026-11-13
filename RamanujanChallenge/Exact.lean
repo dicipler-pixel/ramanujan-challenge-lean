@@ -1,4 +1,11 @@
 /-
+Copyright (c) 2026 Jeromie Beasley. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Jeromie Beasley
+-/
+import Mathlib
+
+/-!
 Ramanujan Challenge for AI (Ramanujan Machine Group, Technion, 2026): the exact algebra
 established in Jeromie Beasley's submissions to Problems 2.1–2.6, as machine-checked statements.
 
@@ -33,7 +40,6 @@ Problem 2.6 (a series for ζ(2) + ζ(3)).
     and the partial fractions 1/(7(n+4)) − 1/(7(n+5)) + 1/(14(n+5)²); the rational part of its
     sum is 1/35 − (1/14)(1 + 1/4 + 1/9 + 1/16 + 1/25) = −547/7200.
 -/
-import Mathlib
 
 namespace RamanujanChallenge
 
@@ -65,7 +71,7 @@ theorem casoratian_closed (a b A B : ℕ → ℚ)
   induction n with
   | zero => simp
   | succ n ih =>
-    show A (n + 2) * B (n + 1) - A (n + 1) * B (n + 2) = _
+    change A (n + 2) * B (n + 1) - A (n + 1) * B (n + 2) = _
     rw [casoratian_step a b A B hA hB n, ih, prod_range_succ]
     ring
 
@@ -98,50 +104,64 @@ theorem pochhammer_product (n : ℕ) :
     rw [prod_range_succ, ih, prod_range_succ, prod_range_succ, hf, b1_succ_factor]
     ring
 
-/-! ### Problem 2.1: the limiting characteristic roots
+/-! ### Problem 2.1: the roots of the limiting characteristic equation
 
-After the rescaling that makes the coefficients converge, the recurrence for `F_n` has
-`A(n) → −297/2` and `B(n) → 729/4`, so Poincaré–Perron's characteristic polynomial is
-`λ² + (297/2) λ − 729/4` with roots `λ_s = (−297 + 135√5)/4 ≈ 1.217` and
-`λ_d = (−297 − 135√5)/4 ≈ −149.7`. The `₂F₁` solution grows like `λ_s^n`, the dominant one like
-`λ_d^n`; `|λ_s| < |λ_d|` is what makes it minimal (`isMinimal_of_ratio` in `Pincherle.lean`). -/
+The rescaled 2.1 coefficients tend to `−297/2` and `729/4` (`tendsto_midCoeff21`,
+`tendsto_tailCoeff21` in `Problem21.lean`), so the limiting characteristic equation is
+`x² = −(297/2) x + 729/4`, i.e. `4x² + 594x − 729 = 0`. Its discriminant is
+`594² + 16 · 729 = 364500 = (270√5)²`, and Mathlib's quadratic formula `quadratic_eq_zero_iff`
+gives the two roots `(−594 ± 270√5)/8`. By Vieta their sum is `−297/2` and their product
+`−729/4`; the product is negative, so the roots have opposite signs, and the negative sum makes
+the negative root the one of larger modulus. -/
 
-/-- The subdominant root `λ_s`. -/
-noncomputable def lamS : ℝ := (-297 + 135 * Real.sqrt 5) / 4
+/-- The root `(−594 + 270√5)/8 ≈ 1.22` of `4x² + 594x − 729`: the growth rate of the
+recessive solution. -/
+noncomputable def subdominantRoot21 : ℝ := (-594 + 270 * Real.sqrt 5) / (2 * 4)
 
-/-- The dominant root `λ_d`. -/
-noncomputable def lamD : ℝ := (-297 - 135 * Real.sqrt 5) / 4
+/-- The root `(−594 − 270√5)/8 ≈ −149.7` of `4x² + 594x − 729`: the growth rate of the
+dominant solution. -/
+noncomputable def dominantRoot21 : ℝ := (-594 - 270 * Real.sqrt 5) / (2 * 4)
 
-theorem lamS_root : lamS ^ 2 + 297 / 2 * lamS - 729 / 4 = 0 := by
-  have h5 : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num)
-  unfold lamS
-  linear_combination (18225 / 16 : ℝ) * h5
+theorem discrim_charPoly21 :
+    discrim (4 : ℝ) 594 (-729) = (270 * Real.sqrt 5) * (270 * Real.sqrt 5) := by
+  have h5 : Real.sqrt 5 * Real.sqrt 5 = 5 := Real.mul_self_sqrt (by norm_num)
+  rw [discrim, mul_mul_mul_comm, h5]
+  norm_num
 
-theorem lamD_root : lamD ^ 2 + 297 / 2 * lamD - 729 / 4 = 0 := by
-  have h5 : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num)
-  unfold lamD
-  linear_combination (18225 / 16 : ℝ) * h5
+/-- The real solutions of `4x² + 594x − 729 = 0` are exactly the two roots. -/
+theorem charPoly21_eq_zero_iff (x : ℝ) :
+    4 * (x * x) + 594 * x + -729 = 0 ↔ x = subdominantRoot21 ∨ x = dominantRoot21 :=
+  quadratic_eq_zero_iff (by norm_num) discrim_charPoly21 x
 
-theorem lamS_mul_lamD : lamS * lamD = -729 / 4 := by
-  have h5 : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num)
-  unfold lamS lamD
-  linear_combination (-18225 / 16 : ℝ) * h5
+theorem subdominantRoot21_add_dominantRoot21 : subdominantRoot21 + dominantRoot21 = -297 / 2 := by
+  rw [subdominantRoot21, dominantRoot21]
+  ring
 
-theorem lamS_pos : 0 < lamS := by
-  have h5 : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num)
-  have h0 : 0 ≤ Real.sqrt 5 := Real.sqrt_nonneg 5
-  unfold lamS
-  nlinarith
+theorem subdominantRoot21_mul_dominantRoot21 : subdominantRoot21 * dominantRoot21 = -729 / 4 := by
+  have h5 : Real.sqrt 5 * Real.sqrt 5 = 5 := Real.mul_self_sqrt (by norm_num)
+  rw [subdominantRoot21, dominantRoot21]
+  linear_combination (-(270 * 270) / 64 : ℝ) * h5
 
-theorem lamD_neg : lamD < 0 := by
-  have h0 : 0 ≤ Real.sqrt 5 := Real.sqrt_nonneg 5
-  unfold lamD
-  linarith
+/-- The roots lie on opposite sides of zero, as their product is negative. -/
+theorem dominantRoot21_neg_and_subdominantRoot21_pos :
+    dominantRoot21 < 0 ∧ 0 < subdominantRoot21 := by
+  have hd : dominantRoot21 < 0 := by
+    rw [dominantRoot21]
+    have := Real.sqrt_nonneg 5
+    linarith
+  refine ⟨hd, ?_⟩
+  by_contra hs
+  have h := mul_nonneg_of_nonpos_of_nonpos (not_lt.1 hs) hd.le
+  rw [subdominantRoot21_mul_dominantRoot21] at h
+  norm_num at h
 
-theorem abs_lamS_lt_abs_lamD : |lamS| < |lamD| := by
-  rw [abs_of_pos lamS_pos, abs_of_neg lamD_neg]
-  unfold lamS lamD
-  linarith [Real.sqrt_nonneg 5]
+/-- The subdominant root has the smaller modulus: with opposite signs, `|s| < |d|` is
+`s + d < 0`, which is Vieta's sum `−297/2`. -/
+theorem abs_subdominantRoot21_lt_abs_dominantRoot21 :
+    |subdominantRoot21| < |dominantRoot21| := by
+  obtain ⟨hd, hs⟩ := dominantRoot21_neg_and_subdominantRoot21_pos
+  rw [abs_of_pos hs, abs_of_neg hd]
+  linarith [subdominantRoot21_add_dominantRoot21]
 
 /-! ## Problem 2.2: the telescoping cubic and the companion determinant -/
 
@@ -156,7 +176,7 @@ theorem telescoping_factor (x : ℚ) : P22 (x + 1) = 8 * x ^ 3 + 75 * x ^ 2 + 23
 /-- The row companion matrix of an order-3 recurrence has determinant `−a_3/a_0`. -/
 theorem companion3_det (a0 a1 a2 a3 : ℚ) :
     Matrix.det !![(0 : ℚ), 1, 0; 0, 0, 1; -a3 / a0, -a2 / a0, -a1 / a0] = -a3 / a0 := by
-  simp [Matrix.det_fin_three] <;> ring
+  simp [Matrix.det_fin_three]
 
 /-- The cubic factor is positive at every natural number, so the Casoratian ratio is defined. -/
 theorem P22_pos (k : ℕ) : 0 < P22 (k : ℚ) := by
@@ -186,17 +206,19 @@ theorem casoratian22_closed (n : ℕ) :
     have hP : P22 (n : ℚ) ≠ 0 := (P22_pos n).ne'
     rw [prod_range_succ, ih, hf3, hf2, hf1]
     push_cast
-    field_simp <;> ring
+    field_simp
 
 /-- `a_1(n)` of Problem 2.2. -/
-def a1_22 (x : ℚ) : ℚ := 24 * x ^ 5 + 337 * x ^ 4 + 1833 * x ^ 3 + 4818 * x ^ 2 + 6092 * x + 2928
+def a22Coeff1 (x : ℚ) : ℚ :=
+  24 * x ^ 5 + 337 * x ^ 4 + 1833 * x ^ 3 + 4818 * x ^ 2 + 6092 * x + 2928
 
 /-- `a_2(n)` of Problem 2.2. -/
-def a2_22 (x : ℚ) : ℚ :=
+def a22Coeff2 (x : ℚ) : ℚ :=
   -(x + 2) * (x + 3) * (24 * x ^ 5 + 273 * x ^ 4 + 1150 * x ^ 3 + 2154 * x ^ 2 + 1635 * x + 268)
 
 /-- `a_3(n)` of Problem 2.2. -/
-def a3_22 (x : ℚ) : ℚ := (x + 1) * (x + 2) ^ 4 * (x + 3) * (8 * x ^ 3 + 75 * x ^ 2 + 231 * x + 232)
+def a22Coeff3 (x : ℚ) : ℚ :=
+  (x + 1) * (x + 2) ^ 4 * (x + 3) * (8 * x ^ 3 + 75 * x ^ 2 + 231 * x + 232)
 
 /-- The denominator sequence `q_n` of Problem 2.2, indexed so that `q22 (n + 3) = q_n`:
 `q_{-3} = 1`, `q_{-2} = 12`, `q_{-1} = 306`, and `a_0(n) q_n + a_1(n) q_{n-1} + a_2(n) q_{n-2}
@@ -205,12 +227,12 @@ def q22 : ℕ → ℚ
   | 0 => 1
   | 1 => 12
   | 2 => 306
-  | k + 3 => (a1_22 k * q22 (k + 2) + a2_22 k * q22 (k + 1) + a3_22 k * q22 k) / P22 k
+  | k + 3 => (a22Coeff1 k * q22 (k + 2) + a22Coeff2 k * q22 (k + 1) + a22Coeff3 k * q22 k) / P22 k
 
 /-- The first six denominators of Problem 2.2, as the challenge states them. -/
 theorem q22_values :
     q22 3 = 13056 ∧ q22 4 = 833400 ∧ q22 5 = 73876320 := by
-  refine ⟨?_, ?_, ?_⟩ <;> norm_num [q22, a1_22, a2_22, a3_22, P22]
+  refine ⟨?_, ?_, ?_⟩ <;> norm_num [q22, a22Coeff1, a22Coeff2, a22Coeff3, P22]
 
 /-! ## Problem 2.3: the characteristic roots are a reciprocal pair -/
 
@@ -235,20 +257,21 @@ theorem rMinus_char : rMinus ^ 2 - 2 * Real.sqrt 2 * rMinus + 1 = 0 := by
   linear_combination (-1 : ℝ) * sqrt2_sq
 
 /-- `A_0(n)` of Problem 2.3 (note the sign: `−n³ + 2n² + 7n + 3`, not `−(n³ + 2n² + 7n + 3)`). -/
-def A0_23 (x : ℚ) : ℚ := -x ^ 3 + 2 * x ^ 2 + 7 * x + 3
+def A23Coeff0 (x : ℚ) : ℚ := -x ^ 3 + 2 * x ^ 2 + 7 * x + 3
 
 /-- `A_1(n)` of Problem 2.3. -/
-def A1_23 (x : ℚ) : ℚ := (x + 2) * (2 * x ^ 4 + x ^ 3 - 26 * x ^ 2 - 48 * x - 19)
+def A23Coeff1 (x : ℚ) : ℚ := (x + 2) * (2 * x ^ 4 + x ^ 3 - 26 * x ^ 2 - 48 * x - 19)
 
 /-- `A_2(n)` of Problem 2.3. -/
-def A2_23 (x : ℚ) : ℚ :=
+def A23Coeff2 (x : ℚ) : ℚ :=
   (x + 2) * (x ^ 6 + 9 * x ^ 5 + 8 * x ^ 4 - 87 * x ^ 3 - 249 * x ^ 2 - 234 * x - 68)
 
 /-- `A_3(n)` of Problem 2.3. -/
-def A3_23 (x : ℚ) : ℚ := (x + 1) ^ 2 * (x + 2) * (2 * x ^ 5 + 3 * x ^ 4 - 13 * x ^ 3 - 21 * x ^ 2 + 4)
+def A23Coeff3 (x : ℚ) : ℚ :=
+  (x + 1) ^ 2 * (x + 2) * (2 * x ^ 5 + 3 * x ^ 4 - 13 * x ^ 3 - 21 * x ^ 2 + 4)
 
 /-- `A_4(n)` of Problem 2.3. -/
-def A4_23 (x : ℚ) : ℚ := -x ^ 3 * (x + 1) ^ 2 * (x + 2) * (x ^ 3 + x ^ 2 - 8 * x - 11)
+def A23Coeff4 (x : ℚ) : ℚ := -x ^ 3 * (x + 1) ^ 2 * (x + 2) * (x ^ 3 + x ^ 2 - 8 * x - 11)
 
 /-- The numerator sequence `p_n` of Problem 2.3, indexed so that `p23 (n + 3) = p_n`:
 `p_{-3} = 1`, `p_{-2} = 1`, `p_{-1} = 20`, `p_0 = 296`, and the order-4 recurrence for `n ≥ 1`. -/
@@ -257,8 +280,8 @@ def p23 : ℕ → ℚ
   | 1 => 1
   | 2 => 20
   | 3 => 296
-  | k + 4 => -(A1_23 (k + 1) * p23 (k + 3) + A2_23 (k + 1) * p23 (k + 2)
-      + A3_23 (k + 1) * p23 (k + 1) + A4_23 (k + 1) * p23 k) / A0_23 (k + 1)
+  | k + 4 => -(A23Coeff1 (k + 1) * p23 (k + 3) + A23Coeff2 (k + 1) * p23 (k + 2)
+      + A23Coeff3 (k + 1) * p23 (k + 1) + A23Coeff4 (k + 1) * p23 k) / A23Coeff0 (k + 1)
 
 /-- The denominator sequence `q_n` of Problem 2.3, indexed so that `q23 (n + 3) = q_n`:
 `q_{-3} = 1`, `q_{-2} = 0`, `q_{-1} = 4`, `q_0 = 48`. -/
@@ -267,13 +290,13 @@ def q23 : ℕ → ℚ
   | 1 => 0
   | 2 => 4
   | 3 => 48
-  | k + 4 => -(A1_23 (k + 1) * q23 (k + 3) + A2_23 (k + 1) * q23 (k + 2)
-      + A3_23 (k + 1) * q23 (k + 1) + A4_23 (k + 1) * q23 k) / A0_23 (k + 1)
+  | k + 4 => -(A23Coeff1 (k + 1) * q23 (k + 3) + A23Coeff2 (k + 1) * q23 (k + 2)
+      + A23Coeff3 (k + 1) * q23 (k + 1) + A23Coeff4 (k + 1) * q23 k) / A23Coeff0 (k + 1)
 
 /-- The sanity anchor of the 2.3 write-up: `p_5 = 730267195392`, computed by the kernel from the
 recurrence; and `q_5 = 124622119440`. -/
 theorem p23_five : p23 8 = 730267195392 ∧ q23 8 = 124622119440 := by
-  refine ⟨?_, ?_⟩ <;> norm_num [p23, q23, A0_23, A1_23, A2_23, A3_23, A4_23]
+  refine ⟨?_, ?_⟩ <;> norm_num [p23, q23, A23Coeff0, A23Coeff1, A23Coeff2, A23Coeff3, A23Coeff4]
 
 /-! ## Problem 2.5: the leading-order transport algebra -/
 
@@ -287,28 +310,28 @@ def B25 : Matrix (Fin 3) (Fin 3) ℚ := !![0, 0, 0; 192, 0, 0; -2808, 192, 0]
 def C25 : Matrix (Fin 3) (Fin 3) ℚ := !![-272, 0, 0; 3944, -272, 0; -27184, 3752, -16]
 
 theorem L_sq : L25 * L25 = 0 := by
-  ext i j; fin_cases i <;> fin_cases j <;> simp [L25, Matrix.mul_apply, Fin.sum_univ_three] <;> norm_num
+  ext i j; fin_cases i <;> fin_cases j <;> simp [L25, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem L_mul_B : L25 * B25 = 0 := by
-  ext i j; fin_cases i <;> fin_cases j <;> simp [L25, B25, Matrix.mul_apply, Fin.sum_univ_three] <;> norm_num
+  ext i j; fin_cases i <;> fin_cases j <;> simp [L25, B25, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem B_mul_L : B25 * L25 = 0 := by
-  ext i j; fin_cases i <;> fin_cases j <;> simp [L25, B25, Matrix.mul_apply, Fin.sum_univ_three] <;> norm_num
+  ext i j; fin_cases i <;> fin_cases j <;> simp [L25, B25, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem B_sq : B25 * B25 = (-288 : ℚ) • L25 := by
   ext i j; fin_cases i <;> fin_cases j <;>
-    simp [L25, B25, Matrix.mul_apply, Fin.sum_univ_three] <;> norm_num
+    norm_num [L25, B25, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem B_cube : B25 * B25 * B25 = 0 := by
   rw [B_sq, Matrix.smul_mul, L_mul_B, smul_zero]
 
 theorem L_mul_C : L25 * C25 = (-272 : ℚ) • L25 := by
   ext i j; fin_cases i <;> fin_cases j <;>
-    simp [L25, C25, Matrix.mul_apply, Fin.sum_univ_three] <;> norm_num
+    norm_num [L25, C25, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem C_mul_L : C25 * L25 = (-16 : ℚ) • L25 := by
   ext i j; fin_cases i <;> fin_cases j <;>
-    simp [L25, C25, Matrix.mul_apply, Fin.sum_univ_three] <;> norm_num
+    simp [L25, C25, Matrix.mul_apply, Fin.sum_univ_three]
 
 /-! ### Problem 2.5, the Zudilin route: the characteristic roots of Zudilin's Catalan recurrence -/
 
@@ -386,7 +409,8 @@ theorem factor_S0 (x : ℚ) : C26 (x + 2) = m0 x * r0 x := by
 /-- The hypergeometric piece of the partial-sum operator has term ratio `(n+4)²/(4(n+5)(n+9/2))`,
 which is the first-order recurrence `(n² + 19n/2 + 45/2) h(n+1) = (n²/4 + 2n + 4) h(n)`. -/
 theorem h_ratio_cross (x : ℚ) :
-    (x + 4) ^ 2 * (x ^ 2 + 19 / 2 * x + 45 / 2) = (x ^ 2 / 4 + 2 * x + 4) * (4 * (x + 5) * (x + 9 / 2)) := by
+    (x + 4) ^ 2 * (x ^ 2 + 19 / 2 * x + 45 / 2) =
+      (x ^ 2 / 4 + 2 * x + 4) * (4 * (x + 5) * (x + 9 / 2)) := by
   ring
 
 /-- The rational part of `Σ_{n≥1} r(n)`: the telescoping term gives `1/35`, and the shifted
