@@ -1,0 +1,6 @@
+   pairs=    50 (terms=   100)  log10 error = -11.60026   log10 prod z =   12.1095   sum = 0.5092433
+   pairs=   200 (terms=   400)  log10 error = -15.19292   log10 prod z =   15.9644   sum = 0.7714797
+   pairs=   800 (terms=  1600)  log10 error = -18.80038   log10 prod z =  19.81945   sum = 1.01907
+   pairs=  3200 (terms=  6400)  log10 error = -22.41152   log10 prod z =  23.67451   sum = 1.262996
+   pairs= 12800 (terms= 25600)  log10 error = -26.02357   log10 prod z =  27.52958   sum = 1.506007
+   error moved -14.423 orders; (error x prod z) moved 0.99676 orders

@@ -1,0 +1,29 @@
+== x = 0.2  closed-form K = 0.405813999396  arctan K = 22.088003
+   N=  200  K_N=0.20417764  u1=(0.20005,0.979786)  rank-one resid=0.000757  Phi=0.039409606
+   N=  201  K_N=0.762636  u1=(0.606411,0.795151)  rank-one resid=0.00156  Phi=0.36462516
+   N=  400  K_N=0.22511313  u1=(0.219617,0.975586)  rank-one resid=0.000346  Phi=0.047872728
+   N=  401  K_N=0.70206909  u1=(0.574598,0.818436)  rank-one resid=0.000653  Phi=0.32867074
+   N=  800  K_N=0.24439291  u1=(0.237406,0.971411)  rank-one resid=0.000157  Phi=0.056156332
+   N=  801  K_N=0.65361498  u1=(0.547114,0.837058)  rank-one resid=0.000275  Phi=0.29862017
+   N= 1600  K_N=0.26202791  u1=(0.253471,0.967343)  rank-one resid=7.1e-5  Phi=0.064132786
+   N= 1601  K_N=0.61437535  u1=(0.523474,0.852042)  rank-one resid=0.000116  Phi=0.27368396
+   measured K-error exponent between N=800 and 1600: 0.1669  (x = 0.2 )
+== x = 0.05  closed-form K = 0.443189839802  arctan K = 23.902435
+   N=  200  K_N=0.058312463  u1=(0.0582136,0.998304)  rank-one resid=0.00111  Phi=0.0033355575
+   N=  201  K_N=2.8709528  u1=(0.944353,0.328934)  rank-one resid=0.00478  Phi=0.89048092
+   N=  400  K_N=0.065988672  u1=(0.0658455,0.99783)  rank-one resid=0.000552  Phi=0.0043021561
+   N=  401  K_N=2.5955906  u1=(0.933141,0.35951)  rank-one resid=0.00233  Phi=0.87000834
+   N=  800  K_N=0.073632312  u1=(0.0734335,0.9973)  rank-one resid=0.000274  Phi=0.005371988
+   N=  801  K_N=2.36872  u1=(0.921267,0.38893)  rank-one resid=0.00113  Phi=0.84831407
+   N= 1600  K_N=0.081232209  u1=(0.0809655,0.996717)  rank-one resid=0.000136  Phi=0.0065431256
+   N= 1601  K_N=2.1789856  u1=(0.90886,0.417102)  rank-one resid=0.000547  Phi=0.82579209
+   measured K-error exponent between N=800 and 1600: 0.029978  (x = 0.05 )
+== x = 0.0  closed-form K = 0.456946581044  arctan K = 24.557869
+   N=  200  K_N=0.0  u1=(0.0,1.0)  rank-one resid=0.00114  Phi=0.0
+   N=  201  K_N=infinite (denominator is exactly 0)  u1=(1.0,0.0)  rank-one resid=0.00544  Phi=0.99988146
+   N=  400  K_N=0.0  u1=(0.0,1.0)  rank-one resid=0.000571  Phi=0.0
+   N=  401  K_N=infinite (denominator is exactly 0)  u1=(1.0,0.0)  rank-one resid=0.00273  Phi=0.99997022
+   N=  800  K_N=0.0  u1=(0.0,1.0)  rank-one resid=0.000286  Phi=0.0
+   N=  801  K_N=infinite (denominator is exactly 0)  u1=(1.0,0.0)  rank-one resid=0.00137  Phi=0.99999254
+   N= 1600  K_N=0.0  u1=(0.0,1.0)  rank-one resid=0.000143  Phi=0.0
+   N= 1601  K_N=infinite (denominator is exactly 0)  u1=(1.0,0.0)  rank-one resid=0.000683  Phi=0.99999813

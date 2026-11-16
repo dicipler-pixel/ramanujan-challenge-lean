@@ -1,0 +1,56 @@
+== Challenge pi fraction Q1 (geometric)
+   N=    10   log10 error =  -21.29836   log10 prod z =   24.61522   sum = 3.31686
+   N=    20   log10 error =  -42.19524   log10 prod z =   46.35776   sum = 4.162515
+   N=    40   log10 error =   -83.9917   log10 prod z =   89.02067   sum = 5.028971
+   N=    80   log10 error =  -167.5862   log10 prod z =   173.4925   sum = 5.906296
+   N=   160   log10 error =   -334.776   log10 prod z =   341.5652   sum = 6.789178
+   error moved -313.48 orders; (error x prod z) moved 3.4723 orders
+   mean log10 z per face over the last span = 2.10091
+== e fraction 1/(1+2/(2+3/(3+...))) (factorial)
+   N=    10   log10 error =  -8.314283   log10 prod z =   8.226277   sum = -0.08800565
+   N=    20   log10 error =  -20.67088   log10 prod z =   20.58119   sum = -0.0896937
+   N=    40   log10 error =  -50.75927   log10 prod z =     50.669   sum = -0.09026485
+   N=    80   log10 error =  -122.2838   log10 prod z =   122.1934   sum = -0.090434
+   N=   160   log10 error =  -288.6941   log10 prod z =   288.6036   sum = -0.09048029
+   error moved -280.38 orders; (error x prod z) moved -0.0024746 orders
+   mean log10 z per face over the last span = 2.08013
+== pi fraction 1^2/(3+2^2/(5+...)) (geometric)
+   N=    10   log10 error =  -8.103531   log10 prod z =   8.499657   sum = 0.3961256
+   N=    20   log10 error =  -15.75595   log10 prod z =   16.35878   sum = 0.6028224
+   N=    40   log10 error =  -31.06526   log10 prod z =   31.87795   sum = 0.8126895
+   N=    80   log10 error =  -61.68641   log10 prod z =   62.71049   sum = 1.02408
+   N=   160   log10 error =  -122.9301   log10 prod z =   124.1663   sum = 1.236213
+   error moved -114.83 orders; (error x prod z) moved 0.84009 orders
+   mean log10 z per face over the last span = 0.768197
+== sqrt(pi e/2) fraction 1/(1+1/(1+2/(1+...))) (stretched exponential)
+   N=   100   log10 error =  -8.095003   log10 prod z =   8.406698   sum = 0.3116957
+   N=   400   log10 error =  -16.76821   log10 prod z =   17.10164   sum = 0.3334337
+   N=  1600   log10 error =  -34.13366   log10 prod z =   34.47795   sum = 0.3442941
+   N=  6400   log10 error =  -68.87405   log10 prod z =   69.22377   sum = 0.3497231
+   N= 25600   log10 error =  -138.3596   log10 prod z =    138.712   sum = 0.3524375
+   error moved -130.26 orders; (error x prod z) moved 0.040742 orders
+   mean log10 z per face over the last span = 0.00361918
+== zeta(3) fraction (power law N^-6)
+   N=   100   log10 error =  -11.60026   log10 prod z =   39.92872   sum = 28.32846
+   N=   400   log10 error =  -15.19292   log10 prod z =   88.25293   sum = 73.06002
+   N=  1600   log10 error =  -18.80038   log10 prod z =   186.0918   sum = 167.2914
+   N=  6400   log10 error =  -22.41152   log10 prod z =   382.4122   sum = 360.0007
+   N= 25600   log10 error =  -26.02357   log10 prod z =   775.3808   sum = 749.3572
+   error moved -14.423 orders; (error x prod z) moved 721.03 orders
+   mean log10 z per face over the last span = 0.0204671
+== gamma fraction x=1, Brouncker (power law N^-1)
+   N=   100   log10 error =  -2.397938   log10 prod z =   2.742486   sum = 0.3445473
+   N=   400   log10 error =  -2.995729   log10 prod z =   3.344543   sum = 0.3488136
+   N=  1600   log10 error =  -3.596717   log10 prod z =   3.946603   sum = 0.3498854
+   N=  6400   log10 error =  -4.198509   log10 prod z =   4.548663   sum = 0.3501536
+   N= 25600   log10 error =  -4.800502   log10 prod z =   5.150723   sum = 0.3502207
+   error moved -2.4026 orders; (error x prod z) moved 0.0056735 orders
+   mean log10 z per face over the last span = 3.13573e-5
+== gamma fraction x=10 (power law N^-10)
+   N=   100   log10 error =  -18.81078   log10 prod z =   20.06344   sum = 1.252654
+   N=   400   log10 error =  -24.79809   log10 prod z =   26.08317   sum = 1.285081
+   N=  1600   log10 error =   -30.8105   log10 prod z =   32.10372   sum = 1.293216
+   N=  6400   log10 error =  -36.82906   log10 prod z =   38.12431   sum = 1.295251
+   N= 25600   log10 error =  -42.84915   log10 prod z =   44.14491   sum = 1.29576
+   error moved -24.038 orders; (error x prod z) moved 0.043105 orders
+   mean log10 z per face over the last span = 0.000313573

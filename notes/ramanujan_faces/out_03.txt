@@ -1,0 +1,29 @@
+== x = 0.5
+   N=  100  sum r = 3.244628657   K err = 0.0537653   K err * exp(sum r) = 1.379198503
+   N=  400  sum r = 3.937773641   K err = 0.0277334   K err * exp(sum r) = 1.422841246
+   N= 1600  sum r = 4.630920684   K err = 0.0140766   K err * exp(sum r) = 1.444381351
+   N= 6400  sum r = 5.324067856   K err = 0.00709035   K err * exp(sum r) = 1.455059317
+   max |tanh(r_n/2) - x/sqrt(x^2+m^2)| over 6400 faces: 3.89e-62
+   faces with Gamma^2 >= 1/2 (at or above the wall): m <= x, i.e. m in []
+== x = 1.0
+   N=  100  sum r = 6.314806387   K err = 0.00400002   K err * exp(sum r) = 2.210788867
+   N=  400  sum r = 7.701094889   K err = 0.00100988   K err * exp(sum r) = 2.232613835
+   N= 1600  sum r = 9.087388884   K err = 0.000253094   K err * exp(sum r) = 2.238130375
+   N= 6400  sum r = 10.47368322   K err = 6.33127e-5   K err * exp(sum r) = 2.239513314
+   max |tanh(r_n/2) - x/sqrt(x^2+m^2)| over 6400 faces: 7.78e-62
+   faces with Gamma^2 >= 1/2 (at or above the wall): m <= x, i.e. m in [1]
+== x = 3.0
+   N=  100  sum r = 16.98549811   K err = 2.42618e-7   K err * exp(sum r) = 5.776047891
+   N=  400  sum r = 21.14431675   K err = 3.87707e-9   K err * exp(sum r) = 5.906954175
+   N= 1600  sum r = 25.3031958   K err = 6.09208e-11   K err * exp(sum r) = 5.94024165
+   N= 6400  sum r = 29.46207863   K err = 9.53227e-13   K err * exp(sum r) = 5.948598947
+   max |tanh(r_n/2) - x/sqrt(x^2+m^2)| over 6400 faces: 7.78e-62
+   faces with Gamma^2 >= 1/2 (at or above the wall): m <= x, i.e. m in [1, 3]
+== x = 10.0
+   N=  100  sum r = 46.19777114   K err = 1.54603e-19   K err * exp(sum r) = 17.89181334
+   N=  400  sum r = 60.05872378   K err = 1.59187e-25   K err * exp(sum r) = 19.27883798
+   N= 1600  sum r = 73.92154288   K err = 1.54703e-31   K err * exp(sum r) = 19.64335368
+   N= 6400  sum r = 87.78447871   K err = 1.4823e-37   K err * exp(sum r) = 19.73562525
+   max |tanh(r_n/2) - x/sqrt(x^2+m^2)| over 6400 faces: 7.78e-62
+   faces with Gamma^2 >= 1/2 (at or above the wall): m <= x, i.e. m in [1, 3, 5, 7, 9]
+wall check: x=1, first face: Gamma^2 = 0.5   z = (sqrt2+1)/(sqrt2-1) = 5.82842712474619   3+2sqrt2 = 5.82842712474619
